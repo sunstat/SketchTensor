@@ -3,7 +3,7 @@ from util import randomMatrixGenerator
 import numpy as np
 from operator import mul
 
-class Skechy(object):
+class Skech(object):
 
     def __init__(self, X, k, s, pass_type = 1, typ = 'g', random_seed, sparse_factor = 0.1):
         '''

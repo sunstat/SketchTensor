@@ -28,4 +28,8 @@ class Skechy(object):
     def get_sketchy(self):
         return self.sketchy_matrices, self.rand_seeds
 
+if __name__ == '__main__':
+
+    print(Skechy(np.random.normal(size = (10,15,20)),5,8,rand_seeds = (1,2,3)))
+
 

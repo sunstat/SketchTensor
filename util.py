@@ -11,29 +11,21 @@ def randomMatrixGenerator(m, n, std = 1, typ ='g',rand_seed = None, sparse_facto
     :return: the generated matrix
     '''
     if rand_seed:
-      np.random.seed(rand_seed)
+        np.random.seed(rand_seed)
 
     if (typ == 'g'): 
-      return np.random.normal(size = (m,n))*std
+        return np.random.normal(size = (m,n))*std
     elif (typ == 'u'):
-      return np.random.uniform(low = -1, high = 1, size = (m,n))/3*std 
+        return np.random.uniform(low = -1, high = 1, size = (m,n))/3*std 
     elif (typ == 'sp'): 
-      return np.random.binomial(n = 1,p = sparse_factor,size = (m,n))*np.random.uniform(low = -1, high = 1, size = (m,n))/3*std 
+        return np.random.binomial(n = 1,p = sparse_factor,size = (m,n))*np.random.uniform(low = -1, high = 1, size = (m,n))/3*std 
     elif (typ == 's'): 
-      # Scramble SSRFT map: R*F*PI*F*PI', where R: random uniform with std, 
-      # F: Discrete cousine transform; PI: Signed permutation matrix
-      i = np.identity(n)
-      rr = np.range(n)
-      np.random.shuffle(rr)
-      perm = np.take(i, rr, axis=0) 
-      return (np.random.uniform(low = -1, high = 1, size = (m,n))/3*std).dot(fftpack.dct(perm)).dot(fftpack.dct(perm.T))
+        # Scramble SSRFT map: R*F*PI*F*PI', where R: random uniform with std, 
+        # F: Discrete cousine transform; PI: Signed permutation matrix
+        i = np.identity(n)
+        rr = np.range(n)
+        np.random.shuffle(rr)
+        perm = np.take(i, rr, axis=0) 
+        return (np.random.uniform(low = -1, high = 1, size = (m,n))/3*std).dot(fftpack.dct(perm)).dot(fftpack.dct(perm.T))
     else: 
-      print('Please enter a valid type for the random matrix: g (Gaussian)/u (uniform)/sp (sparse sign)/s (SSRFT)!')
-
-if __name__ == '__main__':
-  print(randomMatrixGenerator(20,10,typ = 'g',rand_seed = 1))
-  print()
-  print(randomMatrixGenerator(20,10,typ = 'g',rand_seed = 1))
-
-
-
+        print('Please enter a valid type for the random matrix: g (Gaussian)/u (uniform)/sp (sparse sign)/s (SSRFT)!')

@@ -21,7 +21,7 @@ class Skechy(object):
         for n in range(self.N):
             n1 = X.shape[n]
             n2 = np.size(X)/n1
-            rm = randomMatrixGenerator(n2, k, 1, typ, rand_seeds[n], sparse_factor)
+            rm = randomMatrixGenerator(n2, k, 1, typ, self.random_seed[n], sparse_factor)
             self.sketchs.append(np.dot(tl.unfold(X, mode=n), rm))
         if pass_type == 1:
 

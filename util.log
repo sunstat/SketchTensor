@@ -1,0 +1,773 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  11 MAR 2018 17:24
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**/Users/apple/workspace/SketchTensor/SketchTensor/util.py
+(/Users/apple/workspace/SketchTensor/SketchTensor/util.py
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 i
+     mport numpy as np
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no i in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no k in font nullfont!
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 1--3
+[]
+ []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4 d
+     ef randomMatrixGenerator(m, n, std = 1, typ ='g',rand_seed = None, spar...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no x in font nullfont!
+Missing character: There is no G in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.4 ...trixGenerator(m, n, std = 1, typ ='g',rand_
+                                                  seed = None, sparse_factor...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 4.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 4.
+! You can't use `macro parameter character #' in math mode.
+l.6     :param m: #
+                    of rows in the matrix
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in math mode.
+l.7     :param n: #
+                    of columns in the matrix
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.15 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 4--15
+[]
+ []
+
+
+Overfull \hbox (29.34723pt too wide) in paragraph at lines 4--15
+[]\OML/cmm/m/it/10 eed \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (96.81375pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 None; sparse[]actor \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (32.41667pt too wide) in paragraph at lines 4--15
+\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 1) :[]:
+ []
+
+
+Overfull \hbox (43.50816pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 paramm \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (93.23068pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 ofrowsinthematrix \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (40.73038pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 paramn \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (109.02826pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 ofcolumnsinthematrix \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (48.2315pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 paramstd \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (87.33131pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 standarddeviation \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (51.43755pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 paramtyp \OT1/cmr/m/n/10 :[]
+ []
+
+
+Overfull \hbox (320.39537pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 g[]forgauss;[] u[]foruniform;[] s[]forScrambledSRFT\OT1/cmr/m/
+n/10 ;[] \OML/cmm/m/it/10 sp[]forSparseSign \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (35.12854pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 return \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (166.57115pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 thegeneratedmatrix[]ifnotrand[]eed \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (118.5559pt too wide) in paragraph at lines 4--15
+\OML/cmm/m/it/10 np:random:seed\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 rand[]eed\OT1/
+cmr/m/n/10 )$ 
+ []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16     i
+          f (typ == 'g'):
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no i in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no : in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no z in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no * in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no : in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no w in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no - in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no z in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no 3 in font nullfont!
+Missing character: There is no * in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no ' in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no : in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no ( in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no 1 in font nullfont!
+Missing character: There is no , in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no = in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no e in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.21 ...eturn np.random.binomial(n = 1,p = sparse_
+                                                  factor,size = (m,n))*np.ra...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! You can't use `macro parameter character #' in math mode.
+l.23       #
+             Scramble SSRFT map: R*F*PI*F*PI', where R: random uniform with ...
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! You can't use `macro parameter character #' in math mode.
+l.24       #
+             F: Discrete cousine transform; PI: Signed permutation matrix
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.32 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 16--32
+[]
+ []
+
+
+Overfull \hbox (60.3688pt too wide) in paragraph at lines 16--32
+[]\OML/cmm/m/it/10 actor; size \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (35.89362pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 m; n\OT1/cmr/m/n/10 )) \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (120.96053pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 np:random:uniform\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 low \OT1/cm
+r/m/n/10 =
+ []
+
+
+Overfull \hbox (47.8745pt too wide) in paragraph at lines 16--32
+\OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; high \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (37.87914pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; size \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (45.89365pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 m; n\OT1/cmr/m/n/10 ))\OML/cmm/m/it/10 =\OT1/
+cmr/m/n/10 3 \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (69.68944pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 stdelif\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 typ \OT1/cmr/m/n/10 =
+=[]
+ []
+
+
+Overfull \hbox (16.93745pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 s[]\OT1/cmr/m/n/10 ) :
+ []
+
+
+Overfull \hbox (102.81142pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 ScrambleSSRFTmap \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (12.67017pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 R \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (12.81947pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 F \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (17.9896pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 PI \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (12.81947pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 F \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (60.75693pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 PI[]; whereR \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (126.03981pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 randomuniformwithstd; F \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (144.17546pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 Discretecousinetransform\OT1/cmr/m/n/10 ; \OML/cmm/m/it/10 PI 
+\OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (132.55736pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 Signedpermutationmatrixi \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (82.96335pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 np:identity\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 n\OT1/cmr/m/n/10 
+)\OML/cmm/m/it/10 rr \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (192.07697pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 np:range\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 n\OT1/cmr/m/n/10 )\O
+ML/cmm/m/it/10 np:random:shuffle\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 rr\OT1/cmr/m/
+n/10 )\OML/cmm/m/it/10 perm \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (87.82083pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 np:take\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 i; rr; axis \OT1/cmr/
+m/n/10 =
+ []
+
+
+Overfull \hbox (163.31139pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 0)\OML/cmm/m/it/10 return\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 np:r
+andom:uniform\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 low \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (47.8745pt too wide) in paragraph at lines 16--32
+\OMS/cmsy/m/n/10 ^^@\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; high \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (37.87914pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 ; size \OT1/cmr/m/n/10 =
+ []
+
+
+Overfull \hbox (45.89365pt too wide) in paragraph at lines 16--32
+\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 m; n\OT1/cmr/m/n/10 ))\OML/cmm/m/it/10 =\OT1/
+cmr/m/n/10 3 \OMS/cmsy/m/n/10 ^^C
+ []
+
+
+Overfull \hbox (263.93115pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 std\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :dot\OT1/cmr/m/n/10 (\OML
+/cmm/m/it/10 fftpack:dct\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 perm\OT1/cmr/m/n/10 )
+)\OML/cmm/m/it/10 :dot\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 fftpack:dct\OT1/cmr/m/n
+/10 (\OML/cmm/m/it/10 perm:T\OT1/cmr/m/n/10 ))\OML/cmm/m/it/10 else \OT1/cmr/m/
+n/10 :
+ []
+
+
+Overfull \hbox (231.4632pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 print\OT1/cmr/m/n/10 ([]\OML/cmm/m/it/10 Pleaseenteravalidtype
+fortherandommatrix \OT1/cmr/m/n/10 :
+ []
+
+
+Overfull \hbox (247.92526pt too wide) in paragraph at lines 16--32
+\OML/cmm/m/it/10 g\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Gaussian\OT1/cmr/m/n/10 )\O
+ML/cmm/m/it/10 =u\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 uniform\OT1/cmr/m/n/10 )\OML
+/cmm/m/it/10 =sp\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 sparsesign\OT1/cmr/m/n/10 )\O
+ML/cmm/m/it/10 =s\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 SSRFT\OT1/cmr/m/n/10 )![])$ 
+
+ []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.33 i
+      f __name__ == '__main__':
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no i in font nullfont!
+Missing character: There is no f in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.33 if _
+         _name__ == '__main__':
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.33 if __
+          name__ == '__main__':
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.33 if __name__
+                 == '__main__':
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.33 if __name__ == '__
+                       main__':
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   _
+l.33 if __name__ == '__main__
+                             ':
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing { inserted.
+<to be read again> 
+                   ^
+l.33 if __name__ == '__main__'
+                              :
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.35 
+     
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.35 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.35 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.35 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.35 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.35 
+     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+Overfull \hbox (20.0pt too wide) in paragraph at lines 33--35
+[]
+ []
+
+
+Overfull \hbox (209.16982pt too wide) in paragraph at lines 33--35
+[]$ 
+ []
+
+)
+! Emergency stop.
+<*> ...workspace/SketchTensor/SketchTensor/util.py
+                                                  
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 10 strings out of 493089
+ 342 string characters out of 6134842
+ 56199 words of memory out of 5000000
+ 3592 multiletter control sequences out of 15000+600000
+ 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 18i,7n,12p,187b,56s stack positions out of 5000i,500n,10000p,200000b,80000s
+!  ==> Fatal error occurred, no output PDF file produced!

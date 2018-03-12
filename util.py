@@ -1,5 +1,6 @@
 import numpy as np
 from scipy import fftpack
+import tensorly as tl
 
 def randomMatrixGenerator(m, n, std = 1, typ ='g',rand_seed = None, sparse_factor = 0.1):
     '''
@@ -28,4 +29,24 @@ def randomMatrixGenerator(m, n, std = 1, typ ='g',rand_seed = None, sparse_facto
         perm = np.take(i, rr, axis=0) 
         return (np.random.uniform(low = -1, high = 1, size = (m,n))/3*std).dot(fftpack.dct(perm)).dot(fftpack.dct(perm.T))
     else: 
+        
         print('Please enter a valid type for the random matrix: g (Gaussian)/u (uniform)/sp (sparse sign)/s (SSRFT)!')
+
+
+def tensor_gen(core,arms):
+    ''' 
+    :param size: array. the length of the tensor
+    :param rk: array. The tucker rank 
+    ''' 
+    for i in np.arange(length(arms)): 
+        prod = tl.tenalg.mode_dot(core,arms[i],mode =i)
+    return prod 
+
+def mse(): 
+    pass 
+
+
+
+
+
+

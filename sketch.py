@@ -3,7 +3,7 @@ from util import randomMatrixGenerator
 import numpy as np
 from operator import mul
 
-class Skech(object):
+class Sketch(object):
 
     @staticmethod
     def sketchRandomMatrixGenerator(tensor_shape, reduced_dim, typ='g', sparse_factor=0.1):
@@ -33,18 +33,17 @@ class Skech(object):
         self.random_seed = random_seed
         self.core_sketch = X
         self.tensor_shape = X.shape
-        rm_generator = Skech.sketchRandomMatrixGenerator(self.tensor_shape, reduced_dim=self.k, typ='g', sparse_factor=0.1)
+        rm_generator = Skech.sketchRandomMatrixGenerator(self.tensor_shape, reduced_dim=self.k, typ=self.typ, sparse_factor=0.1)
         mode_n = 0
         for rm in rm_generator:
-            self.sketchs.append(np.dot(tl.unfold(X, mode=mode_n), rm))
-            mode_n+=1
-        rm_generator = Skech.sketchRandomMatrixGenerator(self.tensor_shape, reduced_dim=self.s, typ='g', sparse_factor=0.1)
-        mode_n = 0
-        for rm in rm_generator:
-            self.sketchs.append(np.dot(tl.unfold(X, mode=mode_n), rm))
-            mode_n+=1
-
-
+            self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))
+            mode_n += 1
+        if self.pass_type == 1:
+            rm_generator = Skech.sketchRandomMatrixGenerator(self.tensor_shape, reduced_dim=self.s, typ=self.typ, sparse_factor=0.1)
+            mode_n = 0
+            for rm in rm_generator:
+                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm, mode=mode_n)
+                mode_n += 1
 
     def get_sketchs(self):
         return self.sketchs, self.random_seed

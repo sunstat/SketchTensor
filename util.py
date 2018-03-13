@@ -31,25 +31,42 @@ def random_matrix_generator(m, n, info_bucket):
         return np.random.binomial(n = 1,p = sparse_factor,size = (m,n))*np.random.uniform(low = -1, high = 1, size = (m,n))*np.sqrt(3)*std
 
 
-def tensorGenHelp(core,arms):
-    ''' 
-    :param size: array. the length of the tensor
-    :param rk: array. The tucker rank 
-    ''' 
-    for i in np.arange(length(arms)): 
+def tensor_gen_help(core,arms):
+    '''
+    :param core: the core tensor in higher order svd s*s*...*s
+    :param arms: those arms n*s
+    :return:
+    '''
+    for i in np.arange(len(arms)):
         prod = tl.tenalg.mode_dot(core,arms[i],mode =i)
     return prod 
 
-def mse(): 
-    pass
 
+def square_tensor_gen(n, r, dim = 3, typ = 'id', noise_level = 0):
+    '''
+    :param n: size of the tensor generated n*n*...*n
+    :param r: rank of the tensor or equivalently, the size of core tensor
+    :param dim: # of dimensions of the tensor, default set as 3
+    :param typ: identity as core tensor or low rank as core tensor
+    :param noise_level:
+    :return:
+    '''
+    types = set(['id', 'lk'])
+    total_num = np.power(n, dim)
+    assert typ in types, "please set your type of tensor correctly"
+    if typ == 'id':
+        identity = np.zeros(np.repeat(n, dim))
+        for i in np.arange(min(r)):
+            identity[(np.repeat(i,dim))] = 1
+        noise = np.random.normal(0,1,np.repeat(n, dim))
+        return identity+noise*np.sqrt(noise_level*r/np.product(total_num))
 
-if __name__ == "__main__":
-    def f():
-        np.random.seed(1)
-        print(randomMatrixGenerator(3, 3, std=1, typ='g', rand_seed=None, sparse_factor=0.1))
-        print(randomMatrixGenerator(3, 3, std=1, typ='g', rand_seed=None, sparse_factor=0.1))
-
-    f()
-    f()
-
+    if typ == "lk":
+        core = np.random.uniform(0,1,np.repeat(n, dim))
+        arms = []
+        for i in np.arange(len(size)):
+            arm = np.random.normal(0,1, size = (n,r))
+            arm, _ = np.linalg.qr(arm)
+            arms.append(arm)
+            core = tl.tenalg.mode_dot(core, arm, mode=i)
+        return core

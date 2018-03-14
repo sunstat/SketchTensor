@@ -42,7 +42,16 @@ def tensor_gen_help(core,arms):
     return prod 
 
 
-def square_tensor_gen(n, r, dim = 3, typ = 'id', noise_level = 0):
+def generate_super_diagonal_tensor(diagonal_elems, dim):
+    n = len(diagonal_elems)
+    tensor = np.zeros(np.rep(n, dim))
+    for i in range(n):
+        tensor[(np.repeat(i,dim)] = diagonal_elems[i]
+    return tensor
+
+
+
+def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
     '''
     :param n: size of the tensor generated n*n*...*n
     :param r: rank of the tensor or equivalently, the size of core tensor
@@ -51,22 +60,46 @@ def square_tensor_gen(n, r, dim = 3, typ = 'id', noise_level = 0):
     :param noise_level:
     :return:
     '''
-    types = set(['id', 'lk'])
-    total_num = np.power(n, dim)
+    types = set(['id', 'lk', 'fpd', 'spd', 'sed', 'fed'])
     assert typ in types, "please set your type of tensor correctly"
+    total_num = np.power(n, dim)
+
     if typ == 'id':
-        identity = np.zeros(np.repeat(n, dim))
-        for i in np.arange(min(r)):
-            identity[(np.repeat(i,dim))] = 1
-        noise = np.random.normal(0,1,np.repeat(n, dim))
-        return identity+noise*np.sqrt(noise_level*r/np.product(total_num))
+        elems = [1 for _ in range(r)]
+        elems.extend([0 for _ in range(n-r)])
+        noise = np.random.normal(0, 1, [n for _ in range(dim)])
+        return generate_super_diagonal_tensor(elems, dim)+noise*np.sqrt(noise_level*r/np.product(total_num))
+
+    if typ == 'spd':
+        elems = [1 for _ in range(r)]
+        elems.extend([1.0/i for i in range(2, n-r+2)])
+        return generate_super_diagonal_tensor(elems, dim)
+
+    if typ == 'fpd':
+        elems = [1 for _ in range(r)]
+        elems.extend([1.0/(i*i) for i in range(2, n - r + 2)])
+        return generate_super_diagonal_tensor(elems, dim)
+
+    if typ == 'sed':
+        elems = [1 for _ in range(r)]
+        elems.extend([np.power(10, -0.25*i) for i in range(2, n - r + 2)])
+        return generate_super_diagonal_tensor(elems, dim)
+
+    if typ == 'fed':
+        elems = [1 for _ in range(r)]
+        elems.extend([np.power(10, (-1)*i) for i in range(2, n - r + 2)])
+        return generate_super_diagonal_tensor(elems, dim)
+
 
     if typ == "lk":
         core = np.random.uniform(0,1,np.repeat(n, dim))
         arms = []
-        for i in np.arange(len(size)):
-            arm = np.random.normal(0,1, size = (n,r))
+        tensor = core
+        for i in np.arange(dim):
+            arm = np.random.normal(0,1,size = (n,r))
             arm, _ = np.linalg.qr(arm)
             arms.append(arm)
-            core = tl.tenalg.mode_dot(core, arm, mode=i)
-        return core
+            tensor = tl.tenalg.mode_dot(tensor, arm, mode=i)
+        noise = np.random.normal(0, 1, np.repeat(n, dim))
+        tensor = tensor + noise*np.sqrt(noise_level*r/np.product(total_num))
+        return tensor, core, arms

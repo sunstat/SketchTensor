@@ -3,6 +3,17 @@ from scipy import fftpack
 import tensorly as tl
 
 
+
+class TensorInfoBucket(object):
+    def __init__(self, tensor_shape, k, rank, s = -1):
+        self.tensor_shape = tensor_shape
+        self.k = k
+        self.rank = rank
+        self.s = s
+
+    def get_info(self):
+        return self.tensor_shape, self.k, self.rank, self.s
+
 class RandomInfoBucket(object):
 
     def __init__(self, std=1, typ='g', random_seed = None, sparse_factor = 0.1):
@@ -14,9 +25,9 @@ class RandomInfoBucket(object):
     def get_info(self):
         return self.std, self.typ, self.random_seed, self.sparse_factor
 
-def random_matrix_generator(m, n, info_bucket):
+def random_matrix_generator(m, n, Rinfo_bucket):
 
-    std, typ, random_seed, sparse_factor = info_bucket.get_info()
+    std, typ, random_seed, sparse_factor = Rinfo_bucket.get_info()
     if random_seed:
         np.random.seed(random_seed)
 
@@ -24,7 +35,7 @@ def random_matrix_generator(m, n, info_bucket):
     assert typ in types, "please aset your type of random variable correctly"
 
     if typ == 'g':
-        return np.random.normal(size = (m,n))*std
+        return np.random.normal(0,1, size = (m,n))*std
     elif typ == 'u':
         return np.random.uniform(low = -1, high = 1, size = (m,n))*np.sqrt(3)*std
     elif typ == 'sp':
@@ -44,10 +55,11 @@ def tensor_gen_help(core,arms):
 
 def generate_super_diagonal_tensor(diagonal_elems, dim):
     n = len(diagonal_elems)
-    tensor = np.zeros(np.rep(n, dim))
+    tensor = np.zeros(np.repeat(n, dim))
     for i in range(n):
-        tensor[(np.repeat(i,dim)] = diagonal_elems[i]
-    return tensor
+        index = tuple([i for _ in range(dim)])
+        tensor[index] = diagonal_elems[i]
+    return tl.tensor(tensor)
 
 
 
@@ -87,9 +99,8 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
 
     if typ == 'fed':
         elems = [1 for _ in range(r)]
-        elems.extend([np.power(10, (-1)*i) for i in range(2, n - r + 2)])
+        elems.extend([np.power(10, (-1.0)*i) for i in range(2, n - r + 2)])
         return generate_super_diagonal_tensor(elems, dim)
-
 
     if typ == "lk":
         core = np.random.uniform(0,1,np.repeat(n, dim))
@@ -103,3 +114,22 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         noise = np.random.normal(0, 1, np.repeat(n, dim))
         tensor = tensor + noise*np.sqrt(noise_level*r/np.product(total_num))
         return tensor, core, arms
+
+if __name__ == "__main__":
+
+    '''
+    print(square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1))
+    print("=====")
+    print(square_tensor_gen(5, 3, dim=3, typ='spd', noise_level=0.1))
+    print("=====")
+    print(square_tensor_gen(5, 3, dim=3, typ='fpd', noise_level=0.1))
+    print(square_tensor_gen(5, 3, dim=3, typ='spd', noise_level=0.1))
+    print("=====")
+    print(square_tensor_gen(5, 3, dim=3, typ='sed', noise_level=0.1))
+    print("=====")
+    print(square_tensor_gen(5, 3, dim=3, typ='fed', noise_level=0.1))
+    '''
+    X = square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1)
+
+
+

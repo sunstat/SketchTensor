@@ -3,18 +3,25 @@ import numpy as np
 from operator import mul
 from util import random_matrix_generator
 from util import RandomInfoBucket
-
+from util import square_tensor_gen
 
 
 
 class Sketch(object):
 
     @staticmethod
-    def sketch_random_matrix_generator(tensor_shape, reduced_dim, typ='g', sparse_factor=0.1):
+    def sketch_arm_rm_generator(tensor_shape, reduced_dim, random_seed, typ='g', sparse_factor=0.1):
         total_num = np.prod(tensor_shape)
         for n in range(len(tensor_shape)):
-            n1 = total_num/tensor_shape[n]
-            yield random_matrix_generator(reduced_dim, n1, RandomInfoBucket(std=1, typ=type, sparse_factor = sparse_factor))
+            n1 = total_num//tensor_shape[n]
+            yield random_matrix_generator(n1, reduced_dim, RandomInfoBucket(std=1, typ=typ, random_seed = random_seed,
+                                                                            sparse_factor = sparse_factor))
+
+    @staticmethod
+    def sketch_core_rm_generator(tensor_shape, reduced_dim, random_seed, typ='g', sparse_factor=0.1):
+        for n in range(len(tensor_shape)):
+            yield random_matrix_generator(tensor_shape[n], reduced_dim,\
+                        RandomInfoBucket(std=1, typ=typ, random_seed= random_seed, sparse_factor=sparse_factor))
 
 
     def __init__(self, X, k, random_seed, s = -1, typ = 'g', sparse_factor = 0.1):
@@ -40,7 +47,7 @@ class Sketch(object):
         # set the random seed for following procedure
         np.random.seed(random_seed)
 
-        rm_generator = Sketch.sketch_random_matrix_generator(self.tensor_shape, reduced_dim=self.k,
+        rm_generator = Sketch.sketch_arm_rm_generator(self.tensor_shape,  reduced_dim=self.k, random_seed = random_seed,
                                                           typ=self.typ, sparse_factor=self.sparse_factor)
         mode_n = 0
         for rm in rm_generator:
@@ -48,14 +55,34 @@ class Sketch(object):
             mode_n += 1
 
         if self.s != -1:
-            rm_generator = Sketch.sketchRandomMatrixGenerator(self.tensor_shape, reduced_dim=self.s,
+            rm_generator = Sketch.sketch_core_rm_generator(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
                                                               typ=self.typ, sparse_factor=self.sparse_factor)
             mode_n = 0
             for rm in rm_generator:
-                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm, mode=mode_n)
+                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm.T, mode=mode_n)
                 mode_n += 1
 
     def get_sketchs(self):
-        return self.sketchs, self.core_sketch, self.random_seed
+        return self.sketchs, self.core_sketch
 
+
+
+if __name__ == "__main__":
+    tl.set_backend('numpy')
+    X = square_tensor_gen(10, 3, dim=3, typ='spd', noise_level=0.1)
+    print(tl.unfold(X, mode=1).shape)
+    tensor_sketch = Sketch(X, 5, random_seed = 1, s = -1, typ = 'g', sparse_factor = 0.1)
+    sketchs, core_sketch  = tensor_sketch.get_sketchs()
+    print(len(sketchs))
+    for sketch in sketchs:
+        print(sketch)
+    print(core_sketch.shape)
+
+    #=======================
+    tensor_sketch = Sketch(X, 5, random_seed=1, s=6, typ='g', sparse_factor=0.1)
+    sketchs, core_sketch = tensor_sketch.get_sketchs()
+    print(len(sketchs))
+    for sketch in sketchs:
+        print(sketch)
+    print(core_sketch.shape)
 

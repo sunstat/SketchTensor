@@ -80,7 +80,7 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         elems = [1 for _ in range(r)]
         elems.extend([0 for _ in range(n-r)])
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        return generate_super_diagonal_tensor(elems, dim)+noise*np.sqrt(noise_level*r/np.product(total_num))
+        return generate_super_diagonal_tensor(elems, dim)+noise*np.sqrt(noise_level*r/total_num)
 
     if typ == 'spd':
         elems = [1 for _ in range(r)]
@@ -103,17 +103,18 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         return generate_super_diagonal_tensor(elems, dim)
 
     if typ == "lk":
-        core = np.random.uniform(0,1,np.repeat(n, dim))
+        core_tensor = np.random.uniform(0,1,[r for _ in range(dim)])
         arms = []
-        tensor = core
+        tensor = core_tensor
         for i in np.arange(dim):
             arm = np.random.normal(0,1,size = (n,r))
             arm, _ = np.linalg.qr(arm)
             arms.append(arm)
             tensor = tl.tenalg.mode_dot(tensor, arm, mode=i)
+        true_signal_mag = np.linalg.norm(core_tensor)**2
         noise = np.random.normal(0, 1, np.repeat(n, dim))
-        tensor = tensor + noise*np.sqrt(noise_level*r/np.product(total_num))
-        return tensor, core, arms
+        tensor = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product(total_num))
+        return tensor, core_tensor, arms
 
 if __name__ == "__main__":
 

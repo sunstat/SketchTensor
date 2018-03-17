@@ -1,0 +1,165 @@
+\section{Methodology} 
+\subsection{Notation}
+
+In this paper, we largely adopt the notations used in \cite{kolda2009tensor}. We denote the \textit{scalar}, \textit{vector}, \textit{matrix}, and \textit{tensor}, respectively by lowercase letters, $x$, boldface lowercase letters, $\mathbf{x}$, boldface capital letters, $\mathbf{X}$ , and Euler script letters, $\mathscr{X}$. For matrix $\mathbf{X} \in \mathbb{R}^{m \times n}$, $\mathbf{X}^\dag \in \mathbb{R}^{n \times m}$ denotes its \textit{Moore-Penrose pseudoinverse}. In particular, $\mathbf{X}^\dag = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T$, if $m \geq n$ and $\mathbf{X}$ has full column rank; $\mathbf{X}^\dag = X^T(XX^T)^{-1}$, if $m < n$ and $\mathbf{X}$ has full row rank. $\mbox{vec}(\cdot)$ denotes the \textit{vectorization} of either tensors or matrices. Following the conventions, we define $\mbox{vec}(X) = (x_{1,1},\dots,x_{m,1},x_{1,2},\dots,x_{1,n},\dots,x_{m,n})^\top$. For tensors, the ordering of elements is unimportant as long as it is consistent. 
+
+For a tensor, $\mathscr{X} \in \mathbb{R}^{I_1 \times \cdots \times I_N}$, its \textit{mode} or \textit{order} is the number of dimensions, $N$. $\|\mathscr{X}\|_F$ denotes its \textit{Fronbenius norm}. $\langle \mathscr{X}, \mathscr{Y} \rangle$ denotes the \textit{inner product} between $\mathscr{X}$ and $\mathscr{Y}$. Let $I_{(-n)} = \Pi_{j \neq n} I_j $. We denote the \textit{mode-n unfolding} of $\mathscr{X}$ as $\mathscr{X}^{(n)} \in \mathbb{R}^{I_n \times I_{(-n)}}$. $\mathscr{X} \times_n \mathbf{U}$ denotes the \textit{n-mode (matrix) product} of $\mathscr{X}$ with $\mathbf{U} \in \mathbb{R}^{J \times I_n}$, with size $I_1 \times \cdots \times I_{n-1} \times J \times I_{n+1} \times \cdots \times I_N$, that is: 
+\begin{equation}
+\mathscr{G} = \mathscr{X} \times_n \mathbf{U} \; \iff \; \mathbf{G}^{(n)} = \mathbf{U}\mathbf{X}^{(n)}
+\end{equation}
+
+\subsection{Randomized Linear Dimension Reduction Maps}
+\subsection{One pass sketching}
+
+
+\begin{algorithm}[ht]
+\caption{Sketching for Tensor Approximation}\label{alg:tensor_approx}
+  \begin{algorithmic}[1]
+  \State \textbf{class} SKETCH 
+  \State \textbf{local variable} $\mathbf{\Omega}_1, \dots, \mathbf{\Omega}_N$;  $\mathbf{\Phi}_1 \dots \mathbf{\Phi}_N$  \Comment{Random matrices}
+  \State \textbf{local variable} $\mathbf{Q}_1 \dots \mathbf{Q}_N$ 
+  \State \textbf{local variable} $\mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{W} $
+  \Require
+  \Statex 
+  \Ensure
+  \Statex 
+  \Function{Initialize}{$I_1$, \dots, $I_N$, $k$,$s$} 
+  \For{$n = 1, \dots, N$} 
+    \State $\mathbf{\Omega}_n \leftarrow  \text{rand}(I_{(-n), k}) $  \Comment{Storage is very costly}
+    \State $\mathbf{\Phi}_n \leftarrow \text{rand}(s, I_n)  $
+    \State $\mathbf{G}_n \leftarrow \mathbf{0}_{I_n \times k} $ 
+  \EndFor 
+  \State $\mathscr{W} \leftarrow \mathbf{0}_{\underbrace{k \times \cdots \times k}_N}$
+  \EndFunction  
+
+  \Statex
+  \Function{TwoPassSketch}{$\mathscr{X}$} 
+  \For{$n = 1 \dots N$}
+  \State $(\mathbf{Q}_n, \sim)\leftarrow $qr$(\mathbf{X}^{(n)}\mathbf{\Omega}_n)$
+  \EndFor
+  \State $\mathscr{W} \leftarrow \mathscr{X} \times_1 \mathbf{Q^\top}_1 \times \cdots \times_N \mathbf{Q^\top}_N$ 
+  \State \Return  $(\mathbf{Q}_1, \dots, \mathbf{Q}_N, \mathscr{W})$
+  \EndFunction
+
+  \Statex 
+  \Function{OnePassSketch}{$\mathscr{X}$}
+  \State $\mathscr{Z} \leftarrow \mathscr{X}\times_1 \mathbf{\Phi}_1 \times \dots \times_N  \mathbf{\Phi}_N $
+  \For{$n = 1 \dots N$ } 
+  \State $(\mathbf{Q}_n, \sim) \leftarrow $qr$(\mathbf{X}^{(n)}\mathbf{\Omega}_n)$ 
+  \EndFor 
+
+  \State $\mathscr{W} \leftarrow \mathscr{Z}\times_1 (\mathbf{\Phi}_1\mathbf{Q}_1)^\dag \cdots \times_N (\mathbf{\Phi}_N\mathbf{Q}_N)^\dag $
+  \State \Return $(\mathbf{Q}_1$, $\dots$, $\mathbf{Q}_N$,$\mathscr{W})$ 
+  \EndFunction
+
+  \Statex 
+  \Function{TensorRecovery}{$\mathbf{Q}_1$, $\dots$, $\mathbf{Q}_N$, $\mathscr{W}$}  
+  \State $\hat{\mathscr{X}} \leftarrow \mathscr{W} \times_1 \mathbf{Q}_1 \times \cdots \times_N \mathbf{Q}_N$ 
+  \State \Return $(\hat{\mathscr{X}})$
+  \EndFunction
+
+  \Statex
+  \Function {LinearUpdate}{$\mathscr{H}$; $\theta$, $\tau$}
+  \For{$n = 1, \dots, N$}
+  \State $\mathbf{G}_n \leftarrow \theta \mathbf{G}_n + \tau \mathbf{H}^{(n)} \mathbf{\Omega}_n $ 
+  \EndFor
+  \State $\mathscr{W} \leftarrow \theta \mathscr{W} + \tau \mathscr{H} \times_1 \mathbf{\Phi}_1 \times \cdots \times_N \mathbf{\Phi}_N $
+  \State \Return $(\mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{W})$
+  \EndFunction
+  
+\end{algorithmic}
+\end{algorithm}
+  
+\begin{algorithm}[ht]
+\caption{Higher Order SVD}\label{alg:hosvd}
+  \begin{algorithmic}[2]
+  \Function{HOSVD\_CLASSICAL}{$I_1, \dots, I_N, k$}
+  \For{$n = 1, \dots N$} 
+  \State $(U_n, \cdot, \cdot) \leftarrow SVD(\mathscr{X}_n)$
+  \EndFor
+  \State $\mathscr{S} \leftarrow \mathscr{X}\times_1 \mathbf{U}_1^\top \times \dots \times_N \mathbf{U}_N^\top$
+  \EndFunction
+  
+  \Function{HOSVD\_SEQUENTIAL}{$I_1, \dots, I_N, k$}
+  \State $\mathscr{S} \leftarrow \mathscr{X}$
+  \For{$n = 1, \dots N$} 
+  \State $(U_n, \cdot, \cdot) \leftarrow SVD(\mathscr{S}_n)$
+  \State $\mathscr{S} \leftarrow \mathscr{S}\times_n \mathbf{U}_n^\top $
+  \EndFor
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Communication Cost}
+
+
+\ifcomment
+{\color{red} Question: whether we store the randomized dimension mapping matrix, Linear update we need sketchy matrix, but for fast algorithm we do not. Whether add of Q into the account. Communication cost. One pass is slower than two pass in Algorithmic time cost. G for previous one, Phi Omega messed up, time compliexty, vectorization definition }
+\fi 
+
+
+In the sketching algorithm, we need to store the sketchy matrices $\mathbf{G}_1, \dots \mathbf{G}_N, \mathscr{W}$ with $\mathcal{O}(k^N+k(\sum_{n = 1}^N I_n))$. To store the orthonormal basis of $\mathbf{G}_n = \mathbf{X}^{(n)} \mathbf{\Omega}_n$ for $n = 1, \dots, N$, we need $\mathcal{O}(k(\sum_{n=1}^N I_n))$ space. During the linear update, we need $\mathcal{O}(k(\sum_{n =1}^N I_{(-n)}) + s(\sum_{n =1}^N I_n))$ to store the randomized linear dimension reduction maps. 
+
+Storage cost: \\ 
+\begin{itemize}
+    \item 
+    \item 
+\end{itemize}
+
+Time complexity for Two-Pass Sketching: \\ 
+\begin{itemize}
+    \item Compute $\mathbf{X}^{(n)} \mathbf{\Omega}_n$: $\mathcal{O}(k \Pi_{n=1}^N I_n)$ 
+    \item QR factorization: $\mathcal{O}(k^2(\sum_{n =1}^N I_n )) $  
+    \item Compute $\mathscr{W}$: $k\cdot I_1 \cdot I_{(-1)} + k \cdot I_2 \cdot \frac{I_{(-2)}\cdot k}{I_1} + \cdots$ \\   
+    Let the compression factor $\delta_2:= \frac{k}{\min\{I_1, \dots I_n\}}$ \\ 
+    $\leq k\Pi_{i=n}^N I_n (1 + \delta_2+ \dots + \delta_2^{(N-1)})$ \\ 
+    $\mathcal{O}(\frac{k(1-\delta_2^N)\Pi_{n = 1}^N I_n}{1-\delta_2}) $
+\end{itemize}
+
+Time complexity for One-Pass Sketching: \\ 
+\begin{itemize}
+    \item Compute $\mathscr{Z}$: $ \mathcal{O}(\frac{s(1-\delta_1^N)\Pi_{n = 1}^N I_n}{1-\delta_1})$, where the compression factor $\delta_1 := \frac{s}{\min\{I_1, \dots I_n\}}$
+    \item Compute $\mathbf{X}^{(n)} \mathbf{\Omega}_n$: $\mathcal{O}(k \Pi_{n=1}^N I_n)$ 
+    \item QR factorization: $\mathcal{O}(k^2(\sum_{n =1}^N I_n )) $  
+    \item Compute $\mathscr{W}$ (Solve least square problems): $\mathcal{O}(\frac{k^2s^N(1-(k/s)^N)}{1-k/s})$
+    \item Compute $\hat{\mathscr{X}}$:
+    $= I_1\cdot k^N + I_2 \cdot k^N \frac{I_1}{k} + \dots + I_N\cdot k \Pi_{n = 1}^{N-1} I_n$ \\ 
+    Let $\gamma = \frac{\max \{I_1 \dots I_N\}}{k}$ \\ 
+    $<  k^{N+1}\gamma \frac{\gamma^N -1}{\gamma - 1}$
+\end{itemize}
+
+Time complexity for Classical HOSVD: \\
+\begin{itemize}
+    \item Computing SVD for all $N$ unfoldings: $\mathscr{O}(k^2\sum_{n =1}^NI_n))$ 
+    \item Computing $\mathscr{S}$: 
+    $\mathcal{O}(\frac{k(1-\delta_2^N)\Pi_{n = 1}^N I_n}{1-\delta_2})$ 
+    \item Note: Sequential SVD has the same time complexity as the classical SVD since the SVD always costs $k^2m$, when $m\leq n$
+\end{itemize}
+
+\subsection{Linear Update}
+\subsection{Fix Rank Approximation}
+Given a tensor $\mathscr{X} \in \mathbb{R}^{I_1 \times \cdots \times I_N} $, we independently draw a series of sketchy matrices:
+\begin{equation}
+\begin{aligned}
+&\mathbf{\Omega}_1, \mathbf{\Omega}_2, \dots, \mathbf{\Omega}_N\\
+&\mathbf{\Phi}_1, \mathbf{\Phi}_2, \dots, \mathbf{\Phi}_N
+\end{aligned}
+\end{equation}
+with $\mathbf{\Omega}_n \in \mathbb{R}^{I_{(-n)} \times k}$ and $\mathbf{\Phi}_n \in \mathbb{R}^{s\times I_n}$. We set $s>k$. Then we define our sketchy matrices $\mathscr{Z} \in \mathbb{R}^{ \overbrace{s \times \cdots \times s}^{N}} $, $\mathbf{G}_1, \dots, \mathbf{G}_N$, $\mathbf{G}_n \in \mathbb{R}^{I_n \times k}$ as 
+\begin{equation}
+\label{eq:sketchy_matrix}
+\begin{aligned}
+&\mathbf{G}_n = \mathbf{X}^{(n)}\mathbf{\Omega}_n   = \mathbf{Q}_n\mathbf{R}_n\\
+&\mathscr{Z} = \mathscr{X} \times_1 \mathbf{\Phi}_1 \times \cdots \times_N \mathbf{\Phi}_N  
+\end{aligned}
+\end{equation}
+where $\mathbf{Q}_n \in \mathbb{R}^{I_n \times k}, \mathbf{R}_n \in \mathbb{R}^{k\times k} $. Like \cite{tropp2016randomized}, we construct a linkage tensor, $\mathscr{W} \in \mathbb{R}^{\overbrace{k \times \cdots \times k }^{N}}$. 
+\begin{equation}
+\mathscr{W} = \mathscr{Z}\times_1 (\mathbf{\Phi}_1\mathbf{Q}_1)^\dag \cdots \times_N (\mathbf{\Phi}_N\mathbf{Q}_N)^\dag
+\end{equation}
+where $(\mathbf{\Phi}_n \mathbf{Q}_n)^\dag \in \mathbb{R}^{k \times s} $. Then we can obtain the approximated tensor $\hat{\mathscr{X}}$ as
+\begin{equation}
+\hat{\mathscr{X}} = \mathscr{W} \times_1 \mathbf{Q}_1 \times \cdots \times_N \mathbf{Q}_N
+\end{equation}
+

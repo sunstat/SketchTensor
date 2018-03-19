@@ -39,7 +39,8 @@ def random_matrix_generator(m, n, Rinfo_bucket):
     elif typ == 'u':
         return np.random.uniform(low = -1, high = 1, size = (m,n))*np.sqrt(3)*std
     elif typ == 'sp':
-        return np.random.binomial(n = 1,p = sparse_factor,size = (m,n))*np.random.uniform(low = -1, high = 1, size = (m,n))*np.sqrt(3)*std
+        return np.random.binomial(n = 1,p = sparse_factor,size = (m,n))*\
+        np.random.choice([-1,1], size = (m,n))*np.sqrt(3)*std
 
 
 def tensor_gen_help(core,arms):
@@ -113,7 +114,8 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
             tensor = tl.tenalg.mode_dot(tensor, arm, mode=i)
         true_signal_mag = np.linalg.norm(core_tensor)**2
         noise = np.random.normal(0, 1, np.repeat(n, dim))
-        tensor = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product(total_num))
+        tensor = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product\
+            (total_num))
         return tensor, core_tensor, arms
 
 if __name__ == "__main__":
@@ -130,7 +132,6 @@ if __name__ == "__main__":
     print("=====")
     print(square_tensor_gen(5, 3, dim=3, typ='fed', noise_level=0.1))
     '''
+    tl.set_backend('numpy')
     X = square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1)
-
-
 

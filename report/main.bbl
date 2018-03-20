@@ -1,0 +1,41 @@
+\begin{thebibliography}{4}
+% this bibliography was produced with the style dinat.bst v2.5
+\makeatletter
+\newcommand{\dinatlabel}[1]%
+{\ifNAT@numbers\else\NAT@biblabelnum{#1}\hspace{2\labelsep}\fi}
+\makeatother
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+
+\bibitem[Halko u.\,a.(2011)Halko, Martinsson und Tropp]{halko2011finding}
+\dinatlabel{Halko u.\,a. 2011} \textsc{Halko}, Nathan~; \textsc{Martinsson},
+  Per-Gunnar~; \textsc{Tropp}, Joel~A.:
+\newblock Finding structure with randomness: Probabilistic algorithms for
+  constructing approximate matrix decompositions.
+\newblock In: \emph{SIAM review}
+\newblock 53 (2011), Nr.~2, S.~217--288
+
+\bibitem[Kolda und Bader(2009)]{kolda2009tensor}
+\dinatlabel{Kolda und Bader 2009} \textsc{Kolda}, Tamara~G.~; \textsc{Bader},
+  Brett~W.:
+\newblock Tensor decompositions and applications.
+\newblock In: \emph{SIAM review}
+\newblock 51 (2009), Nr.~3, S.~455--500
+
+\bibitem[Tropp u.\,a.(2016)Tropp, Yurtsever, Udell und
+  Cevher]{tropp2016randomized}
+\dinatlabel{Tropp u.\,a. 2016} \textsc{Tropp}, Joel~A.~; \textsc{Yurtsever},
+  Alp~; \textsc{Udell}, Madeleine~; \textsc{Cevher}, Volkan:
+\newblock Randomized single-view algorithms for low-rank matrix approximation.
+\newblock In: \emph{arXiv preprint arXiv:1609.00048}
+\newblock (2016)
+
+\bibitem[Tropp u.\,a.(2017)Tropp, Yurtsever, Udell und
+  Cevher]{tropp2017practical}
+\dinatlabel{Tropp u.\,a. 2017} \textsc{Tropp}, Joel~A.~; \textsc{Yurtsever},
+  Alp~; \textsc{Udell}, Madeleine~; \textsc{Cevher}, Volkan:
+\newblock Practical Sketching Algorithms for Low-Rank Matrix Approximation.
+\newblock In: \emph{SIAM Journal on Matrix Analysis and Applications}
+\newblock 38 (2017), Nr.~4, S.~1454--1485
+
+\end{thebibliography}

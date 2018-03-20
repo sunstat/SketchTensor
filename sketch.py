@@ -11,14 +11,19 @@ class Sketch(object):
 
     @staticmethod
     def sketch_arm_rm_generator(tensor_shape, reduced_dim, random_seed, typ='g', sparse_factor=0.1):
+        '''
+        :param tensor_shape: shape of the tensor, an 1-d array
+        :param reduced_dim: k, the dimension that the core tensor will be reduced into 
+        '''
         total_num = np.prod(tensor_shape)
         for n in range(len(tensor_shape)):
-            n1 = total_num//tensor_shape[n]
+            n1 = total_num//tensor_shape[n] # I_(-n)
             yield random_matrix_generator(n1, reduced_dim, RandomInfoBucket(std=1, typ=typ, random_seed = random_seed,
                                                                             sparse_factor = sparse_factor))
 
     @staticmethod
     def sketch_core_rm_generator(tensor_shape, reduced_dim, random_seed, typ='g', sparse_factor=0.1):
+        
         for n in range(len(tensor_shape)):
             yield random_matrix_generator(tensor_shape[n], reduced_dim,\
                         RandomInfoBucket(std=1, typ=typ, random_seed= random_seed, sparse_factor=sparse_factor))

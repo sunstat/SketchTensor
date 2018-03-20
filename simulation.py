@@ -85,7 +85,8 @@ class Simulation(object):
 if __name__ == '__main__':
     n = 200
 
-    simu = Simulation(TensorInfoBucket([n,n,n], k = 15, rank = 10, s=30), RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0.1)
+    simu = Simulation(TensorInfoBucket([n,n,n], k = 15, rank = 10, s=30), \
+        RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0.1)
 
 
     running_times, mse_arr = simu.run(simu_typ = 'ho_svd', simu_runs = 10)
@@ -96,7 +97,6 @@ if __name__ == '__main__':
     running_times, mse_arr = simu.run(simu_typ='two_sketch', simu_runs=10)
     print(running_times)
     print(mse_arr)
-
 
     running_times, mse_arr = simu.run(simu_typ='one_sketch', simu_runs=10)
     print(running_times)

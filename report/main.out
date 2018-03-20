@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Methodology}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Notation}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Randomized\040Linear\040Dimension\040Reduction\040Maps}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{One\040pass\040sketching}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Communication\040Cost}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Linear\040Update}{section.2}% 7
+\BOOKMARK [2][-]{subsection.2.6}{Fix\040Rank\040Approximation}{section.2}% 8
+\BOOKMARK [1][-]{section.3}{Probabilistic\040Analysis\040of\040the\040Compression\040Error}{}% 9
+\BOOKMARK [1][-]{section.4}{Probabilistic\040Analysis\040of\040Linkage\040Tensor}{}% 10
+\BOOKMARK [1][-]{section.5}{Appendix:\040Technical\040Lemmas}{}% 11
+\BOOKMARK [2][-]{subsection.5.1}{Technical\040Lemmas\040for\040sketching\040Matrix}{section.5}% 12
+\BOOKMARK [2][-]{subsection.5.2}{Some\040Facts\040for\040Projection\040of\040Mode\040Unfolding\040of\040a\040Tensor}{section.5}% 13
+\BOOKMARK [1][-]{section.6}{Appendix:\040Review\040of\040Tensor\040Algorithmic\040Operator}{}% 14

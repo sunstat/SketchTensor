@@ -133,8 +133,9 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
 def eval_mse(X,X_hat): 
     error = X-X_hat
     error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
-    mse = error/np.size(X)
-    return mse, error 
+    mse = error/np.sqrt(np.size(X)) 
+    rmse = error/(np.linalg.norm(X.reshape(np.size(X),1),'fro'))
+    return mse, rmse 
 
 if __name__ == "__main__":
 

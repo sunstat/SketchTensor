@@ -83,6 +83,18 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
         return generate_super_diagonal_tensor(elems, dim)+noise*np.sqrt(noise_level*r/total_num)
 
+    if typ == 'id1':
+        elems = [1 for _ in range(r)]
+        elems.extend([0 for _ in range(n-r)])
+        noise = np.random.normal(0, 1, [n for _ in range(dim)])
+        return generate_super_diagonal_tensor(elems, dim) + noise * np.sqrt(0.01 * r / total_num)
+
+    if typ == 'id2':
+        elems = [1 for _ in range(r)]
+        elems.extend([0 for _ in range(n-r)])
+        noise = np.random.normal(0, 1, [n for _ in range(dim)])
+        return generate_super_diagonal_tensor(elems, dim) + noise * np.sqrt(1 * r / total_num)
+
     if typ == 'spd':
         elems = [1 for _ in range(r)]
         elems.extend([1.0/i for i in range(2, n-r+2)])

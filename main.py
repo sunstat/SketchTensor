@@ -17,6 +17,7 @@ mse = { 'ho_svd': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)]),
         'simu_two_pass': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)]),
         'simu_one_pass': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)])
        }
+simu_runs = 10
 
 '''
 end global variables
@@ -25,23 +26,23 @@ end global variables
 def get_info(index):
     rank = ranks[index[0]]
     ratio = ratios[index[1]]
-    k = ks[index[3]]
-    gen_type = gen_types[index[4]]
+    k = ks[index[2]]
+    gen_type = gen_types[index[3]]
     return rank, ratio, k, gen_type
 
-it = np.nditer(mse, flags=['multi_index'])
 
+values = np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)])
+it = np.nditer(values, flags=['multi_index'])
 
+'''
 while not it.finished:
     rank, ratio, k, gen_type = get_info(it.multi_index)
     simu = Simulation(TensorInfoBucket([n,n,n], k = k, rank = rank, s=int(k*ratio)),\
         RandomInfoBucket(random_seed = 1), gen_typ = gen_type, noise_level=0)
-    simu.run('ho_svd', )
-
-
-
-
-
+    running_times, mse_arr = simu.run('ho_svd', simu_runs)
+    print(mse_arr)
+    break
+'''
 
 
 

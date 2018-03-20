@@ -10,9 +10,9 @@ begin global variables
 '''
 n=100
 ratios = [1.2, 1.5, 2.0, 2.5]
-ranks = [1,5]
-ks = np.arange(5, 100, 2)
-gen_types = ['id', 'id1', 'id2', 'spd', 'fpd', 'sed', 'fed', 'lk']
+ranks = [1, 5]
+ks = np.arange(5, 12, 2)
+gen_types = ['id', 'id1', 'id2']
 mse = { 'ho_svd': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)]),
         'simu_two_pass': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)]),
         'simu_one_pass': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)])

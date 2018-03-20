@@ -82,6 +82,7 @@ class Simulation(object):
         return running_times, mse_arr
 
 if __name__ == '__main__':
+    
     n = 200
 
     simu = Simulation(TensorInfoBucket([n,n,n], k = 15, rank = 10, s=30), \

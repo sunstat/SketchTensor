@@ -119,9 +119,9 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         return tensor, core_tensor, arms
 
 def eval_mse(X,X_hat): 
-    error = self.X-X_hat
+    error = X-X_hat
     error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
-    mse = error/np.size(self.X)
+    mse = error/np.size(X)
     return mse, error 
 
 if __name__ == "__main__":

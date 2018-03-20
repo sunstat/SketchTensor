@@ -34,10 +34,7 @@ class SketchTwoPassRecover(object):
         for n in range(len(factors)):
             self.arms.append(np.dot(Qs[n], factors[n]))
         X_hat = tl.tucker_to_tensor(self.core_tensor, self.arms)
-        error = self.X-X_hat
-        error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
-        mse = error/np.size(self.X)
-        return self.arms, self.core_tensor, error, mse
+        return X_hat, self.arms, self.core_tensor 
 
 class SketchOnePassRecover(object):
 
@@ -56,7 +53,7 @@ class SketchOnePassRecover(object):
 
         return phis
 
-    def __init__(self, sketchs, core_sketch, Tinfo_bucket, Rinfo_bucket, X):
+    def __init__(self, sketchs, core_sketch, Tinfo_bucket, Rinfo_bucket):
         tl.set_backend('numpy')
         self.arms = []
         self.core_tensor = None
@@ -64,7 +61,6 @@ class SketchOnePassRecover(object):
         self.tensor_shape, self.k, self.rank, self.s = Tinfo_bucket.get_info()
         self.Rinfo_bucket = Rinfo_bucket
         self.core_sketch = core_sketch
-        self.X = X
 
 
     def recover(self):
@@ -83,10 +79,9 @@ class SketchOnePassRecover(object):
         for n in range(dim):
             self.arms.append(np.dot(Qs[n], factors[n]))
         X_hat = tl.tucker_to_tensor(self.core_tensor, self.arms)
-        error = self.X-X_hat
-        error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
-        mse = error/np.size(self.X)
-        return self.arms, self.core_tensor, error, mse
+        return X_hat, self.arms, self.core_tensor
+
+
 
 from util import square_tensor_gen 
 from sketch import *

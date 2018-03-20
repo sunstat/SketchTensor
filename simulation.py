@@ -4,6 +4,7 @@ import tensorly as tl
 from util import square_tensor_gen
 from util import TensorInfoBucket
 from util import RandomInfoBucket
+from util import eval_mse
 from sketch import Sketch
 import time
 from tensorly.decomposition import tucker
@@ -42,8 +43,9 @@ class Simulation(object):
         sketch_time = time.time() - start_time
         start_time = time.time()
         sketch_two_pass = SketchTwoPassRecover(X, sketchs, self.rank)
-        _, _, _, mse =  sketch_two_pass.recover()
+        X_hat,_,_ =  sketch_two_pass.recover()
         recover_time = time.time() - start_time
+        mse = eval_mse(X,X_hat)
         return mse, sketch_time, recover_time
 
     def simu_one_pass(self):
@@ -53,9 +55,10 @@ class Simulation(object):
         sketchs, core_sketch, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
-        sketch_one_pass = SketchOnePassRecover(sketchs, core_sketch, self.Tinfo_bucket, self.Rinfo_bucket, X)
-        _, _, _, mse = sketch_one_pass.recover()
+        sketch_one_pass = SketchOnePassRecover(sketchs, core_sketch, self.Tinfo_bucket, self.Rinfo_bucket)
+        X_hat,_,_ = sketch_one_pass.recover()
         recover_time = time.time() - start_time
+        mse = eval_mse(X,X_hat) 
         return mse, sketch_time, recover_time
 
     def run(self, simu_typ, simu_runs):
@@ -71,16 +74,12 @@ class Simulation(object):
                 mse, sketch_time, recover_time = self.simu_two_pass()
                 mse_arr.append(mse)
                 running_times.append((sketch_time, recover_time))
-
         if simu_typ == 'one_sketch':
             for i in range(simu_runs):
                 mse, sketch_time, recover_time = self.simu_one_pass()
                 mse_arr.append(mse)
                 running_times.append((sketch_time, recover_time))
-
         return running_times, mse_arr
-
-
 
 if __name__ == '__main__':
     n = 200

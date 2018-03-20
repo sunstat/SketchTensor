@@ -2,6 +2,7 @@ import numpy as np
 from scipy import fftpack
 import tensorly as tl
 
+tl.set_backend('numpy')
 
 
 class TensorInfoBucket(object):
@@ -117,6 +118,12 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
         tensor = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product\
             (total_num))
         return tensor, core_tensor, arms
+
+def eval_mse(X,X_hat): 
+    error = self.X-X_hat
+    error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
+    mse = error/np.size(self.X)
+    return mse, error 
 
 if __name__ == "__main__":
 

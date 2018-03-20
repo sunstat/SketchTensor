@@ -98,7 +98,6 @@ if __name__ == '__main__':
     print(running_times)
     print(mse_arr)
 
-
     running_times, mse_arr = simu.run(simu_typ='one_sketch', simu_runs=10)
     print(running_times)
     print(mse_arr)

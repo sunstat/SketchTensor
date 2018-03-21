@@ -81,9 +81,8 @@ if __name__ == '__main__':
     
     n = 200
 
-    simu = Simulation(TensorInfoBucket([n,n,n], k = 15, rank = 10, s=80), \
-        RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0.001)
-
+    simu = Simulation(TensorInfoBucket([n,n,n], k = 12, rank = 5, s=80), \
+        RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0.0001)
 
     rtime, rerr = simu.run(simu_typ = 'ho_svd', simu_runs = 10)
     print(rtime)

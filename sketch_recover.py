@@ -27,8 +27,6 @@ class SketchTwoPassRecover(object):
         for mode_n in range(N):
             Q = Qs[mode_n]
             core_tensor = tl.tenalg.mode_dot(core_tensor, Q.T, mode=mode_n)
-        print(core_tensor.shape)
-        print(self.ranks)
         core_tensor, factors = tucker(core_tensor, ranks=self.ranks)
         self.core_tensor = core_tensor
 

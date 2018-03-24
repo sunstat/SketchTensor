@@ -40,7 +40,7 @@ class Simulation(object):
         sketchs, _, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
-        sketch_two_pass = SketchTwoPassRecover(X, sketchs, np.repeat(self.rank,dim))
+        sketch_two_pass = SketchTwoPassRecover(X, sketchs, np.repeat(self.rank,self.dim))
         X_hat,_,_ =  sketch_two_pass.recover()
         recover_time = time.time() - start_time
         rerr = eval_rerr(X,X_hat)

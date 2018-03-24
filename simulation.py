@@ -47,14 +47,15 @@ class Simulation(object):
         rerr = eval_mse(X,X_hat)
         return (sketch_time, recover_time), rerr
 
-    def one_pass(self):
+    def one_pass(self,store_rm = True):
         X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
         start_time = time.time()
-        sketch = Sketch(X, self.k, s = self.s, random_seed=self.random_seed)
+        sketch = Sketch(X, self.k, s = self.s, random_seed=self.random_seed,store_rm = True)
         sketchs, core_sketch, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
-        sketch_one_pass = SketchOnePassRecover(sketchs, core_sketch, self.Tinfo_bucket, self.Rinfo_bucket)
+        _, core_rm = sketch.get_rm()
+        sketch_one_pass = SketchOnePassRecover(sketchs, core_sketch, self.Tinfo_bucket, self.Rinfo_bucket,core_rm = core_rm)
         X_hat,_,_ = sketch_one_pass.recover()
         recover_time = time.time() - start_time
         rerr = eval_mse(X,X_hat)
@@ -76,22 +77,11 @@ class Simulation(object):
         print(times)
         return [sum(y) / len(y) for y in zip(*times)], np.mean(rerr)
 
-    def run_noseed(self,simu_typ, simu_runs):
-
 if __name__ == '__main__':
-    
     n = 200
 
     simu = Simulation(TensorInfoBucket([n,n,n], k = 12, rank = 5, s=80), \
         RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0)
-
-    rtime, rerr = simu.run(simu_typ = 'ho_svd', simu_runs = 10)
-    print(rtime)
-    print(rerr)
-
-    rtime, rerr = simu.run(simu_typ='two_pass', simu_runs=10)
-    print(rtime)
-    print(rerr)
 
     rtime, rerr = simu.run(simu_typ='one_pass', simu_runs=10)
     print(rtime)

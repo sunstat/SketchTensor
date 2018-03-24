@@ -1,3 +1,5 @@
+from util import TensorInfoBucket 
+from util import RandomInfoBucket
 import numpy as np
 import tensorly as tl
 from tensorly.decomposition import tucker
@@ -53,7 +55,7 @@ class SketchOnePassRecover(object):
 
         return phis
 
-    def __init__(self, sketchs, core_sketch,rank, Tinfo_bucket, Rinfo_bucket, core_rm = []):
+    def __init__(self, sketchs, core_sketch, Tinfo_bucket, Rinfo_bucket,core_rm = []):
         tl.set_backend('numpy')
         self.arms = []
         self.core_tensor = None
@@ -61,30 +63,31 @@ class SketchOnePassRecover(object):
         self.tensor_shape, self.k, self.rank, self.s = Tinfo_bucket.get_info()
         self.Rinfo_bucket = Rinfo_bucket
         self.core_sketch = core_sketch
-        self.core_rm = core_rm
-        self.rank = rank
+        self.core_rm = core_rm 
 
-    def recover(self, store_rm = False):
-        if not store_rm: 
+
+    def recover(self):
+        if self.core_rm == []: 
             phis = SketchOnePassRecover.get_phis(self.Rinfo_bucket, tensor_shape = self.tensor_shape, k = self.k, s = self.s)
+            print(len(phis))
         else: 
             phis = self.core_rm 
+            Qs = []
+            for sketch in self.sketchs:
+                Q, _ = np.linalg.qr(sketch)
+                Qs.append(Q)
+            self.core_tensor = self.core_sketch
+            dim = len(self.tensor_shape)
+            for mode_n in range(dim):
+                self.core_tensor = tl.tenalg.mode_dot(self.core_tensor, np.linalg.pinv(np.dot(phis[mode_n], Qs[mode_n])), mode=mode_n)
+            core_tensor, factors = tucker(self.core_tensor, ranks=[self.rank for _ in range(dim)])
+            self.core_tensor = core_tensor
+            for n in range(dim):
+                self.arms.append(np.dot(Qs[n], factors[n]))
+            X_hat = tl.tucker_to_tensor(self.core_tensor, self.arms)
+            return X_hat, self.arms, self.core_tensor
 
-        Qs = []
-        for sketch in self.sketchs:
-            Q, _ = np.linalg.qr(sketch)
-            Qs.append(Q)
-        self.core_tensor = self.core_sketch
-        dim = len(self.tensor_shape)
-        for mode_n in range(dim):
-            self.core_tensor = tl.tenalg.mode_dot(self.core_tensor, np.linalg.pinv(np.dot(phis[mode_n], Qs[mode_n])), mode=mode_n)
 
-        core_tensor, factors = tucker(self.core_tensor, ranks=[self.rank for _ in range(dim)])
-        self.core_tensor = core_tensor
-        for n in range(dim):
-            self.arms.append(np.dot(Qs[n], factors[n]))
-        X_hat = tl.tucker_to_tensor(self.core_tensor, self.arms)
-        return X_hat, self.arms, self.core_tensor
 
 
 from util import square_tensor_gen 
@@ -94,21 +97,16 @@ if __name__ == "__main__":
     tl.set_backend('numpy')
     X = square_tensor_gen(10, 3, dim=3, typ='spd', noise_level=0.1)
     print(tl.unfold(X, mode=1).shape)
-    tensor_sketch = Sketch(X, 5, random_seed = 1, s = -1, typ = 'g', sparse_factor = 0.1)
+    tensor_sketch = Sketch(X, 5, random_seed = 1, s = 6, typ = 'g', sparse_factor = 0.1)
+
     sketchs, core_sketchs  = tensor_sketch.get_sketchs() 
     _ ,core_rm = tensor_sketch.get_rm()
+    Tinfo_bucket =  TensorInfoBucket([10,10,10], k = 5, rank = np.repeat(1,3), s = -1)
+    Rinfo_bucket = tensor_sketch.get_Rinfo_bucket()
 
     SketchTwoPassRecover(tensor_sketch,sketchs,np.repeat(1,3)) 
-    SketchOnePassRecover(tensor_sketch,core_sketchs, np.repeat(1,3),Tinfo_bucket, Rinfo_bucket,core_rm) 
-
-
-
-
-
-
-
-
-
-
-
-
+    #one_pass0 = (SketchOnePassRecover(tensor_sketch,core_sketchs,Tinfo_bucket, Rinfo_bucket,core_rm))
+    one_pass = (SketchOnePassRecover(tensor_sketch,core_sketchs,Tinfo_bucket, Rinfo_bucket))
+    one_pass.get_phis(Rinfo_bucket,[10,10,10],5,6)
+    one_pass.recover()
+    

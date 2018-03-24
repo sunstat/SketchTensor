@@ -153,4 +153,3 @@ if __name__ == "__main__":
     '''
     tl.set_backend('numpy')
     X = square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1)
-

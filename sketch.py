@@ -93,17 +93,22 @@ class Sketch(object):
             self.arm_rm = Sketch.sketch_arm_rm(self.tensor_shape,  reduced_dim=self.k, random_seed = random_seed,
                                                               typ=self.typ, sparse_factor=self.sparse_factor)
             for mode_n, rm in enumerate(self.arm_rm):
-                self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))   
+                self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))    
             if self.s != -1: 
-                for mode_n, rm in enumerate(self.core_rm): 
-                    self.core_rm = Sketch.sketch_core_rm(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
+                self.core_rm = Sketch.sketch_core_rm(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
                                                                   typ=self.typ, sparse_factor=self.sparse_factor)
+                for mode_n, rm in enumerate(self.core_rm): 
+                    self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm.T, mode=mode_n)
+                    
 
     def get_sketchs(self):
         return self.sketchs, self.core_sketch
         [self for x in arm_rm]
     def get_rm(self):
         return self.arm_rm, self.core_rm
+
+    def get_Rinfo_bucket(self):
+        return RandomInfoBucket(1,self.typ, self.random_seed, self.sparse_factor)
 
 if __name__ == "__main__":
     tl.set_backend('numpy')
@@ -117,10 +122,13 @@ if __name__ == "__main__":
     print(core_sketch.shape)
 
     #=======================
-    tensor_sketch = Sketch(X, 5, random_seed=1, s=6, typ='g', sparse_factor=0.1)
+    tensor_sketch = Sketch(X, 5, random_seed=1, s=6, typ='g', sparse_factor=0.1,store_rm = True)
     sketchs, core_sketch = tensor_sketch.get_sketchs()
     print(len(sketchs))
     for sketch in sketchs:
         print(sketch)
     print(core_sketch.shape)
 
+    print("random map")
+    arm_rm, core_rm = tensor_sketch.get_rm()
+    print(core_rm)

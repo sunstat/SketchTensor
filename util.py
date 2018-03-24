@@ -7,6 +7,7 @@ tl.set_backend('numpy')
 class TensorInfoBucket(object):
     def __init__(self, tensor_shape, k, ranks, s = -1):
         '''
+        Information of the original tensor X
         :k,s: integer
         :ranks: n-darray for the ranks of X
         '''
@@ -19,7 +20,9 @@ class TensorInfoBucket(object):
         return self.tensor_shape, self.k, self.ranks, self.s
 
 class RandomInfoBucket(object):
-
+    ''' 
+    Information for generating randomized linear maps
+    ''' 
     def __init__(self, std=1, typ='g', random_seed = None, sparse_factor = 0.1):
         self.std = std
         self.typ = typ

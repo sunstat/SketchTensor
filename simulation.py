@@ -1,10 +1,7 @@
 import numpy as np
 from scipy import fftpack
 import tensorly as tl
-from util import square_tensor_gen
-from util import TensorInfoBucket
-from util import RandomInfoBucket
-from util import eval_mse
+from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_mse, eval_rerr
 from sketch import Sketch
 import time
 from tensorly.decomposition import tucker
@@ -12,18 +9,20 @@ from sketch_recover import SketchTwoPassRecover
 from sketch_recover import SketchOnePassRecover
 
 class Simulation(object):
-    def __init__(self, Tinfo_bucket, Rinfo_bucket, gen_typ, noise_level):
+    '''
+    In this simulation, we only experiment with the square design and Gaussian 
+    randomized linear map with 
+    '''
+    def __init__(self, tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level):
         tl.set_backend('numpy')
-        self.tensor_shape, self.k, self.rank, self.s = Tinfo_bucket.get_info()
+        self.tensor_shape, self.rank, self.k, self.s = tensor_shape, rank, k, s
         self.n = self.tensor_shape[0]
         self.dim = len(self.tensor_shape)
         self.std, self.typ, self.random_seed, self.sparse_factor =  Rinfo_bucket.get_info()
         self.total_num = np.prod(self.tensor_shape)
         self.gen_typ = gen_typ
         self.noise_level = noise_level
-        self.Tinfo_bucket = Tinfo_bucket
         self.Rinfo_bucket = Rinfo_bucket
-
 
     def ho_svd(self):
         X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
@@ -31,7 +30,7 @@ class Simulation(object):
         core, tucker_factors = tucker(X, ranks=[self.rank for _ in range(self.dim)], init='random')
         X_hat = tl.tucker_to_tensor(core, tucker_factors)
         running_time = time.time() - start_time
-        rerr = eval_mse(X,X_hat)
+        rerr = eval_rerr(X,X_hat)
         return (-1, running_time), rerr
 
     def two_pass(self):
@@ -41,56 +40,88 @@ class Simulation(object):
         sketchs, _, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
-        sketch_two_pass = SketchTwoPassRecover(X, sketchs, self.rank)
+        sketch_two_pass = SketchTwoPassRecover(X, sketchs, np.repeat(self.rank,dim))
         X_hat,_,_ =  sketch_two_pass.recover()
         recover_time = time.time() - start_time
-        rerr = eval_mse(X,X_hat)
+        rerr = eval_rerr(X,X_hat)
         return (sketch_time, recover_time), rerr
-
-    def one_pass(self,store_rm = True):
+    def one_pass(self, store_phis = True):
         X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
         start_time = time.time()
-        sketch = Sketch(X, self.k, s = self.s, random_seed=self.random_seed,store_rm = storm_rm)
-        sketchs, core_sketch, = sketch.get_sketchs()
+        sketch = Sketch(X, self.k, random_seed = self.random_seed, s = self.s, store_phis = store_phis)
+        sketchs, core_sketch = sketch.get_sketchs() 
         sketch_time = time.time() - start_time
         start_time = time.time()
-        _, core_rm = sketch.get_rm()
-        sketch_one_pass = SketchOnePassRecover(sketchs, core_sketch, self.Tinfo_bucket, self.Rinfo_bucket,core_rm = core_rm)
-        X_hat,_,_ = sketch_one_pass.recover()
+        sketch_one_pass = SketchOnePassRecover(sketchs,core_sketch,\
+            TensorInfoBucket(self.tensor_shape,self.k,np.repeat\
+                (self.rank,self.dim), self.s),self.Rinfo_bucket,\
+            sketch.get_phis())
+        X_hat, _, _  = sketch_one_pass.recover()
+
         recover_time = time.time() - start_time
-        rerr = eval_mse(X,X_hat)
+        rerr = eval_rerr(X,X_hat)
         return (sketch_time, recover_time), rerr
 
-    def run(self, simu_typ, simu_runs):
-        times = []
-        rerrs = []
-        rtime, rerr = None, None
-        for i in range(simu_runs):
-            if simu_typ == 'ho_svd':
-                rtime, rerr = self.ho_svd()
-            elif simu_typ == 'two_pass':
-                rtime, rerr = self.two_pass()
-            elif simu_typ == 'one_pass':
-                rtime, rerr = self.one_pass()
-            times.append(rtime)
-            rerrs.append(rerr)
-        print(times)
-        return [sum(y) / len(y) for y in zip(*times)], np.mean(rerr)
+
+import matplotlib 
+import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     n = 200
+    k = 12  
+    rank = 5 
+    dim = 3 
+    s = 80 
+    tensor_shape = np.repeat(n,dim)
+    noise_level = 0.01
+    gen_typ = 'id' 
+    Rinfo_bucket = RandomInfoBucket(random_seed = 1)
+    '''
+    simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
+    _, rerr = simu.ho_svd()
+    print('ho_svd rerr:', rerr)
+    _, rerr = simu.two_pass() 
+    print('two_pass:', rerr) 
+    _, rerr = simu.one_pass()
+    print('one_pass:', rerr)
+    ''' 
 
-    simu = Simulation(TensorInfoBucket([n,n,n], k = 12, rank = 5, s=80), \
-        RandomInfoBucket(random_seed = 1), gen_typ = 'id', noise_level=0)
+    noise_levels = (np.float(10)**(np.arange(-10,2,2))) 
+    ho_svd_rerr = np.zeros(len(noise_levels))
+    two_pass_rerr = np.zeros(len(noise_levels))
+    one_pass_rerr = np.zeros(len(noise_levels))
 
-    rtime, rerr = simu.run(simu_typ='one_pass', simu_runs=10)
-    print(rtime)
-    print(rerr)
+    for idx, noise_level in enumerate(noise_levels): 
+        print('Noise_level:', noise_level)
+        simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
+        _, rerr = simu.ho_svd()
+        #print('ho_svd rerr:', rerr) 
+        ho_svd_rerr[idx] = rerr 
 
+        _, rerr = simu.two_pass() 
+        #print('two_pass:', rerr) 
+        two_pass_rerr[idx] = rerr
 
+        _, rerr = simu.one_pass()
+        #print('one_pass:', rerr)
+        one_pass_rerr[idx] = rerr  
 
+    print("identity design with varying noise_level")
+    print("noise_levels", noise_levels)
+    print("ho_svd", ho_svd_rerr)
+    print("two_pass", two_pass_rerr)
+    print("one_pass", one_pass_rerr)
 
-
+    plt.subplot(3,1,1)
+    plt.plot(noise_levels,ho_svd_rerr,label = 'ho_svd')
+    plt.title('ho_svd')
+    plt.subplot(3,1,2)
+    plt.plot(noise_levels,two_pass_rerr, label = 'two_pass')
+    plt.title('two_pass')
+    plt.subplot(3,1,3) 
+    plt.plot(noise_levels,one_pass_rerr, label = 'one_pass') 
+    plt.title('one_pass')
+    plt.show()
 
 
 

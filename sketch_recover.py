@@ -70,10 +70,8 @@ class SketchOnePassRecover(object):
     def recover(self):
         if self.phis == []:
             phis = SketchOnePassRecover.get_phis(self.Rinfo_bucket, tensor_shape = self.tensor_shape, k = self.k, s = self.s)
-            print("phi shape: ",phis[1].shape)
         else: 
             phis = self.phis 
-            print("phis shape",phis[1].shape)
         Qs = []
         for sketch in self.sketchs:
             Q, _ = np.linalg.qr(sketch)
@@ -104,10 +102,10 @@ if __name__ == "__main__":
     rank = 5 
     ranks = np.repeat(rank,dim) 
     size = np.repeat(n,dim) 
-    X = square_tensor_gen(n, rank, dim=dim, typ='id', noise_level = 0)
+    X = square_tensor_gen(n, rank, dim=dim, typ='id', noise_level = 0.001)
 
     print(tl.unfold(X, mode=1).shape)
-    tensor_sketch = Sketch(X, k, random_seed = 1, s = s, typ = 'g', sparse_factor = 0.1,store_phis = True)
+    tensor_sketch = Sketch(X, k, random_seed = 1, s = s, typ = 'u', sparse_factor = 0.1,store_phis = True)
     phis = tensor_sketch.get_phis()
     sketchs, core_sketch = tensor_sketch.get_sketchs() 
     two_pass = SketchTwoPassRecover(X,sketchs,ranks)
@@ -119,6 +117,6 @@ if __name__ == "__main__":
     print('one_pass:',eval_rerr(X,X_hat))
     one_pass = SketchOnePassRecover(sketchs,core_sketch,TensorInfoBucket(size,k,ranks,s),RandomInfoBucket(random_seed = 1),phis = phis)
     X_hat,_ ,_ = one_pass.recover()
-    print(eval_rerr(X,X_hat))
+    print('one_pass_no_rs:',eval_rerr(X,X_hat))
 
 

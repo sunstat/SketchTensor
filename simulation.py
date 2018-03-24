@@ -11,7 +11,7 @@ from sketch_recover import SketchOnePassRecover
 class Simulation(object):
     '''
     In this simulation, we only experiment with the square design and Gaussian 
-    randomized linear map with 
+    randomized linear map. We use the same random_seed for generating the data matrix and the arm matrix
     '''
     def __init__(self, tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level):
         tl.set_backend('numpy')
@@ -25,7 +25,8 @@ class Simulation(object):
         self.Rinfo_bucket = Rinfo_bucket
 
     def ho_svd(self):
-        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
+        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ,\
+         noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
         core, tucker_factors = tucker(X, ranks=[self.rank for _ in range(self.dim)], init='random')
         X_hat = tl.tucker_to_tensor(core, tucker_factors)
@@ -34,9 +35,10 @@ class Simulation(object):
         return (-1, running_time), rerr
 
     def two_pass(self):
-        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
+        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, \
+            noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
-        sketch = Sketch(X, self.k, random_seed = None)
+        sketch = Sketch(X, self.k, random_seed = self.random_seed)
         sketchs, _, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
@@ -46,7 +48,8 @@ class Simulation(object):
         rerr = eval_rerr(X,X_hat)
         return (sketch_time, recover_time), rerr
     def one_pass(self, store_phis = True):
-        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
+        X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, \
+            noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
         sketch = Sketch(X, self.k, random_seed = self.random_seed, s = self.s, store_phis = store_phis)
         sketchs, core_sketch = sketch.get_sketchs() 
@@ -90,6 +93,7 @@ if __name__ == '__main__':
     ho_svd_rerr = np.zeros(len(noise_levels))
     two_pass_rerr = np.zeros(len(noise_levels))
     one_pass_rerr = np.zeros(len(noise_levels))
+    one_pass_rerr_ns = np.zeros(len(noise_levels))
 
     for idx, noise_level in enumerate(noise_levels): 
         print('Noise_level:', noise_level)
@@ -104,13 +108,18 @@ if __name__ == '__main__':
 
         _, rerr = simu.one_pass()
         #print('one_pass:', rerr)
-        one_pass_rerr[idx] = rerr  
+        one_pass_rerr[idx] = rerr
+
+        _, rerr = simu.one_pass(store_phis = False) 
+        one_pass_rerr_ns[idx]  = rerr
+
 
     print("identity design with varying noise_level")
     print("noise_levels", noise_levels)
     print("ho_svd", ho_svd_rerr)
     print("two_pass", two_pass_rerr)
     print("one_pass", one_pass_rerr)
+    print("one_pass_ns", one_pass_rerr_ns)
 
     plt.subplot(3,1,1)
     plt.plot(noise_levels,ho_svd_rerr,label = 'ho_svd')

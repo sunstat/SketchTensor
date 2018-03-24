@@ -71,7 +71,7 @@ def generate_super_diagonal_tensor(diagonal_elems, dim):
 
 
 
-def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
+def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
     '''
     :param n: size of the tensor generated n*n*...*n
     :param r: rank of the tensor or equivalently, the size of core tensor
@@ -80,6 +80,9 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0):
     :param noise_level:
     :return:
     '''
+    if seed: 
+        np.random.seed(seed) 
+
     types = set(['id', 'lk', 'fpd', 'spd', 'sed', 'fed'])
     assert typ in types, "please set your type of tensor correctly"
     total_num = np.power(n, dim)

@@ -12,7 +12,8 @@ s = 80
 tensor_shape = np.repeat(n,dim)
 noise_level = 0.01
 gen_typ = 'id' 
-Rinfo_bucket = RandomInfoBucket(random_seed = 1)
+Rinfo_bucket = RandomInfoBucket(random_seed = 100)
+print(Rinfo_bucket.get_info())
 
 simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
 _, rerr = simu.ho_svd()
@@ -23,7 +24,6 @@ _, rerr = simu.one_pass()
 print('one_pass:', rerr)
 _, rerr = simu.one_pass(store_phis = False)
 print('one_pass_xphis:', rerr)
-
 
 
 

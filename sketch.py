@@ -6,7 +6,6 @@ from util import RandomInfoBucket
 from util import square_tensor_gen
 
 
-
 class Sketch(object):
 
     @staticmethod
@@ -29,7 +28,27 @@ class Sketch(object):
                         RandomInfoBucket(std=1, typ=typ, random_seed= random_seed, sparse_factor=sparse_factor))
 
 
-    def __init__(self, X, k, random_seed, s = -1, typ = 'g', sparse_factor = 0.1):
+    @staticmethod 
+    def sketch_arm_rm(tensor_shape, reduced_dim, random_seed, typ = 'g', sparse_factor = 0.1) :
+        arm_rm = []
+        total_num = np.prod(tensor_shape)
+        for n in range(len(tensor_shape)):
+            n1 = total_num//tensor_shape[n] # I_(-n)
+            arm_rm.append(random_matrix_generator(n1, reduced_dim, RandomInfoBucket(std=1, typ=typ, random_seed = random_seed,
+                                                                            sparse_factor = sparse_factor)))
+        return arm_rm
+
+    @staticmethod 
+    def sketch_core_rm(tensor_shape, reduced_dim, random_seed, typ = 'g', sparse_factor = 0.1):
+        core_rm = []
+
+        for n in range(len(tensor_shape)): 
+            core_rm.append(random_matrix_generator(tensor_shape[n], reduced_dim,\
+                        RandomInfoBucket(std=1, typ=typ, random_seed= random_seed, sparse_factor=sparse_factor)))
+        return core_rm
+
+
+    def __init__(self, X, k, random_seed, s = -1, typ = 'g', sparse_factor = 0.1,store_rm = False) :
         '''
         :param X: tensor being skeched
         :param k:
@@ -48,35 +67,49 @@ class Sketch(object):
         self.random_seed = random_seed
         self.core_sketch = X
         self.tensor_shape = X.shape
+        self.arm_rm = []
+        self.core_rm = []
 
         # set the random seed for following procedure
         np.random.seed(random_seed)
 
-        rm_generator = Sketch.sketch_arm_rm_generator(self.tensor_shape,  reduced_dim=self.k, random_seed = random_seed,
-                                                          typ=self.typ, sparse_factor=self.sparse_factor)
-        mode_n = 0
-        for rm in rm_generator:
-            self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))
-            mode_n += 1
-
-        if self.s != -1:
-            rm_generator = Sketch.sketch_core_rm_generator(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
+        if not store_rm:
+            
+            rm_generator = Sketch.sketch_arm_rm_generator(self.tensor_shape,  reduced_dim=self.k, random_seed = random_seed,
                                                               typ=self.typ, sparse_factor=self.sparse_factor)
             mode_n = 0
             for rm in rm_generator:
-                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm.T, mode=mode_n)
+                self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))
                 mode_n += 1
+
+            if self.s != -1:
+                rm_generator = Sketch.sketch_core_rm_generator(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
+                                                                  typ=self.typ, sparse_factor=self.sparse_factor)
+                mode_n = 0
+                for rm in rm_generator:
+                    self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm.T, mode=mode_n)
+                    mode_n += 1
+        else: 
+            self.arm_rm = Sketch.sketch_arm_rm(self.tensor_shape,  reduced_dim=self.k, random_seed = random_seed,
+                                                              typ=self.typ, sparse_factor=self.sparse_factor)
+            for mode_n, rm in enumerate(self.arm_rm):
+                self.sketchs.append(np.dot(tl.unfold(self.X, mode=mode_n), rm))   
+            if self.s != -1: 
+                for mode_n, rm in enumerate(self.core_rm): 
+                    self.core_rm = Sketch.sketch_core_rm(self.tensor_shape,  reduced_dim=self.s, random_seed = random_seed,
+                                                                  typ=self.typ, sparse_factor=self.sparse_factor)
 
     def get_sketchs(self):
         return self.sketchs, self.core_sketch
-
-
+        [self for x in arm_rm]
+    def get_rm(self):
+        return self.arm_rm, self.core_rm
 
 if __name__ == "__main__":
     tl.set_backend('numpy')
     X = square_tensor_gen(10, 3, dim=3, typ='spd', noise_level=0.1)
     print(tl.unfold(X, mode=1).shape)
-    tensor_sketch = Sketch(X, 5, random_seed = 1, s = -1, typ = 'g', sparse_factor = 0.1)
+    tensor_sketch = Sketch(X = X, k = 5, random_seed = 1, s = -1, typ = 'g', sparse_factor = 0.1, store_rm = True)
     sketchs, core_sketch  = tensor_sketch.get_sketchs()
     print(len(sketchs))
     for sketch in sketchs:

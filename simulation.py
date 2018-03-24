@@ -50,7 +50,7 @@ class Simulation(object):
     def one_pass(self,store_rm = True):
         X = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, noise_level=self.noise_level)
         start_time = time.time()
-        sketch = Sketch(X, self.k, s = self.s, random_seed=self.random_seed,store_rm = True)
+        sketch = Sketch(X, self.k, s = self.s, random_seed=self.random_seed,store_rm = storm_rm)
         sketchs, core_sketch, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()

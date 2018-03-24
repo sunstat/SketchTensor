@@ -5,14 +5,18 @@ import tensorly as tl
 tl.set_backend('numpy')
 
 class TensorInfoBucket(object):
-    def __init__(self, tensor_shape, k, rank, s = -1):
+    def __init__(self, tensor_shape, k, ranks, s = -1):
+        '''
+        :k,s: integer
+        :ranks: n-darray for the ranks of X
+        '''
         self.tensor_shape = tensor_shape
         self.k = k
-        self.rank = rank
+        self.ranks = ranks
         self.s = s
 
     def get_info(self):
-        return self.tensor_shape, self.k, self.rank, self.s
+        return self.tensor_shape, self.k, self.ranks, self.s
 
 class RandomInfoBucket(object):
 
@@ -136,6 +140,10 @@ def eval_mse(X,X_hat):
     #rerr = error/(np.linalg.norm(X.reshape(np.size(X),1),'fro'))
     rerr = error / (np.size(X))
     return rerr
+
+def eval_rerr(X,X_hat):
+    error = X-X_hat
+    return np.linalg.norm(error.reshape(np.size(error),1),'fro')/np.linalg.norm(X.reshape(np.size(X),1),'fro')
 
 if __name__ == "__main__":
 

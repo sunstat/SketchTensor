@@ -11,7 +11,7 @@ dim = 3
 s = 80 
 tensor_shape = np.repeat(n,dim)
 noise_level = 0.01
-gen_typ = 'id' 
+gen_typ = 'lk' 
 Rinfo_bucket = RandomInfoBucket(random_seed = 100)
 print(Rinfo_bucket.get_info())
 

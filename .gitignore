@@ -2,6 +2,6 @@ _*
 *.log
 .idea
 *.pdf
-.ipynb_checkpoints
+.ipynb_checkpoints*
 __pycache__
 papers

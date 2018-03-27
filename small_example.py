@@ -3,7 +3,7 @@ import pandas as pd
 from simulation import Simulation
 from util import TensorInfoBucket
 from util import RandomInfoBucket
-
+import tensorly as tl
 
 '''
 begin global variables
@@ -11,6 +11,7 @@ begin global variables
 n=100
 ratios = [1.2, 1.5, 2.0, 2.5]
 ranks = [1]
+dim = 4
 ks = np.arange(2, 12,2)
 gen_types = ['id', 'id1', 'id2']
 mse = { 'ho_svd': np.zeros([len(ranks), len(ratios), len(ks), len(gen_types)]),
@@ -47,6 +48,8 @@ simu = Simulation(TensorInfoBucket([n,n,n], k = k, rank = rank, s=int(k*ratio)),
 
 simu.run('one_pass', simu_runs)
 '''
+tl.set_backend('numpy')
+
 
 print(len(gen_types), len(ranks), len(ratios), len(ks))
 for i1,gen_type in enumerate((gen_types)): 
@@ -54,16 +57,18 @@ for i1,gen_type in enumerate((gen_types)):
         for i3,ratio in enumerate((ratios)): 
             for i4,k in enumerate((ks)): 
                     print(i1,gen_type,';', i2,rank,';',i3, ratio,';',i4, k)
-                    simu = Simulation(TensorInfoBucket([n,n,n], k = k, rank = rank, s=int(k*ratio)),\
-              RandomInfoBucket(random_seed = 1), gen_typ = gen_type, noise_level=0)
-                    _, mse1 = simu.run('one_pass', simu_runs)
+                    simu = Simulation(np.repeat(n,dim), rank, k, int(k*ratio),\
+                        RandomInfoBucket(random_seed = 1),gen_type,0)
+                    _, mse1 = simu.one_pass()
                     temp = mse['simu_one_pass']
                     print('mse = ',mse1)
                     temp[i1,i2,i3,i4] = mse1 
                     mse['simu_one_pass'] = temp
 
+
 print(mse['simu_one_pass'])
 
+tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level
 
 
 

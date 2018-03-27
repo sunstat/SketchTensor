@@ -65,7 +65,6 @@ class Simulation(object):
         rerr = eval_rerr(X,X_hat)
         return (sketch_time, recover_time), rerr
 
-
 import matplotlib 
 import matplotlib.pyplot as plt
 

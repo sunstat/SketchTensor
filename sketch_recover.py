@@ -50,7 +50,6 @@ class SketchOnePassRecover(object):
 
         for i in range(len(tensor_shape)):
             phis.append(random_matrix_generator(s, tensor_shape[i], Rinfo_bucket))
-        print("get_phis shape:", phis[1].shape)
         return phis
 
     def __init__(self, sketchs, core_sketch, Tinfo_bucket, Rinfo_bucket,phis = []):

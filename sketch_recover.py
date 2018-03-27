@@ -4,15 +4,14 @@ from tensorly.decomposition import tucker
 from util import RandomInfoBucket
 from util import random_matrix_generator
 from util import generate_super_diagonal_tensor
-
 class SketchTwoPassRecover(object):
-    def __init__(self, X, sketchs, rank):
+    def __init__(self, X, sketchs, ranks):
         tl.set_backend('numpy')
         self.arms = []
         self.core_tensor = None
         self.X = X
         self.sketchs = sketchs
-        self.rank = rank
+        self.ranks = ranks
 
     def recover(self):
         # get orthogonal basis for each arm
@@ -27,7 +26,7 @@ class SketchTwoPassRecover(object):
         for mode_n in range(N):
             Q = Qs[mode_n]
             core_tensor = tl.tenalg.mode_dot(core_tensor, Q.T, mode=mode_n)
-        core_tensor, factors = tucker(core_tensor, ranks=[self.rank for _ in range(N)])
+        core_tensor, factors = tucker(core_tensor, ranks=self.ranks)
         self.core_tensor = core_tensor
 
         #arm[n] = Q.T*factors[n]

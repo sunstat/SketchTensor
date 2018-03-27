@@ -25,7 +25,7 @@ class Sketch(object):
     def sketch_core_rm_generator(tensor_shape, reduced_dim, random_seed, typ='g', sparse_factor=0.1):
         
         for n in range(len(tensor_shape)):
-            yield random_matrix_generator(tensor_shape[n], reduced_dim,\
+            yield random_matrix_generator(reduced_dim, tensor_shape[n],
                         RandomInfoBucket(std=1, typ=typ, random_seed= random_seed, sparse_factor=sparse_factor))
 
 
@@ -64,7 +64,7 @@ class Sketch(object):
                                                               typ=self.typ, sparse_factor=self.sparse_factor)
             mode_n = 0
             for rm in rm_generator:
-                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm.T, mode=mode_n)
+                self.core_sketch = tl.tenalg.mode_dot(self.core_sketch, rm, mode=mode_n)
                 mode_n += 1
 
     def get_sketchs(self):

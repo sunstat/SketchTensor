@@ -78,7 +78,7 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
     :param dim: # of dimensions of the tensor, default set as 3
     :param typ: identity as core tensor or low rank as core tensor
     :param noise_level:
-    :return:
+    :return: The tensor with noise, and The tensor without noise
     '''
     if seed: 
         np.random.seed(seed) 
@@ -91,39 +91,46 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
         elems = [1 for _ in range(r)]
         elems.extend([0 for _ in range(n-r)])
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        return generate_super_diagonal_tensor(elems, dim)+noise*np.sqrt(noise_level*r/total_num)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return X0 +noise*np.sqrt(noise_level*r/total_num), X0
 
     if typ == 'id1':
         elems = [1 for _ in range(r)]
         elems.extend([0 for _ in range(n-r)])
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        return generate_super_diagonal_tensor(elems, dim) + noise * np.sqrt(0.01 * r / total_num)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return  X0 + noise * np.sqrt(0.01 * r / total_num), X0 
 
     if typ == 'id2':
         elems = [1 for _ in range(r)]
         elems.extend([0 for _ in range(n-r)])
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        return generate_super_diagonal_tensor(elems, dim) + noise * np.sqrt(1 * r / total_num)
+        X0 = generate_super_diagonal_tensor(elems, dim) 
+        return X0 + noise * np.sqrt(1 * r / total_num), X 
 
     if typ == 'spd':
         elems = [1 for _ in range(r)]
         elems.extend([1.0/i for i in range(2, n-r+2)])
-        return generate_super_diagonal_tensor(elems, dim)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return X0, X0 
 
     if typ == 'fpd':
         elems = [1 for _ in range(r)]
         elems.extend([1.0/(i*i) for i in range(2, n - r + 2)])
-        return generate_super_diagonal_tensor(elems, dim)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return X0, X0
 
     if typ == 'sed':
         elems = [1 for _ in range(r)]
         elems.extend([np.power(10, -0.25*i) for i in range(2, n - r + 2)])
-        return generate_super_diagonal_tensor(elems, dim)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return X0, X0
 
     if typ == 'fed':
         elems = [1 for _ in range(r)]
         elems.extend([np.power(10, (-1.0)*i) for i in range(2, n - r + 2)])
-        return generate_super_diagonal_tensor(elems, dim)
+        X0 = generate_super_diagonal_tensor(elems, dim)
+        return X0, X0 
 
     if typ == "lk":
         core_tensor = np.random.uniform(0,1,[r for _ in range(dim)])
@@ -136,9 +143,9 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
             tensor = tl.tenalg.mode_dot(tensor, arm, mode=i)
         true_signal_mag = np.linalg.norm(core_tensor)**2
         noise = np.random.normal(0, 1, np.repeat(n, dim))
-        tensor = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product\
+        X = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product\
             (total_num))
-        return tensor, core_tensor, arms
+        return X, tensor
 
 def eval_mse(X,X_hat): 
     error = X-X_hat
@@ -147,9 +154,9 @@ def eval_mse(X,X_hat):
     rerr = error / (np.size(X))
     return rerr
 
-def eval_rerr(X,X_hat):
+def eval_rerr(X,X_hat,X0):
     error = X-X_hat
-    return np.linalg.norm(error.reshape(np.size(error),1),'fro')/np.linalg.norm(X.reshape(np.size(X),1),'fro')
+    return np.linalg.norm(error.reshape(np.size(error),1),'fro')/np.linalg.norm(X0.reshape(np.size(X0),1),'fro')
 
 if __name__ == "__main__":
 

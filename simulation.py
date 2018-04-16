@@ -28,7 +28,7 @@ class Simulation(object):
         X, X0 = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ,\
          noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
-        core, tucker_factors = tucker(X, ranks=[self.rank for _ in range(self.dim)], init='random')
+        core, tucker_factors = tucker(X, ranks=[self.rank for _ in range(self.dim)], init='svd')
         X_hat = tl.tucker_to_tensor(core, tucker_factors)
         running_time = time.time() - start_time
         rerr = eval_rerr(X,X_hat,X0)
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     s = 20 
     tensor_shape = np.repeat(n,dim)
     noise_level = 0.01
-    gen_typ = 'id' 
+    gen_typ = 'lk' 
     Rinfo_bucket = RandomInfoBucket(random_seed = 1)
     '''
     simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
@@ -111,7 +111,6 @@ if __name__ == '__main__':
 
         _, rerr = simu.one_pass(store_phis = False) 
         one_pass_rerr_ns[idx]  = rerr
-
 
     print("identity design with varying noise_level")
     print("noise_levels", noise_levels)
@@ -131,7 +130,7 @@ if __name__ == '__main__':
     plt.title('one_pass')
     plt.show()
 
-
+'''
     n = 200 
     k = 10  
     rank = 5 
@@ -141,15 +140,6 @@ if __name__ == '__main__':
     noise_level = 0.01
     gen_typ = 'id' 
     Rinfo_bucket = RandomInfoBucket(random_seed = 1)
-    '''
-    simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
-    _, rerr = simu.ho_svd()
-    print('ho_svd rerr:', rerr)
-    _, rerr = simu.two_pass() 
-    print('two_pass:', rerr) 
-    _, rerr = simu.one_pass()
-    print('one_pass:', rerr)
-    ''' 
 
     noise_levels = (np.float(10)**(np.arange(-10,2,2))) 
     ho_svd_rerr = np.zeros(len(noise_levels))
@@ -182,5 +172,5 @@ if __name__ == '__main__':
     print("two_pass", two_pass_rerr)
     print("one_pass", one_pass_rerr)
     print("one_pass_ns", one_pass_rerr_ns)
-
+'''
  

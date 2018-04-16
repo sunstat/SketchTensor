@@ -77,7 +77,7 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
     :param r: rank of the tensor or equivalently, the size of core tensor
     :param dim: # of dimensions of the tensor, default set as 3
     :param typ: identity as core tensor or low rank as core tensor
-    :param noise_level:
+    :param noise_level: sqrt(E||X||^2_F/E||error||^_F)
     :return: The tensor with noise, and The tensor without noise
     '''
     if seed: 
@@ -92,22 +92,8 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
         elems.extend([0 for _ in range(n-r)])
         noise = np.random.normal(0, 1, [n for _ in range(dim)])
         X0 = generate_super_diagonal_tensor(elems, dim)
-        return X0 +noise*np.sqrt(noise_level*r/total_num), X0
-
-    if typ == 'id1':
-        elems = [1 for _ in range(r)]
-        elems.extend([0 for _ in range(n-r)])
-        noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        X0 = generate_super_diagonal_tensor(elems, dim)
-        return  X0 + noise * np.sqrt(0.01 * r / total_num), X0 
-
-    if typ == 'id2':
-        elems = [1 for _ in range(r)]
-        elems.extend([0 for _ in range(n-r)])
-        noise = np.random.normal(0, 1, [n for _ in range(dim)])
-        X0 = generate_super_diagonal_tensor(elems, dim) 
-        return X0 + noise * np.sqrt(1 * r / total_num), X 
-
+        return X0 +noise*np.sqrt((noise_level**2)*r/total_num), X0
+        
     if typ == 'spd':
         elems = [1 for _ in range(r)]
         elems.extend([1.0/i for i in range(2, n-r+2)])
@@ -143,7 +129,7 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
             tensor = tl.tenalg.mode_dot(tensor, arm, mode=i)
         true_signal_mag = np.linalg.norm(core_tensor)**2
         noise = np.random.normal(0, 1, np.repeat(n, dim))
-        X = tensor + noise*np.sqrt(noise_level*true_signal_mag/np.product\
+        X = tensor + noise*np.sqrt((noise_level**2)*true_signal_mag/np.product\
             (total_num))
         return X, tensor
 

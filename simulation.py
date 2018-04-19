@@ -73,7 +73,7 @@ if __name__ == '__main__':
     k = 10  
     rank = 5 
     dim = 3 
-    s = 20 
+    s = 2*k+1
     tensor_shape = np.repeat(n,dim)
     noise_level = 0.01
     gen_typ = 'lk' 

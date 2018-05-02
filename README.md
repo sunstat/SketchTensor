@@ -19,3 +19,7 @@ pip install sklearn
 pip install tensorflow 
 pip install -U tensorly
 ```
+
+## Results 
+
+Please refer to [simulation.ipynb] for simulation on synthetic data and [simulation_weather.ipynb] for simulation on real-world weather data. 

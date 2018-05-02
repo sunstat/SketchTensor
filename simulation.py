@@ -1,7 +1,11 @@
 import numpy as np
 from scipy import fftpack
 import tensorly as tl
+<<<<<<< HEAD
 from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_mse, eval_rerr
+=======
+from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_rerr
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
 from sketch import Sketch
 import time
 from tensorly.decomposition import tucker
@@ -11,7 +15,12 @@ from sketch_recover import SketchOnePassRecover
 class Simulation(object):
     '''
     In this simulation, we only experiment with the square design and Gaussian 
+<<<<<<< HEAD
     randomized linear map. We use the same random_seed for generating the data matrix and the arm matrix
+=======
+    randomized linear map. We use the same random_seed for generating the
+     data matrix and the arm matrix
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
     '''
     def __init__(self, tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level):
         tl.set_backend('numpy')
@@ -24,7 +33,11 @@ class Simulation(object):
         self.noise_level = noise_level
         self.Rinfo_bucket = Rinfo_bucket
 
+<<<<<<< HEAD
     def ho_svd(self):
+=======
+    def hooi(self):
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
         X, X0 = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ,\
          noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
@@ -38,7 +51,12 @@ class Simulation(object):
         X, X0 = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, \
             noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
+<<<<<<< HEAD
         sketch = Sketch(X, self.k, random_seed = self.random_seed)
+=======
+        ks = np.repeat(self.k,self.dim)
+        sketch = Sketch(X, ks, random_seed = self.random_seed)
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
         sketchs, _, = sketch.get_sketchs()
         sketch_time = time.time() - start_time
         start_time = time.time()
@@ -51,13 +69,25 @@ class Simulation(object):
         X, X0 = square_tensor_gen(self.n, self.rank, dim=self.dim, typ=self.gen_typ, \
             noise_level=self.noise_level, seed = self.random_seed)
         start_time = time.time()
+<<<<<<< HEAD
         sketch = Sketch(X, self.k, random_seed = self.random_seed, s = self.s, store_phis = store_phis)
+=======
+        ks = np.repeat(self.k,self.dim)
+        ss = np.repeat(self.s,self.dim)
+        sketch = Sketch(X, ks, random_seed = self.random_seed,ss = ss, \
+            store_phis = store_phis)
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
         sketchs, core_sketch = sketch.get_sketchs() 
         sketch_time = time.time() - start_time
         start_time = time.time()
         sketch_one_pass = SketchOnePassRecover(sketchs,core_sketch,\
+<<<<<<< HEAD
             TensorInfoBucket(self.tensor_shape,self.k,np.repeat\
                 (self.rank,self.dim), self.s),self.Rinfo_bucket,\
+=======
+            TensorInfoBucket(self.tensor_shape,ks,np.repeat\
+                (self.rank,self.dim), ss),self.Rinfo_bucket,\
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
             sketch.get_phis())
         X_hat, _, _  = sketch_one_pass.recover()
 
@@ -78,6 +108,7 @@ if __name__ == '__main__':
     noise_level = 0.01
     gen_typ = 'lk' 
     Rinfo_bucket = RandomInfoBucket(random_seed = 1)
+<<<<<<< HEAD
     '''
     simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
     _, rerr = simu.ho_svd()
@@ -90,6 +121,10 @@ if __name__ == '__main__':
 
     noise_levels = (np.float(10)**(np.arange(-10,2,2))) 
     ho_svd_rerr = np.zeros(len(noise_levels))
+=======
+    noise_levels = (np.float(10)**(np.arange(-10,2,2))) 
+    hooi_rerr = np.zeros(len(noise_levels))
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
     two_pass_rerr = np.zeros(len(noise_levels))
     one_pass_rerr = np.zeros(len(noise_levels))
     one_pass_rerr_ns = np.zeros(len(noise_levels))
@@ -97,9 +132,15 @@ if __name__ == '__main__':
     for idx, noise_level in enumerate(noise_levels): 
         print('Noise_level:', noise_level)
         simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
+<<<<<<< HEAD
         _, rerr = simu.ho_svd()
         #print('ho_svd rerr:', rerr) 
         ho_svd_rerr[idx] = rerr 
+=======
+        _, rerr = simu.hooi()
+        #print('hooi rerr:', rerr) 
+        hooi_rerr[idx] = rerr 
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
 
         _, rerr = simu.two_pass() 
         #print('two_pass:', rerr) 
@@ -114,14 +155,23 @@ if __name__ == '__main__':
 
     print("identity design with varying noise_level")
     print("noise_levels", noise_levels)
+<<<<<<< HEAD
     print("ho_svd", ho_svd_rerr)
+=======
+    print("hooi", hooi_rerr)
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
     print("two_pass", two_pass_rerr)
     print("one_pass", one_pass_rerr)
     print("one_pass_ns", one_pass_rerr_ns)
 
     plt.subplot(3,1,1)
+<<<<<<< HEAD
     plt.plot(noise_levels,ho_svd_rerr,label = 'ho_svd')
     plt.title('ho_svd')
+=======
+    plt.plot(noise_levels,hooi_rerr,label = 'hooi')
+    plt.title('hooi')
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
     plt.subplot(3,1,2)
     plt.plot(noise_levels,two_pass_rerr, label = 'two_pass')
     plt.title('two_pass')
@@ -129,6 +179,7 @@ if __name__ == '__main__':
     plt.plot(noise_levels,one_pass_rerr, label = 'one_pass') 
     plt.title('one_pass')
     plt.show()
+<<<<<<< HEAD
 
 '''
     n = 200 
@@ -174,3 +225,5 @@ if __name__ == '__main__':
     print("one_pass_ns", one_pass_rerr_ns)
 '''
  
+=======
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434

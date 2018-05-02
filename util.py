@@ -5,19 +5,32 @@ import tensorly as tl
 tl.set_backend('numpy')
 
 class TensorInfoBucket(object):
+<<<<<<< HEAD
     def __init__(self, tensor_shape, k, ranks, s = -1):
+=======
+    def __init__(self, tensor_shape, ks, ranks, ss = []):
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
         '''
         Information of the original tensor X
         :k,s: integer
         :ranks: n-darray for the ranks of X
         '''
         self.tensor_shape = tensor_shape
+<<<<<<< HEAD
         self.k = k
         self.ranks = ranks
         self.s = s
 
     def get_info(self):
         return self.tensor_shape, self.k, self.ranks, self.s
+=======
+        self.ks = ks
+        self.ranks = ranks
+        self.ss = ss
+
+    def get_info(self):
+        return self.tensor_shape, self.ks, self.ranks, self.ss
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
 
 class RandomInfoBucket(object):
     ''' 
@@ -133,30 +146,15 @@ def square_tensor_gen(n, r, dim = 3,  typ = 'id', noise_level = 0, seed = None):
             (total_num))
         return X, tensor
 
-def eval_mse(X,X_hat): 
+def eval_rerr(X,X_hat,X0):
     error = X-X_hat
-    error = np.linalg.norm(error.reshape(np.size(error),1), 'fro')
-    #rerr = error/(np.linalg.norm(X.reshape(np.size(X),1),'fro'))
-    rerr = error / (np.size(X))
-    return rerr
+    return np.linalg.norm(error.reshape(np.size(error),1),'fro')/ \
+    np.linalg.norm(X0.reshape(np.size(X0),1),'fro')
 
 def eval_rerr(X,X_hat,X0):
     error = X-X_hat
     return np.linalg.norm(error.reshape(np.size(error),1),'fro')/np.linalg.norm(X0.reshape(np.size(X0),1),'fro')
 
 if __name__ == "__main__":
-
-    '''
-    print(square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1))
-    print("=====")
-    print(square_tensor_gen(5, 3, dim=3, typ='spd', noise_level=0.1))
-    print("=====")
-    print(square_tensor_gen(5, 3, dim=3, typ='fpd', noise_level=0.1))
-    print(square_tensor_gen(5, 3, dim=3, typ='spd', noise_level=0.1))
-    print("=====")
-    print(square_tensor_gen(5, 3, dim=3, typ='sed', noise_level=0.1))
-    print("=====")
-    print(square_tensor_gen(5, 3, dim=3, typ='fed', noise_level=0.1))
-    '''
     tl.set_backend('numpy')
     X = square_tensor_gen(5, 3, dim=3, typ='id', noise_level=0.1)

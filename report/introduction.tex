@@ -1,2 +1,40 @@
 \section{Introduction}
-\cite{tropp2017practical}
+\subsection{Motivation}
+
+Over the last few decades, massive large-scale datasets with natural tensor (multi-dimensional array) representations have arisen from many modern applications. Sketching is commonly used to compress the tensor as the first step \cite{halko2011finding}. In many of these instances, data exhibits a low-rank structure, allowing further compression through decomposition methods such as CANDECOMP/PARAFAC (CP) and Tucker decomposition \cite{kolda2009tensor}. These methods have seen uses in various domains, including computer vision \cite{vasilescu2002multilinear}, neuroscience \cite{cichocki2013tensor}, data mining \cite{kolda2008scalable}, with a variety of algorithms developed to scale and speed up the decomposition \cite{anandkumar2014tensor,choi2014dfacto,phan2013fast}. 
+
+In practice, large tensors cannot fit into the memory entirely, thus requiring the storage of different slices in a decentralized storage system. The communication costs between the disk and memory then become nontrivial. Usually the main challenge for scaling up the tensor approximation algorithm is the communication cost between the main memory and hard disk instead of the algorithmic cost (flop counts). If the dataset cannot fit into the memory, we need to ship the input and output of the algorithm back and forth between the memory and the disk. Therefore, it is beneficial to develop "pass-efficient" algorithms that read the tensor into the main memory as few times as possible. Meanwhile, since the decentralized storage system requires passing the data to memory in a sequential manner, modeling this problem as a streaming model is more appropriate. Another advantage of the streaming model is its support for data presented as a sum of linear updates or as slices revealed one at a time. In the current literature, both streaming and pass-efficient algorithms in tensor approximation remain largely unexplored. In addition, an alternative way to adapt the tensor decomposition algorithm to large tensor is to use an distributed storage system \citep{austin2016parallel,chakaravarthy2017optimizing, choi2014dfacto}. So, we extend our method to the distributed setting with the input tensor stored in multiple nodes, and discuss its performance based on the message passing interface (MPI) from \citep{austin2016parallel}. 
+
+Our main contribution is to develop a one-pass streaming model for low-rank tensor approximation using sketching with a theoretical approximation guarantee. Our algorithm attains a speed comparable to non-streaming algorithms. We validated our findings in both synthetic examples and in real world climate datasets. 
+ 
+\paragraph{The Streaming Model} In the applications with streaming tensor data, we are given a large tensor $\mathscr{X} \in \mathbb{R}^{I_1 \times \cdots \times I_N}$. We need to update $\mathscr{X}$ through a sequence of linear updates: 
+
+\begin{equation}
+    \mathscr{X} \leftarrow \theta_1\mathscr{X} + \theta_2\mathscr{X}, \; \text{where} \; \theta_i \in \mathbb{R}. 
+\end{equation}
+In most scenarios, $\mathscr{X}$ is low-rank, and sometimes sparse. Therefore, we extend the classical idea of sketching to the tensor case, where we only need to store the low-dimensional linear image of $\mathscr{X}$ along different dimensions.
+
+\subsection{Review of Previous Work}
+We first review the development of pass-efficient low-rank matrix approximation. Then we restate the formulation of Tucker Decomposition and review some development of fast and memory-efficient algorithms for tensor decomposition. Some notations will be formally introduced in the next section. 
+
+
+\paragraph{Pass-Efficient Low-Rank Matrix Approximation} Randomized algorithms for matrix approximation were first explored by the theoretical computer science community in the early 2000s \citep{frieze2004fast, papadimitriou2000latent}, followed by numerical analysts who further developed more practical algorithms. Applying the sketch method and streaming model to matrices is also not new: in 2008, Woolfe \cite{woolfe2008fast} proposed one of the first sketching algorithms for low-rank matrix approximation. Clarkson \cite{clarkson2009numerical} explicitly frames several problems including low rank matrix approximation under a streaming model. However, their focus is on the theoretical development, while \cite{tropp2017practical} provides a more practical one-pass algorithm for low/fixed rank matrix approximation. 
+
+\paragraph{Tucker Decomposition}
+Given a tensor $\mathscr{X}\in\mathbb{R}^{I_1\times \dots \times I_N}$ and target rank $\mathbf{r}=(r_1,\dots, r_N)$, the Tucker decomposition aims to factor $\mathscr{X}$ into a core tensor and orthogonal matrices multiplied along each mode:
+\begin{equation}
+\label{eq:tucker_optimization}
+\mathscr{X} \approx \mathscr{G}\times_1 \mathbf{U}_1 \times \cdots \times_N \mathbf{U}_N.  
+\end{equation}
+Finding the core tensor $\mathscr{G}\in \mathbb{R}^{r_1 \times \cdots \times r_N}$ and arm factors $\mathbf{U}_n \in \mathbb{R}^{r_n\times I_n}, n\in [N]$ as the solution to the following optimization problem is an NP-hard optimization problem: 
+\begin{equation}
+\begin{aligned}
+\label{eq:tucker_optimization}
+&\min_{\mathscr{G}, \mathbf{U}_n}\|\mathscr{X} - \mathscr{G}\times_1 \mathbf{U}_1\times \dots \times_N \mathbf{U}_N\|_F, \qquad s.t. \qquad \mathbf{U}_n^\top \mathbf{U}_n = \mathbf{I}. \\
+\end{aligned}
+\end{equation}
+The best rank $\mathbf{r}$ Tucker approximation is $\mathscr{G}^\star\times_1 \mathbf{U}_1^\star\times \dots \times_N \mathbf{U}_N^\star$ assuming $\mathscr{G}^\star, \mathbf{U}_n^\star, n\in [N]$ are the solution for \eqref{eq:tucker_optimization}. In the following paper, for theoretical development, we usually let $\llbracket \cdot \rrbracket_\mathbf{r}$ denote the operator returning the best rank $\mathbf{r}$ Tucker approximation; while when we refer to fix rank $\mathbf{r}$ algorithms, we let $\llbracket \cdot \rrbracket_\mathbf{r}$ denote the result got from certain algorithms. One most widely-used algorithm is the Higher-Order Orthogonal Iteration method (HOOI)\citep{de2000multilinear}, where higher-order SVD (HOSVD) serves as  the starting point before applying the Alternating Least Squares (ALS) to reach a local optima of \eqref{eq:tucker_optimization} \citep{kroonenberg1980principal}. We refer to HOOI in our algorithm implementation. 
+\par 
+
+\paragraph{Pass-Efficient Tucker Decomposition} One natural way to make this optimization problem pass-efficient is to replace the ALS typically performed after HOSVD with an one-pass algorithm for SVD along each mode similar to the methods in \citep{clarkson2009numerical, tropp2016randomized}. Some other memory efficient Tucker Decomposition methods have been developed: \cite{kolda2008scalable} devises a way to efficiently update the SVD for each mode under limited memory;  \cite{wang2016online} suggests a method with linear memory cost and shows statistical guarantees. In addition, randomized algorithms have been applied to tensor decomposition: \cite{tsourakakis2010mach} uses the Monte Carlo method from \cite{frieze2004fast} in the SVD steps of finding the Tucker Decomposition;
+\cite{erichson2017randomized} applies sketching methods \citep{halko2011finding} to the Canonical Decomposition. However, an one-pass algorithm for Tucker Decomposition has yet to be developed. 

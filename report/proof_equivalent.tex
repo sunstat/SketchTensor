@@ -1,0 +1,58 @@
+\section{Proof for Lemma \ref{lemma: equivalance_one_pass}}
+\begin{proof} 
+First we claim there exists one best rank $\mathbf{r}$ tucker decomposition(there may be more than one optimal solutions),
+\begin{equation}
+ \llbracket \mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N \rrbracket_\mathbf{r} = \mathscr{S} \times_1 \mathbf{U}_1 \cdots \times_N \mathbf{U}_N,
+\end{equation}
+where $\mathbf{Q}_n \in \mathbb{R}^{k\times I_n}, \mathbf{U}_n \in \mathbb{R}^{r\times I_n}, n\in [N]$, $\mathscr{W}\in \mathbb{R}^{k^N}$ and $\mathscr{S}\in \mathbb{R}^{s^N}$, such that $\rm{Col}(\mathbf{U}_n) \subseteq \rm{Col}(\mathbf{Q}_n)$, for all $n \in [N]$. Here $\rm{Col}(\mathbf{U}_n)$ denotes the column of space of $\mathbf{U}_n$: the space spanned from columns of $\mathbf{U}_n$. Our argument is that given a solution $\llbracket \mathscr{S}; \mathbf{U}_n, n\in [N]\rrbracket$, $\llbracket \mathscr{S}; \mathbf{U}_n^{\mathbf{Q}_n}\mathbf{Q}_n^\top, n\in [N]\rrbracket$  is also a solution to the optimization problem \eqref{eq:tucker_optimization} i.e., 
+\begin{equation}
+\mathscr{S} \times_1 \mathbf{U}_1^{\mathbf{Q}_1}\mathbf{Q}_1^\top\times_2 \cdots \times_N \mathbf{U}_N^{\mathbf{Q}_N}\mathbf{Q}_N^\top = \mathscr{S} \times_1 \mathbf{U}_1\times \cdots \times_N \mathbf{U}_N, 
+\end{equation}
+where $\mathbf{U}_n^{\mathbf{Q}_n}$ and $\mathbf{U}_n^{\mathbf{Q}^\bot_n}$ follow the notations in proof of lemma \ref{lemma:err_core_sketch}.
+It suffices to show that we could replace $\mathbf{U}_1$ with
+$\mathbf{U}_1^{\mathbf{Q}_1}\mathbf{Q}_1^\top$ still attaining the solution to optimization problem \eqref{eq:tucker_optimization} and rest follows with the same argument. Rewriting identity matrix, 
+\begin{equation}
+\begin{aligned}
+&\|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1 \mathbf{U}_1 \cdots \times_N \mathbf{U}_N\|_F^2 \\
+& = \|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1[ \mathbf{U}_1^{\mathbf{Q}_1}\mathbf{Q}_1^\top+\mathbf{U}_1^{\mathbf{Q}^\bot_1}(\mathbf{Q}^\bot_1)^\top  ]\times_2\cdots \times_N \mathbf{U}_N\|_F^2.
+\end{aligned}
+\end{equation}
+Similar to the trick in \eqref{eq:inner_prod1} and \eqref{eq:inner_prod2}, $\forall n_1, n_2 \in [N]$, 
+\begin{equation}
+\begin{aligned}
+&\langle \mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N,\mathscr{S} \times_1 \cdots \times_{n_1} (\mathbf{U}_{n_1}^{\mathbf{Q}^\bot_{n_1}}(\mathbf{Q}^\bot_{n_1})^\top)\cdots \times_N \mathbf{U}_N \rangle =0 \\
+& \langle \mathscr{S} \times_1 \cdots \times_{n_1} (\mathbf{U}_{n_1}^{\mathbf{Q}_{n_1}}\mathbf{Q}_{n_1}^\top)\times_2\cdots \times_N \mathbf{U}_N, \mathscr{S} \times_1 \cdots \times_{n_2} (\mathbf{U}_{n_2}^{\mathbf{Q}^\bot_{n_2}}(\mathbf{Q}^\bot_{n_2})^\top)\cdots \times_N \mathbf{U}_N \rangle =0,
+\end{aligned}
+\end{equation}
+which indicates that 
+\begin{equation}
+\begin{aligned}
+&\|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1 \mathbf{U}_1 \cdots \times_N \mathbf{U}_N\|_F^2 \\
+& = \|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1 (\mathbf{U}_1^{\mathbf{Q}_1}\mathbf{Q}_1^\top) \cdots \times_N \mathbf{U}_N\|_F^2\\
+& + \|\mathscr{S} \times_1 (\mathbf{U}_1^{\mathbf{Q}^\bot_1}(\mathbf{Q}^\bot_1)^\top) \cdots \times_N \mathbf{U}_N\|_F^2.
+\end{aligned}
+\end{equation}
+By definition of minimizer, we could claim
+\begin{equation}
+\begin{aligned}
+&\|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1 \mathbf{U}_1 \cdots \times_N \mathbf{U}_N\|_F^2 \\
+&= \|\mathscr{W}\times_1 \mathbf{Q}_1 \cdots \times_N \mathbf{Q}_N - \mathscr{S} \times_1 (\mathbf{U}_1^{\mathbf{Q}_1}\mathbf{Q}_1^\top ) \cdots \times_N \mathbf{U}_N\|_F^2\\
+\end{aligned}
+\end{equation}
+which completes the argument.\par 
+Then we could assume $\mathbf{U}_n = \mathbf{G}_n\mathbf{Q}_n$, where both $\mathbf{G}_n \in \mathbb{R}^{r\times k}$and $ \mathbf{Q}_n \in \mathbb{R}^{k\times I_n}$ are orthogonal matrices. The optimization problem becomes:
+\begin{equation}
+\begin{aligned}
+&\min_{\mathscr{G}, \mathbf{G}_n} \|\mathscr{W}\times_1 \mathbf{Q}_1 \times_2\cdots \times_N \mathbf{Q}_N-\mathscr{G}\times_1 \mathbf{G}_1\mathbf{Q}_1 \times_2\cdots \times_N \mathbf{G}_N\mathbf{Q}_N\|_F^2\\
+& s.t. \quad \mathbf{G}_n^\top \mathbf{G}_n = \mathbf{I}_{r\times r}, \quad n \in [N].
+\end{aligned}
+\end{equation}
+Noticing that the mode product with an orthogonal matrix does not change the Frobenius norm and exchanging rule of mode product \eqref{eq: tensor_product_mul_exchangable}, we could further simply the optimization problem to 
+\begin{equation}
+\begin{aligned}
+&\min_{\mathscr{G}, \mathbf{G}_n} \|\mathscr{W}-\mathscr{G}\times_1 \mathbf{G}_1 \times_2\cdots \times_N \mathbf{G}_N\|_F^2\\
+& s.t. \quad \mathbf{G}_n^\top \mathbf{G}_n = \mathbf{I}_{r\times r}, \quad n \in [N],
+\end{aligned}
+\end{equation}
+which completes the proof. 
+\end{proof}

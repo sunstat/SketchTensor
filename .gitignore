@@ -3,6 +3,12 @@ _*
 .idea
 .ipynb_checkpoints*
 __pycache__
+<<<<<<< HEAD
 data/*
 .ipynb_checkpoints*
 .DS_Store
+=======
+papers
+data/*.nc
+
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434

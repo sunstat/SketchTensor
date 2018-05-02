@@ -2,12 +2,11 @@
 
 % if you need to pass options to natbib, use, e.g.:
 % \PassOptionsToPackage{numbers, compress}{natbib}
-% before loading nips_2017
+% before loading nips_2018
 %
 % to avoid loading the natbib package, add option nonatbib:
-% \usepackage[nonatbib]{nips_2017}
+\usepackage{nips_2018}
 
-\usepackage{nips_2017}
 
 % to compile a camera-ready version, add the [final] option, e.g.:
 % \usepackage[final]{nips_2017}
@@ -25,6 +24,18 @@
 \RequirePackage{amsthm,amsmath}
 \usepackage{algorithm,algpseudocode}
 \usepackage{color}
+\usepackage{stmaryrd}
+\usepackage{multirow}
+\usepackage[titletoc,title]{appendix}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{subcaption}
+
+\newif\ifcomment
+\commenttrue
+
+
 
 \numberwithin{equation}{section}
 \theoremstyle{plain}
@@ -36,13 +47,23 @@
 \newtheorem{remark}[thm]{Remark}
 
 
-\newcommand{\cov}{\mbox{Cov}}
 
+
+\usepackage{titlesec}
+\titleformat{\subsubsection}[runin]
+ {\normalfont\bfseries}% formatting commands to apply to the whole heading
+        {\thesubsubsection}% the label and number
+        {0.5em}% space between label/number and subsection title
+        {}% formatting commands applied just to subsection title
+        [.]% punctuation or other commands following subsection title
+
+
+\newcommand{\cov}{\mbox{Cov}}
 
 \newif\ifcomment
 \commenttrue
 
-\title{Sketching Algorithm for Tensor Approximation}
+\title{A Sketching-Based Single-Pass Tensor Compression Algorithm}
 
 % The \author macro works with any number of authors. There are two
 % commands used to separate the names and addresses of multiple
@@ -82,14 +103,28 @@
 % \nipsfinalcopy is no longer used
 
 \maketitle
+
+
+\begin{abstract}
+    Given limited storage resources, many higher order datasets from applications such as video, PDE, and weather benefit from being modeled as a streaming case, where the data are in a form of linear updates. Even with these linear updates, it may be only viable to store the sketches of the data  given limited storage. This paper proposes a novel sketching-based low-rank tensor approximation algorithm that only passes through the original tensor once during the calculation. This algorithm also provides a theoretical approximation guarantee, as well as a computational speed comparable to existing non-streaming algorithms. Simulations as well as experiments on real-world weather data show the efficiency of this algorithm. 
+    
+\end{abstract}
+
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
 \input{introduction.tex}
 \input{methodology.tex}
-\input{compression_sketchy.tex}
-\input{core_sketchy.tex}
-\input{technical_lemmas_sketchy.tex} 
-\input{review_tensor_algorithmics.tex} 
-\bibliographystyle{dinat} 
+\input{main_theory.tex}
+\input{numerical_experiments.tex}
+\input{conclusion.tex}
+\newpage
+\bibliographystyle{plain}
 \bibliography{biblio}
+\newpage 
+\input{Appendix.tex} 
+
 
 
 \end{document}

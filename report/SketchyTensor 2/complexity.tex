@@ -1,0 +1,31 @@
+\section{Appendix: Time and Storage Complexity} \label{appendix: time-complexity}
+
+Time complexity for Two-Pass Sketching: \\ 
+\begin{itemize}
+    \item Compute $\mathbf{X}^{(n)} \mathbf{\Omega}_n$: $\mathcal{O}(k \Pi_{n=1}^N I_n)$ 
+    \item QR factorization: $\mathcal{O}(k^2(\sum_{n =1}^N I_n )) $  
+    \item Compute $\mathscr{W}$: $k\cdot I_1 \cdot I_{(-1)} + k \cdot I_2 \cdot \frac{I_{(-2)}\cdot k}{I_1} + \cdots$ \\   
+    Let the compression factor $\delta_1:= \frac{k}{\min\{I_1, \dots I_n\}}$ \\ 
+    $\leq k\Pi_{i=n}^N I_n (1 + \delta_1+ \dots + \delta_1^{(N-1)})$ \\ 
+    $\mathcal{O}(\frac{k(1-\delta_1^N)\Pi_{n = 1}^N I_n}{1-\delta_1}) $
+\end{itemize}
+
+Time complexity for One-Pass Sketching: \\ 
+\begin{itemize}
+    \item Compute $\mathscr{Z}$: $ \mathcal{O}(\frac{s(1-\delta_2^N)\Pi_{n = 1}^N I_n}{1-\delta_2})$, where the compression factor $\delta_1:= \frac{s}{\min\{I_1, \dots I_n\}}$
+    \item Compute $\mathbf{X}^{(n)} \mathbf{\Omega}_n$: $\mathcal{O}(k \Pi_{n=1}^N I_n)$ 
+    \item QR factorization: $\mathcal{O}(k^2(\sum_{n =1}^N I_n )) $  
+    \item Compute $\mathscr{W}$ (Solve least square problems): $\mathcal{O}(\frac{k^2s^N(1-(k/s)^N)}{1-k/s})$
+    \item Compute $\hat{\mathscr{X}}$:
+    $= I_1\cdot k^N + I_2 \cdot k^N \frac{I_1}{k} + \dots + I_N\cdot k \Pi_{n = 1}^{N-1} I_n$ \\ 
+    Let $\gamma = \frac{\max \{I_1 \dots I_N\}}{k}$ \\ 
+    $<  k^{N+1}\gamma \frac{\gamma^N -1}{\gamma - 1}$
+\end{itemize}
+
+Time complexity for Classical HOSVD: \\
+\begin{itemize}
+    \item Computing SVD for all $N$ unfoldings: $\mathscr{O}(k^2\sum_{n =1}^NI_n))$ 
+    \item Computing $\mathscr{S}$: 
+    $\mathcal{O}(\frac{k(1-\delta_2^N)\Pi_{n = 1}^N I_n}{1-\delta_2})$ 
+    \item Note: Sequential SVD has the same time complexity as the classical SVD since the SVD always costs $k^2m$, when $m\leq n$
+\end{itemize}

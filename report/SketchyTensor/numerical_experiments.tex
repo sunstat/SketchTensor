@@ -1,0 +1,37 @@
+\section{Numerical Experiments}
+This section presents the performance for the two-pass and one-pass algorithm with both synthetic and application examples. 
+
+\subsection{Experimental Setup}
+For simplicity, all numerical experiments with synthetic examples assume that $\mathscr{X}$ has equal side length, $I$. We consider two scenarios, one is from signal recover point of view: the $\mathscr{X}$ is generated from a low rank tensor plus the Gaussian noise. In this case, we we set the 'true signal tensor' as either super-diagonal or generated from a known Tucker decomposition. 
+The other scenario is based on approximation error point of view. Here $\mathscr{X}$ is generated as super diagonal tensor with decaying values along diagonal after $r$ of them. \par 
+At the end, we evaluate the performance with the relative Fronbenius norm respect to the Tucker Decomposition as a baseline: 
+\begin{equation}
+\frac{\|\mathscr{X} -  \hat{\mathscr{X}}\|_F}{\|\mathscr{X}-\llbracket\mathscr{X}\rrbracket_r\|_F} - 1, 
+\end{equation}
+where $\llbracket \mathscr{X} \rrbracket_r$ is the rank r Tucker decomposition and the $\hat{\mathscr{X}}$ is the output from one of our proposed algorithms. 
+
+\subsection{Synthetic Examples} 
+In this session, we present details of generating procedure. In low rank plus noise case, we let $\gamma$ be the signal-noise ratio. We call it signal-noise ratio, since in noise case, our generating scheme is a deterministic low rank tensor $\mathscr{X}\in \mathbb{R}^{I_1\times \dots \times I_N}$, then add the random noise tensor with each element from $\mathcal{N}(0, \sigma^2)$ where $\sigma^2 = \gamma \|\mathscr{X}\|_F^2 / \bar{I}$ where $\bar{I} = \prod_{n=1}^N I_n$. Here $\|\mathscr{X}\|_F^2$ represents the true signal strength, and total variance by summing variance of all elements is $\gamma \|\mathscr{X}\|_F^2$, thus $\gamma$ controls the signal to noise ratio.
+
+\begin{enumerate}
+    \item Superdiagonal + Noise: Superdiagonal tensor with rank $r$ + $\sqrt{\frac{\gamma \cdot r}{I^N}} \mathcal{N}(0,1)$. we consider three settings with $\gamma = 0, 10^{-2}, 1$ to represent noiseless, median noise and strong noise cases. 
+    \item Polynomial Decay: 
+    \begin{equation}
+        \mathscr{X} = \rm{superdiag}(1,\dots,1, 2^{-t},3^{-t},\dots, (N-r)^{-t}).
+    \end{equation}
+    We consider two cases where $t = 1,2$ representing slow and fast polynomial decay cases. 
+    \item Exponential Decay: 
+    \begin{equation}
+        \mathscr{X} =  \rm{superdiag}(1,\dots,1, 10^{-t},10^{-2t},\dots, (10)^{-(N-r)t}) 
+    \end{equation}
+    We consider two cases where $t = 0.25,1$ representing slow and fast exponential decay. 
+    \item Low Rank: Generate a core tensor $\mathscr{C} \in \mathbb{R}^{k \times \dots \times k}$, with each entries $\rm{Unif}([0,1])$. Independently generate $N$ orthogonal arm matrices by first creating $\mathbf{A}_1, \dots, \mathbf{A}_N$, with each entry $\mathcal{N}(0,1)$, and then computing the arm matrices by $(\mathbf{Q}_n, \sim) = \rm{QR}(\mathbf{\Omega}_n)$, for $1 \leq n \leq N$.  
+    \begin{equation}
+        \mathscr{X} = \mathscr{C} \times_1 \mathbf{Q}_1 \times \cdots \times_N \mathbf{Q}_N + \sqrt{\frac{\gamma*r}{I^N}} \mathcal{N}(0,1).
+    \end{equation}
+\end{enumerate}
+
+\subsection{Application Examples}
+
+\subsection{Numerical Results}
+

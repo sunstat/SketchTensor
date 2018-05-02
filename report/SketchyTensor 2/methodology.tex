@@ -1,0 +1,163 @@
+\section{Methodology} 
+
+We will describe our main algorithms for computing tensor low-rank and fixed-rank approximations in two stages: sketching and recovery. We start motivating the streaming model. We develop the two-pass and one-pass sketching algorithms with theoretical guarantees. In the end, we will discuss their time complexity and storage cost for both sparse and dense input tensors. 
+
+\subsection{Notation}
+Our paper follows the notations of \cite{kolda2009tensor}. We denote the \textit{scalar}, \textit{vector}, \textit{matrix}, and \textit{tensor}, respectively by lowercase letters, ($x$) boldface lowercase letters ($\mathbf{x}$)  boldface capital letters  ($\mathbf{X}$)  and Euler script letters ($\mathscr{X}$). For matrix $\mathbf{X} \in \mathbb{R}^{m \times n}$, $\mathbf{X}^\dag \in \mathbb{R}^{n \times m}$ denotes its \textit{Moore-Penrose pseudoinverse}. In particular, $\mathbf{X}^\dag = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T$, if $m \geq n$ and $\mathbf{X}$ has full column rank; $\mathbf{X}^\dag = \mathbf{X}^T(\mathbf{XX}^T)^{-1}$, if $m < n$ and $\mathbf{X}$ has full row rank. We let $[N]$ be the set containing $1,\dots, N$. 
+
+For a tensor $\mathscr{X} \in \mathbb{R}^{I_1 \times \cdots \times I_N}$ its \textit{mode} or \textit{order} is the number of dimensions $N$. The inner product of two tensors $\mathscr{X}, \mathscr{Y}$ is defined as $\langle \mathscr{X}, \mathscr{Y}\rangle = \sum_{i_1=1}^{I_1}\cdots \sum_{i_N=1}^{I_n} \mathscr{X}_{i_1\dots i_N}\mathscr{Y}_{i_1\dots i_N}$. $\|\mathscr{X}\|_F = \sqrt{\langle \mathscr{X}, \mathscr{X}\rangle}$ denotes its \textit{Frobenius norm}. Let $\bar{I} = \Pi_{j = 1}^N I_j $ and $I_{(-n)} = \Pi_{j \neq n} I_j $. We denote the \textit{mode-n unfolding} of $\mathscr{X}$ as $\mathbf{X}^{(n)} \in \mathbb{R}^{I_n \times I_{(-n)}}$ and the \textit{mode-n rank} as the rank of the mode-n unfolding. We define the \textit{rank} of  $\mathscr{X}$ as $\mathbf{r}(\mathscr{X}) = (r_1,\dots, r_N)$ if its \textit{mode-n rank} is $r_n$ for all $n\in [n]$. \par 
+
+We define a fix rank operator $\llbracket \mathscr{X} \rrbracket_r$ which maps a tensor $\mathscr{X}$ to a rank $\mathbf{r}$ approximation of $\mathscr{X}$. For example, usually in this paper, it is usually the rank \mathbf{r} Tucker decomposition or Higher order svd.
+$\mathscr{X} \times_n \mathbf{U}$ denotes the \textit{mode-n (matrix) product} of $\mathscr{X}$ with $\mathbf{U} \in \mathbb{R}^{J \times I_n}$, with size $I_1 \times \cdots \times I_{n-1} \times J \times I_{n+1} \times \cdots \times I_N$, that is: 
+\begin{equation}
+\mathscr{G} = \mathscr{X} \times_n \mathbf{U} \; \iff \; \mathbf{G}^{(n)} = \mathbf{U}\mathbf{X}^{(n)}.
+\end{equation}
+For each mode-n unfolding $\mathbf{X}^{(n)}$, we use $(\tau_\rho^{(n)})^2$ denote its $\rho$\textit{th tail energy} as
+\begin{equation}
+(\tau_\rho^{(n)})^2 = \sum_{k>\rho}^{\min(I_n,I_{(-n)})} \sigma_{k}^2(\mathbf{X}^{(n)}), 
+\end{equation}
+where $\sigma_{k}(\mathbf{X}^{(n)})$ is the $k$th largest singular values for $\mathbf{X}^{(n)}$. We review more properties of tensor operators in Appendix \ref{sec:review_tensor}. 
+
+
+\subsection{Sketching and Linear Update} 
+
+
+
+
+
+\paragraph{The Sketch}  First, we draw a series of independent random test matrices: 
+\begin{equation}
+\begin{aligned}
+&\mathbf{\Omega}_1, \mathbf{\Omega}_2, \dots, \mathbf{\Omega}_N, \\
+&\mathbf{\Phi}_1, \mathbf{\Phi}_2, \dots, \mathbf{\Phi}_N,
+\end{aligned}
+\end{equation}
+with $\mathbf{\Omega}_n \in \mathbb{R}^{I_{(-n)} \times k}$ and $\mathbf{\Phi}_n \in \mathbb{R}^{s\times I_n}$, $n \in [N]$. For theoretical development, we focus on the case where they are independent standard normal matrices. 
+In algorithm \ref{alg:tensor_sketch}, we define the sketches of the tensor $\mathscr{X}$ as $\mathscr{Z} \in \mathbb{R}^{ \overbrace{s \times \cdots \times s}^{N}} $, $\mathbf{G}_1, \dots, \mathbf{G}_N$, $\mathbf{G}_n \in \mathbb{R}^{I_n \times k}$, given by: 
+\begin{equation}
+\label{eq:sketchy_matrix}
+\begin{aligned}
+&\mathbf{G}_n = \mathbf{X}^{(n)}\mathbf{\Omega}_n   = \mathbf{Q}_n\mathbf{R}_n, \\
+&\mathscr{Z} = \mathscr{X} \times_1 \mathbf{\Phi}_1 \times \cdots \times_N \mathbf{\Phi}_N.
+\end{aligned}
+\end{equation}
+where $\mathbf{Q}_n \in \mathbb{R}^{I_n \times k}, \mathbf{R}_n \in \mathbb{R}^{k\times k}$ are the QR decomposition of $\mathbf{G}_n , n\in [N]$. Notice that these sketches are linear, thus they could be computed in one pass the streaming way, even though we write them in the compact form. $\mathbf{G}_1, \dots \mathbf{G}_N$ capture the information $\mathscr{X}$ along each dimension, and $\mathscr{Z}$ records core information of $\mathscr{X}$. To store the sketches: $\mathbf{G}_n, n \in [N]$ and $\mathscr{Z}$, the cost is
+$\sum_{n=1}^N I_n\times k + s^N $. For linear update or recovery, at first glance, we need information of all test matrices which is quite expensive. As shown in next paragraph, instead of recording all the values of them, we take advantage of pseudo random number generator to regenerate them by only storing the generating schemes.  Therefore, we can reduce the use of memory by storing the sketches instead $\mathscr{X}$ itself. In particular, the storage will decrease from $\bar{I}$ to $k(\sum_{n = 1}^N I_n)+s^N$. 
+
+\paragraph{Role of Pseudo-randomness} Interestingly enough, the pseudo-random number generator is a deterministic process which only requires to record a few setting parameters to regenerate the whole process, say the most famous Mersenne Twister \citep{matsumoto1998mersenne}. Thanks to this property(luckily they are not true random variables), we assume all test matrices are given under same random environment and will not clearly claim to generate them in all algorithms in this paper. In practice, there is no real random number generator. However, researchers have shown that many algorithms still hold under weaker randomness condition. cite?
+
+\begin{algorithm}[ht]
+\caption{Computing Tensor Sketches}\label{alg:tensor_sketch}
+  \begin{algorithmic}[1]
+  \Function{ComputeSketch}{$\mathscr{X}, k, s$}
+  \State $\mathscr{Z} \leftarrow \mathscr{X}\times_1 \mathbf{\Phi}_1 \times \dots \times_N  \mathbf{\Phi}_N $
+  \For{$n = 1 \dots N$ } 
+  \State $\mathbf{G}_n\leftarrow \mathbf{X}^{(n)}\mathbf{\Omega}_n $ 
+  \EndFor 
+  \State \Return $(\mathbf{G}_1,\dots,\mathbf{G}_N,\mathscr{Z})$
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Linear Update} 
+The sketching procedure can be directly applied to the streaming setting with linear update as in algorithm \ref{alg:linear_update}. Here as mentioned above, to achieve memory efficiency, all test matrices are generated under same environment during sketching stage. 
+\begin{algorithm}[ht]
+\caption{Linear Update}\label{alg:linear_update}
+  \begin{algorithmic}[1]
+  \Function {LinearUpdates}{$\mathscr{H}, \mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{Z}$; $\theta_1$, $\theta_2$}
+  \For{$n = 1, \dots, N$}
+  \State $\mathbf{G}_n \leftarrow \theta_1 \mathbf{G}_n + \theta_2 \mathbf{H}^{(n)} \mathbf{\Omega}_n $ 
+  \EndFor
+  \State $\mathscr{Z} \leftarrow \theta_1 \mathscr{Z} + \theta_2 \mathscr{H} \times_1 \mathbf{\Phi}_1 \times \cdots \times_N \mathbf{\Phi}_N $
+  \State \Return $(\mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{Z})$
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+  
+\subsection{Low-Rank Approximation} 
+We develop an one-pass streaming algorithm to do a low rank approximation. "One-pass" here refers to we only access $\mathscr{X}$ during the approximation procedure. Like \cite{tropp2016randomized}, we construct a core tensor, $\mathscr{W} \in \mathbb{R}^{k^N}$. 
+\begin{equation}
+\mathscr{W} =
+\mathscr{Z}\times_1 (\mathbf{\Phi}_1\mathbf{Q}_1)^\dag \cdots \times_N (\mathbf{\Phi}_N\mathbf{Q}_N)^\dag 
+\end{equation}
+where $(\mathbf{\Phi}_n \mathbf{Q}_n)^\dag \in \mathbb{R}^{k \times s} $. Then we can obtain the approximated tensor $\hat{\mathscr{X}}$ as
+\begin{equation}
+\hat{\mathscr{X}} = \mathscr{W} \times_1 \mathbf{Q}_1 \times \cdots \times_N \mathbf{Q}_N.
+\end{equation}
+One key element behind this approache is $\mathscr{X} \approx \mathscr{X} \times_1 \mathbf{Q}_1\mathbf{Q}_1^T \times \cdots \times_N \mathbf{Q}_N\mathbf{Q}_N^T$. As in Lemma \ref{lemma: compression_error}, we extend \cite{halko2011finding}'s result in randomized linear algebra, $\mathbf{X} \approx \mathbf{Q}\mathbf{Q}^T\mathbf{X}$, where $\mathbf{Q}$ is the orthonormal basis in the QR factorization of $\mathbf{X}\mathbf{\Omega}$ and $\mathbf{X}\mathbf{\Omega}$ is the sketch of $\mathbf{X}$ along its column space. A direct application of this finding leads to the two-pass low rank approximation as in algorithm \ref{alg:two_pass_low_rank_appro}. However, in two-pass sketching, we need to access $\mathscr{X}$ again to compute the core tensor when constructing the core tensor. It is impractical in a decentralized setting. Therefore, we develop the one-pass sketching algorithm, which does not use $\mathscr{X}$ during the tensor recovery, but its sketch $\mathscr{Z}$ instead. \par 
+The idea behind the reformulation of the core sketch in one-pass sketching is to replace $\mathscr{X}$ with its low-dimensional projection with the dimensional reduction maps:
+\begin{equation}
+\mathscr{Z} = \mathscr{X}\times_1 \mathbf{\Phi}_1 \times \cdots \times_N \mathbf{\Phi}_N \approx \mathscr{X}\times_1 \mathbf{\Phi}_1\mathbf{Q}_1\mathbf{Q}_1^T \times \cdots \times_N \mathbf{\Phi}_N\mathbf{Q}_N\mathbf{Q}_N^T.
+\end{equation}
+After recursively multiplying the pseudo-inverse of $\mathbf{\Phi}_n\mathbf{Q}_n$, we can see the RHS equal to $\mathscr{X} \times_1 \mathbf{Q}_1^T  \times \dots \times_N \mathbf{Q}^T_N$ which is exactly the core tensor for two pass shown in algorithm \ref{alg:two_pass_low_rank_appro}. Therefore, we will still control the approximation error like applying methods proposed in \citep{clarkson2009numerical,tropp2017practical}. 
+
+Lemma \ref{lemma:err_core_sketch} will provide a formal analysis of the error bound for the core tensor approximation. And theorem \ref{thm: low_rank_err} will use it to construct the bound for the low rank approximation. For all theoretical analysis above and below, we assume the Gaussian dimension reduction map. 
+
+\begin{algorithm}[ht]
+\caption{One Pass Low-Rank Approximation}\label{alg:one_pass_low_rank_appro}
+  \begin{algorithmic}[1]
+  \Function{OnePassLowRankRecovery}{$\mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{Z}$}
+  \For{$n = 1 \dots N$ } 
+  \State $(\mathbf{Q}_n, \sim) \leftarrow \rm{QR}(\mathbf{G}_n)$ 
+  \EndFor 
+  \State $\mathscr{W} \leftarrow \mathscr{Z}\times_1 (\mathbf{\Phi}_1\mathbf{Q}_1)^\dag \cdots \times_N (\mathbf{\Phi}_N\mathbf{Q}_N)^\dag $
+  \State $\hat{\mathscr{X}} \leftarrow \mathscr{W} \times_1 \mathbf{Q}_1 \dots \times_N \mathbf{Q}_N$
+  \State \Return $\hat{\mathscr{X}}$ 
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Fixed-Rank Approximation}
+Suppose we want a streaming algorithm with a given rank $\mathbf{r} = (r_1, \dots, r_N)$ Tucker decomposition. 
+Let $\llbracket \mathscr{W} \rrbracket _{\mathbf{r}}$ be the rank-$\mathbf{r}$ tucker approximation of $\mathscr{W}$, then $ \llbracket \mathscr{W} \rrbracket _{\mathbf{r}} \times_1 \mathbf{Q}_1 \dots \times_N \mathbf{Q}_N = \mathscr{C} \times_1 \mathbf{H}_1\mathbf{Q}_1 \times \dots \times_N \mathbf{H}_N\mathbf{Q}_N$ is the rank-$\mathbf{r}$ Tucker approximation of $\mathscr{X}$, since $\mathbf{H}_n\mathbf{Q}_n$ remains orthogonal. We can also replace the Tucker decomposition with the CP decomposition, which has a superdiagonal core tensor $\mathscr{C}$. Algorithm \ref{alg:fix_rank_appro} provides the detailed implementation. 
+\begin{algorithm}[ht]
+\caption{One Pass Fixed-Rank Approximation}\label{alg:one_pass_fix_rank_appro}
+  \begin{algorithmic}[1]
+  \Require $r$ is $N\times 1$ array of the target rank.
+  \Function{OnePassFixRankRecovery}{$\mathbf{G}_1, \dots, \mathbf{G}_N, \mathscr{Z},\mathbf{r}, k, s$}
+  \For{$n = 1 \dots N$ } 
+  \State $(\mathbf{Q}_n, \sim) \leftarrow \rm{QR}(\mathbf{G}_n)$ 
+  \EndFor 
+  \State $\mathscr{W} \leftarrow \mathscr{Z}\times_1 (\mathbf{\Phi}_1\mathbf{Q}_1)^\dag \cdots \times_N (\mathbf{\Phi}_N\mathbf{Q}_N)^\dag $
+  \State $\hat{\mathscr{X}} \leftarrow \llbracket \mathscr{W} \rrbracket _\mathbf{r} \times_1 \mathbf{Q}_1 \dots \times_N \mathbf{Q}_N$
+  \State \Return $\hat{\mathscr{X}}$ 
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+\subsection{Implementation and Costs} 
+
+In this section, we will discuss the computation cost for the low-rank approximation. The fixed-rank approximation has similar computational complexity except for computing the Tucker decomposition in addition. In both cases, we will compare our method with the higher order SVD, algorithm \ref{alg:hosvd}.
+\subsubsection{Storage Cost}
+In all algorithms discussed above, we only need to store the tensor sketches, $\mathbf{\Omega}_1, \dots, \mathbf{\Omega}_N, \mathbf{\Phi}_1, \dots, \mathbf{\Phi}_N$ and the random seed for generating the test matrices in the memory. The total storage required for the tensor sketches,  is $s^N+k(\sum_{n = 1}^N I_n)$. 
+\subsubsection{Time Complexity}
+Let the compression factor $\delta_1:= \frac{k}{\min\{I_1, \dots I_n\}}$, and $\delta_2 := \frac{s}{\min\{I_1, \dots I_n \}}$, the sparse factor $\mu$ be the proportion of non-empty entries in $\mathscr{X}$. 
+\paragraph{Flops for Batch} 
+The bottlenecks for both two-pass and one-pass algorithms are the operations involving $\mathscr{X}$. In particular, for the two-pass algorithm, the operations include computing tensor sketches $\mathbf{G}_1, \dots, \mathbf{G}_N$ by multiplying $\mathscr{X}$ with $\mathbf{\Phi}_1, \dots \mathbf{\Phi}_N$ ($\mathcal{O}(kN\bar{I})$) and computing the core tensor $\mathscr{W}$ by multiplying $\mathscr{X}$ with the orthonormal basis $\mathbf{Q}_1, \dots, \mathbf{Q}_N$ ($\mathcal{O}(\frac{k(1-\delta_1^N)\bar{I}}{1-\delta_1})$). For the one-pass algorithm, we need to compute $\mathscr{Z}$ ($\mathcal{O}(\frac{s(1-\delta_2^N)\bar{I}}{1 - \delta_2})$) in addition to $\mathbf{G}_1, \dots, \mathbf{G}_N$. The computational cost for other operations is much smaller in comparison. See Appendix \ref{appendix: time-complexity} for more detailed calculations. 
+\paragraph{Flops for Streaming}
+We use the simplest streaming algorithm here which restates mode product as a linear operator : each element of output is linear combination of every element of input tensor $\mathscr{X}$. Given the tensor $\mathscr{X} \in \mathbb{R}^{I_1 \times \cdots I_N}$, and matrices $\mathbf{U}_1, \dots, \mathbf{U}_N \in \mathbb{R}^{J_1 \times I_1}, \dots, \mathbb{R}^{J_N \times I_N}$, for any $1 \leq j_1 \leq J_1, \dots, 1 \leq j_n \leq J_N$, 
+\begin{equation} 
+(\mathscr{X} \times_1 \mathbf{U}_1 \times \cdots \times_N \mathbf{U}_N)_{j_1\dots j_N} = \sum_{i_1, \dots, i_N = 1}^{I_1, \dots I_N}(x_{i_1\dots i_N}\cdot (\mathbf{U}_1)_{j_1i_1} \cdot \dots \cdot (\mathbf{U}_N)_{j_Ni_N} ).
+\end{equation}
+
+calculation in Appendix \ref{appendix: time-complexity}.
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[h]
+\centering
+\label{tbl: time-complexity}
+\begin{tabular}{cccccl}
+\multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{Stage}    & \multicolumn{1}{c|}{Flops (Batch)}                                                   & Flops (Streaming)                                                 &                      &  \\ \cline{1-4}
+\multicolumn{1}{l|}{}                                    & \multicolumn{1}{l|}{}         & \multicolumn{1}{l|}{}                                                                          & \multicolumn{1}{l}{}                                                      & \multicolumn{1}{l}{} &  \\
+\multicolumn{1}{c|}{Two Pass Sketching}                  & \multicolumn{1}{c|}{Sketch}   & \multicolumn{1}{c|}{$\mathcal{O}(kN\bar{I})$}                                                  & $\mathcal{O}(\mu kN\bar{I})$                                           &                      &  \\
+\multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{Recovery} & \multicolumn{1}{c|}{$\mathcal{O}(\frac{k(1-\delta_1^N)\bar{I}}{1-\delta_1})$}                  & $\mathcal{O}(\mu k^N N(\sum_{i}^NI_i))$                                             &                      &  \\
+\multicolumn{1}{c|}{\multirow{2}{*}{One Pass Sketching}} & \multicolumn{1}{c|}{Sketch}   & \multicolumn{1}{c|}{$\mathcal{O}((\frac{s(1-\delta_2^N)}{1-\delta_2}+Nk)\bar{I})$}             & $\mathcal{O}(\mu kN\bar{I}+ \mu s^NN(\sum_{i}^NI_i))$               &                      &  \\
+\multicolumn{1}{c|}{}                                    & \multicolumn{1}{c|}{Recovery} & \multicolumn{1}{c|}{$\mathcal{O}(\frac{k^{N+1}(1-\delta_1^N)}{(\delta_1^N- \delta_1^{N+1})})$} & $\mathcal{O}(\frac{k^{N+1}(1-\delta_1^N)}{(\delta_1^N- \delta_1^{N+1})})$ &                      &  \\
+\multicolumn{1}{c|}{Higher-Order SVD}                    & \multicolumn{1}{c|}{}         & \multicolumn{1}{c|}{$\mathcal{O}((\frac{k(1-\delta_1^N)}{1-\delta_1})+Nk)\bar{I}$}                  & $\mathcal{O}(\mu k^N N(\sum_{i}^NI_i)+Nk\bar{I})$                                             &                      &  \\
+                                                         &                               &                                                                                                &                                                                           &                      & 
+\end{tabular}
+\caption{Time Complexity for Low-Rank Approximation: \textit{For tensor $X$ of size $I_1 \times \dots \times I_N$, its sketches $\mathbf{\Omega}_1, \dots, \mathbf{\Omega}_N, \mathbf{\Phi}_1, \dots, \mathbf{\Phi}_N$ has size $I_{1} \times k,\; \dots I_N \times k,\; s \times I_1, \; \dots, s\times I_N$. $\mu$ is the proportion of non-zero entries in $\mathscr{X}$. $\delta_1:= \frac{k}{\min\{I_1, \dots I_n\}}$, and $\delta_2 := \frac{s}{\min\{I_1, \dots I_n \}}$ are the compression factor. $\bar{I} = \prod_{i = 1}^N I_i$}.}
+\end{table}

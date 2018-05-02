@@ -38,7 +38,6 @@ def test_fun_arguments(arg1, arg2):
 
 
 
-
 if __name__ == "__main__":
     #test_generator()
     test_fun_arguments(arg2=1, arg1=2)

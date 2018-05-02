@@ -1,0 +1,44 @@
+\subsection{Appendix: More Tables, Graphs and Algorithms}
+
+Higher-order singular value decomposition (HOSVD) is a classical method in finding low-rank structure in tensors \cite{de2000multilinear}. If we assume the tensor to have rank $\mathbf{r} = (r_1, \dots, r_N)$, then the corresponding HOSVD algorithm is as follows:  
+\begin{algorithm}[!ht]
+\caption{Higher Order SVD}\label{alg:hosvd}
+  \begin{algorithmic}[2]
+  \Function{HOSVD}{$\mathscr{X}$}
+  \For{$n = 1, \dots N$} 
+  \State $(\mathbf{U}_n, \cdot, \cdot) \leftarrow \rm{SVD}_{r_n}(\mathbf{X}^{(n)})$
+  \EndFor
+  \State $\mathscr{S} \leftarrow \mathscr{X}\times_1 \mathbf{U}_1^\top \times \dots \times_N \mathbf{U}_N^\top$
+  \State \Return $(\mathscr{S},\mathbf{U}_1, \dots, \mathbf{U}_N)$
+  \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Two-pass low-rank approximation: 
+\begin{algorithm}[ht]
+\caption{Two Pass Low-Rank Approximation}\label{alg:two_pass_low_rank_appro}
+  \begin{algorithmic}[1]
+  \Function{TwoPassLowRankRecovery}{$\mathbf{G}_1, \dots \mathbf{G}_N, \mathscr{X}$}
+   \For{$n = 1 \dots N$}
+    \State $(\mathbf{Q}_n, \sim) \leftarrow \rm{QR}(\mathbf{G}_n)$
+   \EndFor
+   \State $\hat{\mathscr{X}} \leftarrow \mathscr{X} \times_1 \mathbf{Q}_1\mathbf{Q}_1^\top \dots \times_N \mathbf{Q}_N\mathbf{Q}_N^\top$
+   \State \Return $\hat{\mathscr{X}}$
+   \EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Two-pass fixed-rank approximation: 
+\begin{algorithm}[ht] 
+\begin{algorithmic}[1]
+\caption{Two Pass Fixed-Rank Approximation}\label{alg:two_pass_fix_rank_appro}
+\Function{TwoPassFixRankRecovery}{$\mathbf{G}_1, \dots \mathbf{G}_N, \mathscr{X}, \mathbf{r}$}
+\For{$n = 1 \dots N$}
+\State $(\mathbf{Q}_n, \sim) \leftarrow \rm{QR}(\mathbf{G}_n)$
+\EndFor
+\State $\mathscr{W} \leftarrow \mathscr{X} \times_1 \mathbf{Q^\top}_1 \times \cdots \times_N \mathbf{Q}_N^\top$ 
+\State $\hat{\mathscr{X}} \leftarrow \llbracket \mathscr{W} \rrbracket _{\mathbf{r}} \times_1 \mathbf{Q}_1 \dots \times_N \mathbf{Q}_N$
+\State \Return $\hat{\mathscr{X}}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}

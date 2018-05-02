@@ -1,0 +1,52 @@
+\section{Appendix C: Technical Lemmas}
+\subsection{Technical Lemmas for sketching Matrix}
+All the proof for lemmas in this section could be found in chapter 9 and 10 in \cite{halko2011finding}.
+\begin{lem}
+\label{lemma:expectation_inverse_gaussian}
+Assume that $t>q$. Let $\mathbf{G}_1\in \mathbb{R}^{t\times q}$ and $\mathbf{G}_2\in \mathbb{R}^{t\times p}$ be independent standard normal matrices. For any matrix $\mathbf{B}$ with conforming dimensions, 
+\begin{equation}
+\mathbb{E} \|\mathbf{G}_1^\dag \mathbf{G}_2 \mathbf{B}\|_F^2 = \frac{q}{t-q} \|\mathbf{B}\|_F^2. 
+\end{equation}
+\end{lem}
+
+\begin{lem}
+\label{lemma:sketchy_column_space_err}
+Suppose that $\mathbf{A}$ is a real $m\times n$ matrtix with singular value $\sigma_1\ge \sigma_2\ge \cdots$, choose a target rank $k\ge 2$ and an oversampling parameter $p\ge 2$, where $k+p\le \min\{m,n\}$. Draw an $n\times (k+p)$ standard Guassian matrix $\mathbf{\Omega}$, and construct the sample matrix $\mathbf{Y}=\mathbf{A\Omega}$, then the expectation of approximation error 
+\begin{equation}
+\mathbb{E}\|(\mathbf{I} - \mathbf{P_Y})\mathbf{A}\|_F^2\le (1+\frac{k}{p-1})(\sum_{j>k} \sigma_j^2).
+\end{equation}
+\end{lem}
+
+\subsection{Some Facts for Projection of Mode Unfolding of a Tensor}
+This session generalizes some results of matrix projection to the case where we do projection on the mode-n unfolding matrix of A tensor. It turns out that the similar property holds as expected. The first part of the lemma claims that projection is contractive, and the second one in fact states a version of Pythagorean Theorem.
+\begin{lem}
+\label{lemma:projection_tensors}
+Given tensors: $\mathscr{X}$, $\mathscr{Y}$ with size $I_1\times I_2 \times \cdots \times I_N$, and an orthogonal matrix $\mathbf{Q}$($\mathbf{Q}^\top \mathbf{Q} = \mathbf{I}$) with size $I_n\times k$. We claim followings:
+\begin{enumerate}
+\item Projection contracts the Frobenius norm of 
+\begin{equation}
+\|\mathscr{X} \times_n \mathbf{Q}\mathbf{Q}^\top\|_F = \|\mathscr{X} \times_n \mathbf{Q}^\top\|_F\le \|\mathscr{X}\|_F.
+\end{equation}
+\item 
+\begin{equation}
+\|\mathscr{X} \times_n \mathbf{Q}\mathbf{Q}^\top + \mathscr{Y}\times_n (\mathbf{I}-\mathbf{Q}\mathbf{Q}^\top)\|_F^2 = \|\mathscr{X} \times_n \mathbf{Q}\mathbf{Q}^\top\|_F^2+\|\mathscr{Y}\times_n (\mathbf{I}-\mathbf{Q}\mathbf{Q}^\top)\|_F^2. 
+\end{equation}
+\end{enumerate}
+\begin{proof}
+For first part, 
+\begin{equation}
+\begin{aligned}
+&\|\mathscr{X} \times_n \mathbf{Q}\mathbf{Q}^\top\|_F^2 = \|\mathbf{Q}\mathbf{Q}^\top \mathbf{X}^{(n)} \|_F^2 = \rm{Tr}(\mathbf{X}^{(n)\top}\mathbf{Q}\mathbf{Q}^\top \mathbf{Q}\mathbf{Q}^\top \mathbf{X}^{(n)} )\\
+&=\rm{Tr}(\mathbf{X}^{(n)\top}\mathbf{Q}\mathbf{Q}^\top \mathbf{X}^{(n)} ) =\|\mathbf{Q}^\top \mathbf{X}^{(n)}\|_F^2 = \|\mathscr{X} \times_n \mathbf{Q}^\top\|_F^2 \le \|\mathbf{X}^{(n)}\|_F^2 = \|\mathscr{X}\|_F^2. 
+\end{aligned}
+\end{equation}
+where we use the factor that projection is contractive for matrix. Tensor operators could be referred in section \ref{sec:review_tensor}.  \par 
+For second part, it suffices to show that 
+\begin{equation}
+\begin{aligned}
+&\langle \mathscr{X} \times_n \mathbf{Q}\mathbf{Q}^\top, \mathscr{Y}\times_n (\mathbf{I}-\mathbf{Q}\mathbf{Q}^\top)\rangle = \langle \mathbf{Q}\mathbf{Q}^\top\mathbf{X}^{(n)},  (\mathbf{I}-\mathbf{Q}\mathbf{Q}^\top)\mathscr{Y}^{(n)}\rangle\\
+& = \rm{Tr}(\mathbf{X}^{(n)\top} \mathbf{Q}\mathbf{Q}^\top(\mathbf{I}-\mathbf{Q}\mathbf{Q}^\top)\mathscr{Y}^{(n)}) = 0.
+\end{aligned}
+\end{equation}
+\end{proof}
+\end{lem}

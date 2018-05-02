@@ -4,6 +4,6 @@ _*
 *.pdf
 .ipynb_checkpoints/*
 __pycache__
-papers
+.DS_Store
 data/*.nc
 .DS_Store

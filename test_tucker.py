@@ -1,8 +1,12 @@
 import numpy as np
 from scipy import fftpack
 import tensorly as tl
+<<<<<<< HEAD
+from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_mse, eval_rerr
+=======
 from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, \
 eval_mse, eval_rerr
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
 from sketch import Sketch
 import time
 from tensorly.decomposition import tucker
@@ -30,14 +34,35 @@ if __name__ == '__main__':
     noise_level = 0.01
     gen_typ = 'lk' 
     Rinfo_bucket = RandomInfoBucket(random_seed = 1)
+<<<<<<< HEAD
+    '''
+    simu = Simulation(tensor_shape, rank, k, s, Rinfo_bucket, gen_typ, noise_level)
+    _, rerr = simu.ho_svd()
+    print('ho_svd rerr:', rerr)
+    _, rerr = simu.two_pass() 
+    print('two_pass:', rerr) 
+    _, rerr = simu.one_pass()
+    print('one_pass:', rerr)
+    ''' 
+    X, X0 = square_tensor_gen(n, rank, dim=dim, typ=gen_typ,\
+         noise_level= noise_level, seed = 1)
+    #core, tucker_factors = tucker(X, ranks=[rank for _ in range(dim)], init='svd')
+    
+    core, tucker_factors = run_hosvd(X,ranks=[90 for _ in range(dim)])
+=======
     X, X0 = square_tensor_gen(n, rank, dim=dim, typ=gen_typ,\
          noise_level= noise_level, seed = 1)    
     core, tucker_factors = run_hosvd(X,ranks=[1 for _ in range(dim)])
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
     Xhat = tl.tucker_to_tensor(core, tucker_factors)
 
     print(X)
     print(eval_rerr(X,Xhat,X0))
+<<<<<<< HEAD
+    print(np.linalg.norm((X-X0).reshape(X.size,1),'fro')/np.linalg.norm(X0.reshape(X.size,1), 'fro'))
+=======
     print(np.linalg.norm((X-X0).reshape(X.size,1),'fro')/np.linalg.norm\
         (X0.reshape(X.size,1), 'fro'))
+>>>>>>> 6821aadcf5efcc9a604a932992d1849269e5c434
 
 

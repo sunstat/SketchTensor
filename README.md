@@ -11,7 +11,7 @@ Given limited storage resources, many higher order datasets such as video, PDE, 
 ## Prerequisite
 
 We implemented our algorithms in python3. Please first install the dependency packages by running the following commands in the terminal. 
-'''
+```
 pip install numpy
 pip install matplotlib 
 pip install scipy
@@ -19,4 +19,4 @@ pip install sklearn
 pip install tensorflow 
 pip install -U tensorly
 
-'''
+```

@@ -1,7 +1,7 @@
 _*
 *.log
 .idea
-.ipynb_checkpoints*
+.ipynb_checkpoints/*
 __pycache__
 .DS_Store
 data/*.nc

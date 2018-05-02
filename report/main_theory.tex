@@ -1,0 +1,27 @@
+\section{Main Theorem}
+In this section, we present the main theory on approximation error for both one-pass and two pass algorithms under low rank approximation (Algorithm \ref{alg:one_pass_low_rank_appro}, Algorithm \ref{alg:two_pass_low_rank_appro}) and fix rank approximation using Tucker decomposition (Algorithm \ref{alg:one_pass_fix_rank_appro}, Algorithm \ref{alg:two_pass_fix_rank_appro}). 
+\begin{thm}
+\label{thm: low_rank_err}
+let  $\hat{\mathscr{X}}_1$, $\hat{\mathscr{X}}_2$ be the output from function OnePassLowRankRecovery and TwoPassLowRankRecovery in Algorithm \ref{alg:one_pass_low_rank_appro} and Algorithm \ref{alg:two_pass_low_rank_appro} respectively. Assuming all random test matrices $\mathbf{\Omega}_n, \mathbf{\Phi}_n, 1\le n\le N$ are standard Gaussian random matrix, 
+\begin{equation}
+\mathbb{E}\| \mathscr{X} - \hat{\mathscr{X}}_2 \|_F^2 \leq  \min_{1\le \rho<k-1}\sum_{n=1}^N \left(1+\frac{\rho}{k-\rho-1}\right)(\tau^{(n)}_\rho)^2, 
+\end{equation}
+and assuming $s>2k$, 
+\begin{equation}
+\mathbb{E}\| \mathscr{X} - \hat{\mathscr{X}}_1 \|_F^2  \le    \min_{1\le \rho<k-1}\left(1+\frac{k}{s-k-1}\right) \sum_{n=1}^N \left(1+\frac{\rho}{k-\rho-1}\right)(\tau^{(n)}_\rho)^2. 
+\end{equation}
+\end{thm}
+Now we present the probabilistic error bound for fix rank $\mathbf{r}$ approximation. Lemma \ref{lemma: equivalance_one_pass} claims that one pass fix rank approximation returns $\llbracket \hat{\mathscr{X}}_1 \rrbracket_{\mathbf{r}}$ where $\hat{\mathscr{X}}_1$ is got from one pass low rank approximation from Algorithm \ref{alg:one_pass_low_rank_appro} and two pass fix rank approximation returns $\llbracket \hat{\mathscr{X}}_2 \rrbracket_{\mathbf{r}}$ where $\hat{\mathscr{X}}_2$ is got from two pass low rank approximation from Algorithm \ref{alg:one_pass_low_rank_appro}.
+\begin{cor}
+\label{corollary:fix_rank_err}
+let  $\llbracket \hat{\mathscr{X}}_1 \rrbracket_\mathbf{r}$, $\llbracket \hat{\mathscr{X}}_2\rrbracket_\mathbf{r}$ be the theoretical output from function OnePassFixRankRecovery and TwoPassFixRankRecovery in Algorithm \ref{alg:one_pass_fix_rank_appro} and Algorithm \ref{alg:two_pass_fix_rank_appro} respectively. Assuming all random test matrices $\mathbf{\Omega}_n, \mathbf{\Phi}_n, 1\le n\le N$ are standard Gaussian random matrix, then
+\begin{equation}
+\mathbb{E} \|\mathscr{X} - \llbracket \hat{\mathscr{X}}_2\rrbracket_\mathbf{r}\|_F \le 2\min_{1\le \rho<k-1}\sqrt{\sum_{n=1}^N \left(1+\frac{\rho}{k-\rho-1}\right)(\tau^{(n)}_\rho)^2}+\|\mathscr{X} - \llbracket \mathscr{X}\rrbracket_\mathbf{r}\|_F, 
+\end{equation}
+and if $s>2k$, 
+\begin{equation}
+\mathbb{E} \|\mathscr{X} - \llbracket \hat{\mathscr{X}}_1\rrbracket_\mathbf{r}\|_F \le 2\min_{1\le \rho<k-1}\sqrt{\left(1+\frac{k}{s-k-1}\right)\sum_{n=1}^N \left(1+\frac{\rho}{k-\rho-1}\right)(\tau^{(n)}_\rho)^2}+\|\mathscr{X} - \llbracket \mathscr{X}\rrbracket_\mathbf{r}\|_F,
+\end{equation}
+where $\llbracket \mathscr{X} \rrbracket_\mathbf{r}$ stands for best rank $\mathbf{r}$ tucker approximation. Here $\llbracket \cdot \rrbracket_\mathbf{r}$ is the operator returns
+the theoretical best rank $\mathbf{r}$ tucker approximation. We assume fix rank approximation stage $\llbracket \mathscr{W} \rrbracket_\mathbf{r}$ in both Algorithm \ref{alg:one_pass_fix_rank_appro} and \ref{alg:two_pass_fix_rank_appro} could attain the theoretical optimum. Then by lemma \ref{lemma: equivalance_one_pass}, the algorithms \ref{alg:one_pass_fix_rank_appro} and \ref{alg:two_pass_fix_rank_appro} will return $\llbracket \hat{\mathscr{X}_1} \rrbracket_\mathbf{r}$ and $\llbracket \hat{\mathscr{X}_2} \rrbracket_\mathbf{r}$ respectively. 
+\end{cor}

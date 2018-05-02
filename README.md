@@ -6,11 +6,11 @@ Given limited storage resources, many higher order datasets such as video, PDE, 
 
 ## Objective
 - Minimize the communication cost by reducing the access to the original large tensor into a single pass 
-- Enable a stream of input stored in a distributed setting 
+- Enable a stream of input data stored in a distributed setting 
 
 ## Prerequisite
 
-We implemented our algorithms in python3. Please first install the dependentend packages by running the following commands in the terminal. 
+We implemented our algorithms in python3. Please first install the dependency packages by running the following commands in the terminal. 
 '''
 pip install numpy
 pip install matplotlib 

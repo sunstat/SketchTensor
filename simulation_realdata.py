@@ -1,14 +1,14 @@
 import numpy as np
 from scipy import fftpack
 import tensorly as tl
-from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_mse, eval_rerr
+from util import square_tensor_gen, TensorInfoBucket, RandomInfoBucket, eval_rerr
 from sketch import Sketch
 import time
 from tensorly.decomposition import tucker
 from sketch_recover import SketchTwoPassRecover
 from sketch_recover import SketchOnePassRecover 
 
-def tucker_data(X, ranks, random_seed = 1):  
+def hooi_data(X, ranks, random_seed = 1):  
     start_time = time.time()
     core, tucker_factors = tucker(X, ranks, init = 'svd')  
     X_hat = tl.tucker_to_tensor(core, tucker_factors) 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     gen_typ = 'lk' 
     X, X0 = square_tensor_gen(n, rank, dim, gen_typ, \
             noise_level, seed = 1) 
-    _, rerr = tucker_data(X, ranks)
+    _, rerr = hooi_data(X, ranks)
     print(rerr) 
 
     _, rerr = two_pass_data(X, ranks, ks)
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     X = tensor + noise*np.sqrt((noise_level**2)*true_signal_mag/np.product\
         (np.prod(ns)))
 
-    _, rerr = tucker_data(X, ranks)
+    _, rerr = hooi_data(X, ranks)
     print(rerr) 
 
     _, rerr = two_pass_data(X, ranks, ks)

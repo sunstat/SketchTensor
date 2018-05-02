@@ -14,46 +14,172 @@
 \fi}
 \global\let\hyper@last\relax 
 \gdef\HyperFirstAtBeginDocument#1{#1}
-\providecommand*\HyPL@Entry[1]{}
-\citation{tropp2017practical}
-\citation{kolda2009tensor}
-\HyPL@Entry{0<</S/D>>}
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Methodology}{1}{section.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Notation}{1}{subsection.2.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Randomized Linear Dimension Reduction Maps}{1}{subsection.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}One pass sketching}{1}{subsection.2.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Communication Cost}{1}{subsection.2.4}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Sketching for Tensor Approximation}}{2}{algorithm.1}}
-\newlabel{alg:tensor_approx}{{1}{2}{One pass sketching}{algorithm.1}{}}
-\citation{tropp2016randomized}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Higher Order SVD}}{3}{algorithm.2}}
-\newlabel{alg:hosvd}{{2}{3}{One pass sketching}{algorithm.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Linear Update}{3}{subsection.2.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Fix Rank Approximation}{3}{subsection.2.6}}
-\newlabel{eq:sketchy_matrix}{{2.3}{3}{Fix Rank Approximation}{equation.2.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Probabilistic Analysis of the Compression Error}{4}{section.3}}
-\newlabel{lemma: compression_error}{{3.1}{4}{}{thm.3.1}{}}
-\newlabel{eq:comression_decomposition}{{3.8}{4}{}{equation.3.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Probabilistic Analysis of Linkage Tensor}{5}{section.4}}
-\newlabel{lemma:indepence_for_pseduo_inverse}{{4.1}{5}{}{thm.4.1}{}}
-\newlabel{lemma:probabilistic_err_linkage_tensor}{{4.2}{5}{}{thm.4.2}{}}
-\newlabel{eq:recursion}{{4.10}{5}{}{equation.4.10}{}}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
 \citation{halko2011finding}
-\newlabel{eq:conditional_recursion}{{4.11}{6}{}{equation.4.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Appendix: Technical Lemmas}{6}{section.5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Technical Lemmas for sketching Matrix}{6}{subsection.5.1}}
-\newlabel{lemma:expectation_inverse_gaussian}{{5.1}{7}{}{thm.5.1}{}}
-\newlabel{lemma:sketchy_column_space_err}{{5.2}{7}{}{thm.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Some Facts for Projection of Mode Unfolding of a Tensor}{7}{subsection.5.2}}
-\newlabel{lemma:projection_tensors}{{5.3}{7}{}{thm.5.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Appendix: Review of Tensor Algorithmic Operator}{7}{section.6}}
-\newlabel{sec:review_tensor}{{6}{7}{Appendix: Review of Tensor Algorithmic Operator}{section.6}{}}
-\newlabel{eq: tensor_product_mul_exchangable}{{6.2}{7}{Appendix: Review of Tensor Algorithmic Operator}{equation.6.2}{}}
-\newlabel{eq: tensor_product_association}{{6.3}{7}{Appendix: Review of Tensor Algorithmic Operator}{equation.6.3}{}}
-\bibstyle{dinat}
+\citation{kolda2009tensor}
+\citation{vasilescu2002multilinear}
+\citation{cichocki2013tensor}
+\citation{kolda2008scalable}
+\citation{anandkumar2014tensor,choi2014dfacto,phan2013fast}
+\citation{austin2016parallel,chakaravarthy2017optimizing,choi2014dfacto}
+\citation{austin2016parallel}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{1}{subsection.1.1}}
+\citation{frieze2004fast,papadimitriou2000latent}
+\citation{woolfe2008fast}
+\citation{clarkson2009numerical}
+\citation{tropp2017practical}
+\citation{de2000multilinear}
+\citation{kroonenberg1980principal}
+\citation{clarkson2009numerical,tropp2016randomized}
+\citation{kolda2008scalable}
+\citation{wang2016online}
+\citation{tsourakakis2010mach}
+\citation{frieze2004fast}
+\citation{erichson2017randomized}
+\citation{halko2011finding}
+\@writefile{toc}{\contentsline {paragraph}{The Streaming Model}{2}{subsection.1.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Review of Previous Work}{2}{subsection.1.2}}
+\@writefile{toc}{\contentsline {paragraph}{Pass-Efficient Low-Rank Matrix Approximation}{2}{subsection.1.2}}
+\@writefile{toc}{\contentsline {paragraph}{Tucker Decomposition}{2}{subsection.1.2}}
+\newlabel{eq:tucker_optimization}{{1.2}{2}{Tucker Decomposition}{equation.1.2}{}}
+\newlabel{eq:tucker_optimization}{{1.3}{2}{Tucker Decomposition}{equation.1.3}{}}
+\@writefile{toc}{\contentsline {paragraph}{Pass-Efficient Tucker Decomposition}{2}{equation.1.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methodology}{2}{section.2}}
+\citation{kolda2009tensor}
+\citation{matsumoto1998mersenne}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Notation}{3}{subsection.2.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Sketching and Linear Update}{3}{subsection.2.2}}
+\@writefile{toc}{\contentsline {paragraph}{The Sketch}{3}{subsection.2.2}}
+\newlabel{sketches}{{2.3}{3}{The Sketch}{equation.2.3}{}}
+\newlabel{eq:sketchy_matrix}{{2.4}{3}{The Sketch}{equation.2.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Role of Pseudo-randomness}{3}{equation.2.4}}
+\@writefile{toc}{\contentsline {paragraph}{Linear Update}{3}{algorithm.1}}
+\citation{tropp2016randomized}
+\citation{halko2011finding}
+\citation{clarkson2009numerical,tropp2017practical}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Computing Tensor Sketches\relax }}{4}{algorithm.1}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{alg:tensor_sketch}{{1}{4}{Computing Tensor Sketches\relax }{algorithm.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Linear Update\relax }}{4}{algorithm.2}}
+\newlabel{alg:linear_update}{{2}{4}{Linear Update\relax }{algorithm.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Low-Rank Approximation}{4}{subsection.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Fixed-Rank Approximation}{4}{subsection.2.4}}
+\citation{austin2016parallel}
+\citation{austin2016parallel}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces One-Pass Low-Rank Approximation\relax }}{5}{algorithm.3}}
+\newlabel{alg:one_pass_low_rank_appro}{{3}{5}{One-Pass Low-Rank Approximation\relax }{algorithm.3}{}}
+\newlabel{lemma: equivalance_one_pass}{{2.1}{5}{}{thm.2.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces One-Pass Fixed-Rank Approximation\relax }}{5}{algorithm.4}}
+\newlabel{alg:one_pass_fix_rank_appro}{{4}{5}{One-Pass Fixed-Rank Approximation\relax }{algorithm.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Implementation and Costs}{5}{subsection.2.5}}
+\@writefile{toc}{\contentsline {paragraph}{Storage Cost}{5}{subsection.2.5}}
+\@writefile{toc}{\contentsline {paragraph}{Computational Complexity}{5}{subsection.2.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Distributed Setting}{5}{subsection.2.6}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Computational Complexity for Low-Rank Approximation: \textit  {For tensor $X$ of size $I_1 \times \dots  \times I_N$, its sketches $\mathbf  {\Omega }_1, \dots  , \mathbf  {\Omega }_N, \mathbf  {\Phi }_1, \dots  , \mathbf  {\Phi }_N$ has size $I_{1} \times k,\tmspace  +\thickmuskip {.2777em} \dots  I_N \times k,\tmspace  +\thickmuskip {.2777em} s \times I_1, \tmspace  +\thickmuskip {.2777em} \dots  , s\times I_N$. $\mu $ is the proportion of non-zero entries in $\EuScript  {X}$. $\delta _1:= \frac  {k}{\qopname  \relax m{min}\{I_1, \dots  I_n\}}$, and $\delta _2 := \frac  {s}{\qopname  \relax m{min}\{I_1, \dots  I_n \}}$ are the compression factor. $\mathaccentV {bar}016{I} = \DOTSB \prod@ \slimits@ _{i = 1}^N I_i$. Note: when calculating the computational complexity, we omit the last step of the recovery and only consider the compression stage. See Appendix \ref  {appendix: time-complexity} for detailed derivations.}\relax }}{6}{table.caption.2}}
+\newlabel{tbl: time-complexity}{{1}{6}{Computational Complexity for Low-Rank Approximation: \textit {For tensor $X$ of size $I_1 \times \dots \times I_N$, its sketches $\mathbf {\Omega }_1, \dots , \mathbf {\Omega }_N, \mathbf {\Phi }_1, \dots , \mathbf {\Phi }_N$ has size $I_{1} \times k,\; \dots I_N \times k,\; s \times I_1, \; \dots , s\times I_N$. $\mu $ is the proportion of non-zero entries in $\mathscr {X}$. $\delta _1:= \frac {k}{\min \{I_1, \dots I_n\}}$, and $\delta _2 := \frac {s}{\min \{I_1, \dots I_n \}}$ are the compression factor. $\bar {I} = \prod _{i = 1}^N I_i$. Note: when calculating the computational complexity, we omit the last step of the recovery and only consider the compression stage. See Appendix \ref {appendix: time-complexity} for detailed derivations.}\relax }{table.caption.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Main Theorem}{6}{section.3}}
+\newlabel{thm: low_rank_err}{{3.1}{6}{}{thm.3.1}{}}
+\newlabel{corollary:fix_rank_err}{{3.2}{6}{}{thm.3.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Numerical Experiments}{7}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Synthetic Examples}{7}{subsection.4.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Experimental Setup}{7}{subsubsection.4.1.1}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Numerical Results}{7}{subsubsection.4.1.2}}
+\citation{hurrell2013community,kay2015community}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Relative error for fixed-rank tensor approximation as a function of the compression factor $k/n$: \textit  {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition for the input tensor with superdiagonal + noise design ($\gamma = 0.01,0.1,1$). Rank $r$ = 5.}\relax }}{8}{figure.caption.3}}
+\newlabel{fig:id_lnoise}{{1}{8}{Relative error for fixed-rank tensor approximation as a function of the compression factor $k/n$: \textit {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition for the input tensor with superdiagonal + noise design ($\gamma = 0.01,0.1,1$). Rank $r$ = 5.}\relax }{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Application Examples}{8}{subsection.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Relative error for fixed-rank tensor approximation on climate simulation data ($240 \times 30 \times 192 \times 288$): \textit  {We compared the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$).}\relax }}{8}{figure.caption.4}}
+\newlabel{fig:application}{{2}{8}{Relative error for fixed-rank tensor approximation on climate simulation data ($240 \times 30 \times 192 \times 288$): \textit {We compared the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$).}\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{8}{section.5}}
+\bibstyle{plain}
 \bibdata{biblio}
-\bibcite{halko2011finding}{{1}{2011}{{Halko u.\tmspace  +\thinmuskip {.1667em}a.}}{{Halko, Martinsson und Tropp}}}
-\bibcite{kolda2009tensor}{{2}{2009}{{Kolda und Bader}}{{}}}
-\bibcite{tropp2016randomized}{{3}{2016}{{Tropp u.\tmspace  +\thinmuskip {.1667em}a.}}{{Tropp, Yurtsever, Udell und Cevher}}}
-\bibcite{tropp2017practical}{{4}{2017}{{Tropp u.\tmspace  +\thinmuskip {.1667em}a.}}{{Tropp, Yurtsever, Udell und Cevher}}}
+\bibcite{anandkumar2014tensor}{{1}{}{{}}{{}}}
+\bibcite{austin2016parallel}{{2}{}{{}}{{}}}
+\bibcite{chakaravarthy2017optimizing}{{3}{}{{}}{{}}}
+\bibcite{choi2014dfacto}{{4}{}{{}}{{}}}
+\bibcite{cichocki2013tensor}{{5}{}{{}}{{}}}
+\bibcite{clarkson2009numerical}{{6}{}{{}}{{}}}
+\bibcite{de2000multilinear}{{7}{}{{}}{{}}}
+\bibcite{erichson2017randomized}{{8}{}{{}}{{}}}
+\bibcite{frieze2004fast}{{9}{}{{}}{{}}}
+\bibcite{halko2011finding}{{10}{}{{}}{{}}}
+\bibcite{hurrell2013community}{{11}{}{{}}{{}}}
+\bibcite{kay2015community}{{12}{}{{}}{{}}}
+\bibcite{kolda2009tensor}{{13}{}{{}}{{}}}
+\bibcite{kolda2008scalable}{{14}{}{{}}{{}}}
+\bibcite{kroonenberg1980principal}{{15}{}{{}}{{}}}
+\bibcite{matsumoto1998mersenne}{{16}{}{{}}{{}}}
+\bibcite{papadimitriou2000latent}{{17}{}{{}}{{}}}
+\bibcite{phan2013fast}{{18}{}{{}}{{}}}
+\bibcite{tropp2016randomized}{{19}{}{{}}{{}}}
+\bibcite{tropp2017practical}{{20}{}{{}}{{}}}
+\bibcite{tsourakakis2010mach}{{21}{}{{}}{{}}}
+\bibcite{vasilescu2002multilinear}{{22}{}{{}}{{}}}
+\bibcite{wang2016online}{{23}{}{{}}{{}}}
+\bibcite{woolfe2008fast}{{24}{}{{}}{{}}}
+\citation{tropp2017practical}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {A}Proof for Main Results}{11}{Appendix.1.A}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Proof for Theorem \ref  {thm: low_rank_err}}{11}{subsection.1.A.1}}
+\newlabel{eq:definition_of_compression_tensor}{{A.1}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.1}{}}
+\newlabel{eq:inner_zero}{{A.2}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.2}{}}
+\newlabel{eq:definition_Y_n}{{A.3}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.3}{}}
+\newlabel{eq: y_diff}{{A.4}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.4}{}}
+\newlabel{eq:F_norm_equivalent}{{A.1}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.6}{}}
+\newlabel{eq:low_rank_decomposition}{{A.9}{11}{Proof for Theorem \ref {thm: low_rank_err}}{equation.1.A.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Proof for Corollary \ref  {corollary:fix_rank_err}}{11}{subsection.1.A.2}}
+\citation{halko2011finding}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {B}Probabilistic Analysis of the Compression Error}{12}{Appendix.1.B}}
+\newlabel{lemma: compression_error}{{B.1}{12}{}{thm.1.B.1}{}}
+\newlabel{eq: y_diff}{{B.2}{12}{}{equation.1.B.2}{}}
+\newlabel{eq:inner_prod1}{{B.5}{12}{}{equation.1.B.5}{}}
+\newlabel{eq:comression_decomposition}{{B.6}{12}{}{equation.1.B.6}{}}
+\newlabel{eq: y_diff_bound}{{B.7}{12}{}{equation.1.B.7}{}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {C}Probabilistic Analysis of Core Sketch Error}{12}{Appendix.1.C}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.1}Decomposition of Core Sketch Error}{13}{subsection.1.C.1}}
+\newlabel{lemma:core_error_decomposition}{{C.1}{13}{}{thm.1.C.1}{}}
+\newlabel{eq:def_each_part}{{C.3}{13}{}{equation.1.C.3}{}}
+\newlabel{eq:core_err_decom}{{C.7}{13}{Decomposition of Core Sketch Error}{equation.1.C.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {C.2}Probabilistic Core Error Bound}{14}{subsection.1.C.2}}
+\newlabel{lemma:err_core_sketch}{{C.2}{14}{}{thm.1.C.2}{}}
+\newlabel{eq:inner_prod2}{{C.14}{14}{Probabilistic Core Error Bound}{equation.1.C.14}{}}
+\citation{halko2011finding}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {D}Proof for Lemma \ref  {lemma: equivalance_one_pass}}{15}{Appendix.1.D}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {E}Technical Lemmas}{15}{Appendix.1.E}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.1}Technical Lemmas for sketching Matrix}{15}{subsection.1.E.1}}
+\citation{de2000multilinear}
+\newlabel{lemma:expectation_inverse_gaussian}{{E.1}{16}{}{thm.1.E.1}{}}
+\newlabel{lemma:sketchy_column_space_err}{{E.2}{16}{}{thm.1.E.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {E.2}Some Facts for Projection of Mode Unfolding of a Tensor}{16}{subsection.1.E.2}}
+\newlabel{lemma:projection_tensors}{{E.3}{16}{}{thm.1.E.3}{}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {F}More Algorithms}{16}{Appendix.1.F}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces Higher Order SVD\relax }}{17}{algorithm.5}}
+\newlabel{alg:hosvd}{{5}{17}{Higher Order SVD\relax }{algorithm.5}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {6}{\ignorespaces HOOI (Higher Order SVD + ALS)\relax }}{17}{algorithm.6}}
+\newlabel{alg:tucker}{{6}{17}{HOOI (Higher Order SVD + ALS)\relax }{algorithm.6}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {7}{\ignorespaces Two Pass Low-Rank Approximation\relax }}{17}{algorithm.7}}
+\newlabel{alg:two_pass_low_rank_appro}{{7}{17}{Two Pass Low-Rank Approximation\relax }{algorithm.7}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {8}{\ignorespaces Two Pass Fixed-Rank Approximation\relax }}{17}{algorithm.8}}
+\newlabel{alg:two_pass_fix_rank_appro}{{8}{17}{Two Pass Fixed-Rank Approximation\relax }{algorithm.8}{}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {G}More Simulation Results}{18}{Appendix.1.G}}
+\newlabel{appendix: more_result}{{G}{18}{More Simulation Results}{Appendix.1.G}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Relative error for fixed-rank tensor approximation as a function of the compression factor $k/n$: \textit  {We compare the relative error presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition for different design tensors when n = 200, 400, 600. $r = 5$ except for the first row.}\relax }}{19}{figure.caption.6}}
+\newlabel{fig:more_result}{{3}{19}{Relative error for fixed-rank tensor approximation as a function of the compression factor $k/n$: \textit {We compare the relative error presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition for different design tensors when n = 200, 400, 600. $r = 5$ except for the first row.}\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {H}More Real Data Results}{19}{Appendix.1.H}}
+\newlabel{appendix: more_real_data_result}{{H}{19}{More Real Data Results}{Appendix.1.H}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Relative error for fixed-rank tensor approximation on the net radiative flux data ($1200 \times 192 \times 288$): \textit  {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$). The dataset comes from the CESM CAM and the net radiative flux determines the energy received by the earth surface through radiation}\relax }}{19}{figure.caption.7}}
+\newlabel{fig:srfrad}{{4}{19}{Relative error for fixed-rank tensor approximation on the net radiative flux data ($1200 \times 192 \times 288$): \textit {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$). The dataset comes from the CESM CAM and the net radiative flux determines the energy received by the earth surface through radiation}\relax }{figure.caption.7}{}}
+\citation{halko2011finding}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Relative error for fixed-rank tensor approximation on the dust aerosol burden data ($1200 \times 192 \times 288$): \textit  {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$). The dataset comes from the CESM CAM and the dust aerosol burden measures the amount of aerosol contributed by the dust.}\relax }}{20}{figure.caption.8}}
+\newlabel{fig:burden_dust}{{5}{20}{Relative error for fixed-rank tensor approximation on the dust aerosol burden data ($1200 \times 192 \times 288$): \textit {We compare the relative errors presented in log scale for two-pass sketching, one-pass sketching and Tucker decomposition with different ranks ($rk/I = 0.125,0.2,0.067$). The dataset comes from the CESM CAM and the dust aerosol burden measures the amount of aerosol contributed by the dust.}\relax }{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {I}Computational Complexity}{20}{Appendix.1.I}}
+\newlabel{appendix: time-complexity}{{I}{20}{Computational Complexity}{Appendix.1.I}{}}
+\@writefile{toc}{\contentsline {paragraph}{Flops for Batch}{20}{Appendix.1.I}}
+\@writefile{toc}{\contentsline {paragraph}{Flops for Streaming}{20}{Appendix.1.I}}
+\@writefile{toc}{\contentsline {section}{Appendix \numberline {J}Review of Tensor Algorithmic Operators}{20}{Appendix.1.J}}
+\newlabel{sec:review_tensor}{{J}{20}{Review of Tensor Algorithmic Operators}{Appendix.1.J}{}}
+\newlabel{eq: tensor_product_mul_exchangable}{{J.1}{20}{Review of Tensor Algorithmic Operators}{equation.1.J.1}{}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\newlabel{eq: tensor_product_association}{{J.2}{21}{Review of Tensor Algorithmic Operators}{equation.1.J.2}{}}
+\newlabel{eq:F_norm_equivalent}{{J.3}{21}{Review of Tensor Algorithmic Operators}{equation.1.J.3}{}}

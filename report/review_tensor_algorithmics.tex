@@ -1,11 +1,6 @@
-\section{Appendix: Review of Tensor Algorithmic Operator}
+\section{Review of Tensor Algorithmic Operators}
 \label{sec:review_tensor}
-We review some basic tensor Algorithmic Operators first. Let $\mathscr{X}$ be the tensor of shape $I_1\times I_2\times \dots \times I_N$. Then we could let $\mathscr{X}\times_n  \mathbf{U}$ n-mode product with $\mathbf{U}_{J_n\times I_n}$. $n$ mode product could be also seen as usual matrix product of unfolded tensor:
-\begin{equation}
-\mathscr{Y} = \mathscr{X}\times_n \mathbf{U} \Longleftrightarrow 
-\mathscr{Y}_n = \mathbf{U} \mathscr{X}_n. 
-\end{equation}
-For distinct modes ($m\neq n$), the order of mode products does not matter:
+We review some basic tensor algorithmic operators first. Let $\mathscr{X}$ be the tensor of shape $I_1\times I_2\times \dots \times I_N$. For tensor product with distinct modes ($m\neq n$), the order of mode products does not matter:
 \begin{equation}
 \label{eq: tensor_product_mul_exchangable}
 \mathscr{X}\times_m \mathbf{A} \times_n \mathbf{B} =    \mathscr{X}\times_n \mathbf{B} \times_m \mathbf{A}. 
@@ -13,19 +8,9 @@ For distinct modes ($m\neq n$), the order of mode products does not matter:
 If the modes are the same, then 
 \begin{equation}
 \label{eq: tensor_product_association}
-\mathscr{X}\times_n \mathbf{A} \times_n \mathbf{B} =    \mathscr{X}\times_n (\mathbf{BA}). 
-\end{equation}
-Also, we define inner product of two tensors as inner product of vectorized version of these two:
+\mathscr{X}\times_n \mathbf{A} \times_n \mathbf{B} =    \mathscr{X}\times_n (\mathbf{BA}). \end{equation}
+It is worth noting that the inner product for tensors is the same with respect to any mode-n matricization, with its definition given by
 \begin{equation}
-\langle \mathscr{X}, \mathscr{Y}\rangle = \sum_{i_1=1}^{I_1}\cdots \sum_{i_N=1}^{I_N} x_{i_1\cdots i_N}y_{i_1\cdots i_N},
-\end{equation}
-and induced Frobenius norm as $\|\mathscr{X}\|_F = \sqrt{\langle \mathscr{X}, \mathscr{X} \rangle}$. One thing is worth noting, this definition of inner product is no different for inner product for any mode-n matricization of these two, which is 
-\begin{equation}
-\langle \mathscr{X}, \mathscr{Y}\rangle = \langle \mathbf{X}^{n}, \mathbf{Y}^{(n)}\rangle = \rm{Tr}((\mathbf{X}^{n})^\top \mathbf{Y}^{(n)}). 
-\end{equation}
-
-\par 
-To assist error analysis,  we let $(\tau^{(n)}_{r})^2$ be sum square of singular values for $n^{th}$ slice $\mathbf{X}^{(n)}$, that is 
-\begin{equation}
-(\tau^{(n)}_r)^2 = \sum_{k=r+1}^{\min\{I_n, \prod_{j\neq n} I_j\}} \sigma^2_k(\mathbf{X}^{(n)}).
+\label{eq:F_norm_equivalent}
+\langle \mathscr{X}, \mathscr{Y}\rangle = \langle \mathbf{X}^{n}, \mathbf{Y}^{(n)}\rangle = \rm{Tr}((\mathbf{X}^{(n)})^\top \mathbf{Y}^{(n)}). 
 \end{equation}

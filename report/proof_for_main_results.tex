@@ -1,0 +1,75 @@
+\section{Proof for Main Results}
+\subsection{Proof for Theorem \ref{thm: low_rank_err}}
+Let $\tilde{\mathscr{X}}$ denote the compressed tensor, 
+\begin{equation}
+\label{eq:definition_of_compression_tensor}
+\tilde{\mathscr{X}} = \mathscr{X}\times_1  \mathbf{Q}_1\mathbf{Q}_1^\top \times_2 \cdots \times_N \mathbf{Q}_N\mathbf{Q}_N^\top.
+\end{equation}
+The error bound for $\hat{\mathscr{X}}_2$ from two pass algorithm follows directly from lemma \ref{lemma: compression_error} as the compression tensor is exactly the output of TwoPassLowRank in algorithm \ref{alg:two_pass_low_rank_appro}: $ \hat{\mathscr{X}}_2 = \tilde{\mathscr{X}}$. Now we turn to the proof for the one-pass algorithm. \par 
+We claim that 
+\begin{equation}
+\label{eq:inner_zero}
+\begin{aligned}
+&\langle \hat{\mathscr{X}}_1 - \Tilde{\mathscr{X}}, \Tilde{\mathscr{X}} - \mathscr{X} \rangle = 0. 
+\end{aligned}
+\end{equation}
+To see why, for $n \in [N]$, let 
+\begin{equation} 
+\label{eq:definition_Y_n}
+\mathscr{Y}_n = \mathscr{X} \times_1 \mathbf{Q}_1\mathbf{Q}_1^\top \times_2 \cdots \times_n \mathbf{Q}_n\mathbf{Q}_n^\top,
+\end{equation}
+and $\mathscr{Y}_0 = \mathscr{X}$. 
+Then 
+\begin{equation}\label{eq: y_diff}
+\begin{aligned}
+\mathscr{X}-\tilde{\mathscr{X}} = \mathscr{Y}_0 - \mathscr{Y}_N= \sum_{n=0}^{N-1} (\mathscr{Y}_n - \mathscr{Y}_{n+1}).
+\end{aligned}
+\end{equation}
+Besides, given the formula of $\hat{\mathscr{X}}_1$ in algorithm \ref{alg:one_pass_low_rank_appro} and the definition of $\tilde{\mathscr{X}}_1$, it is not hard to show that 
+\begin{equation}
+\begin{aligned}
+\mathscr{\hat{X}}_1-\tilde{\mathscr{X}}= (\mathscr{W}-\mathscr{X}\times_1 \mathbf{Q}_1^\top \times_2 \cdots \times_N \mathbf{Q}_n^\top)  \times_1 \mathbf{Q}_1 \dots \times_N \mathbf{Q}_N. 
+\end{aligned}
+\end{equation}
+For any $0\le n< N$, 
+\begin{equation}
+\mathscr{Y}_n-\mathscr{Y}_{n+1} = \mathscr{Y}_{n} \times_{n+1} (\mathbf{I} - \mathbf{Q}_{n+1}\mathbf{Q}^\top_{n+1}).
+\end{equation}
+Then with \label{eq:F_norm_equivalent}, 
+\begin{equation}
+\begin{aligned}
+&\langle \mathscr{Y}_n-\mathscr{Y}_{n+1}, \hat{\mathscr{X}}_1-\tilde{\mathscr{X}}\rangle = \langle (\mathbf{I} - \mathbf{Q}_{n+1}\mathbf{Q}^\top_{n+1}) \mathbf{Y}_{n}^{n+1},  \mathbf{Q}_{n+1}\mathbf{B}_n^{(n+1)}\rangle \\
+& = \rm{Tr}(\mathbf{Y}_{n}^{(n+1)} (\mathbf{I} - \mathbf{Q}_{n+1}\mathbf{Q}^\top_{n+1})\mathbf{Q}_{n+1}\mathbf{B}_n^{(n+1)} )=0 , 
+\end{aligned}
+\end{equation}
+where $\mathbf{B}_n^{(n+1)}$ is the mode $(n+1)$th unfolding of tensor $\mathscr{B}_n$, $n \in [N]$, defined as 
+\begin{equation}
+\mathscr{B}_n = (\mathscr{W}-\mathscr{X}\times_1 \mathbf{Q}_1^\top \times \times_N \mathbf{Q}_n^\top)  \times_1 \mathbf{Q}_1 \dots \times_n \mathbf{Q}_n \times_{n+2}  \mathbf{Q}_{n+2} \dots \times_N   \mathbf{Q}_{N}. 
+\end{equation}
+Then \eqref{eq:inner_zero} indicates 
+\begin{equation}
+\label{eq:low_rank_decomposition}
+ \mathbb{E}\| \hat{\mathscr{X}}_1 - \mathscr{X} \|_F^2 = \mathbb{E}\| \hat{\mathscr{X}}_1 - \Tilde{\mathscr{X}}\|_F^2 + \mathbb{E} \|\Tilde{\mathscr{X}} - \mathscr{X} \|_F^2. 
+\end{equation}
+Based the construction of $\hat{\mathscr{X}}_1$ and definition of $\mathscr{W}$ in algorithm \ref{alg:one_pass_low_rank_appro}, 
+\begin{equation}
+\begin{aligned}
+&\mathbb{E} \|\hat{\mathscr{X}}_1 - \tilde{\mathscr{X}}\|^2_F = 
+\mathbb{E}\|(\mathscr{W} - \mathscr{X}\times_1 \mathbf{Q}_1^\top \cdots \times_N \mathbf{Q}^\top_N)\times_1 \mathbf{Q}_1\cdots \times_N \mathbf{Q}_N \|^2_F\\
+& = \mathbb{E}\|(\mathscr{W} - \mathscr{X}\times_1 \mathbf{Q}_1^\top \cdots \times_N \mathbf{Q}^\top_N)\|_F^2,  \end{aligned}
+\end{equation}
+where we use the fact that the mode product with an orthogonal matrix will not change the value of Frobenius norm. 
+
+Applying the probabilistic error bound in lemma \ref{lemma: compression_error} for the second term in \eqref{eq:low_rank_decomposition} and applying probabilistic error bound in lemma \ref{lemma:err_core_sketch} into above equation, 
+taking minimum among $1\le \rho <k-1$ we could finish proof. 
+\subsection{Proof for Corollary \ref{corollary:fix_rank_err}}
+Follow the argument in the proof for Proposition 7.1 in \cite{tropp2017practical}, we could get 
+\begin{equation}
+\begin{aligned}
+&\|\mathscr{X} - \llbracket \hat{\mathscr{X}}_2 \rrbracket_\mathbf{r}\|_F \le \|\mathscr{X} -  \hat{\mathscr{X}}_2\|_F+\|\hat{\mathscr{X}}_2 -  \llbracket\hat{\mathscr{X}}_2\rrbracket_\mathbf{r}\|_F\\
+&\le \|\mathscr{X} -  \hat{\mathscr{X}}_2\|_F+\|\hat{\mathscr{X}}_2 -  \llbracket \mathscr{X}\rrbracket_\mathbf{r}\|_F \\
+&\le 2\|\mathscr{X} - \hat{\mathscr{X}}_2 \|_F + \|\mathscr{X} -  \llbracket \mathscr{X} \rrbracket_\mathbf{r}\|_F.
+\end{aligned}
+\end{equation}
+The first and the third line follow from the trangle inequality and the second line follow from the definition of best rank $r$ approximation. Then taking the expectation, applying the result of theorem \ref{thm: low_rank_err} and using the fact $\mathbb{E} y^2 \ge (\mathbb{E} |y|)^2$ for any random variable $y$, we could finish the proof. And with the same argument, we could show the probabilistic error bound for $\llbracket\hat{\mathscr{X}}_1\rrbracket_\mathbf{r}$.
+

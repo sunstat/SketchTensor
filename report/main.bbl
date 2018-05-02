@@ -1,41 +1,151 @@
-\begin{thebibliography}{4}
-% this bibliography was produced with the style dinat.bst v2.5
-\makeatletter
-\newcommand{\dinatlabel}[1]%
-{\ifNAT@numbers\else\NAT@biblabelnum{#1}\hspace{2\labelsep}\fi}
-\makeatother
-\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
-\expandafter\ifx\csname url\endcsname\relax\def\url#1{\texttt{#1}}\fi
+\begin{thebibliography}{10}
 
-\bibitem[Halko u.\,a.(2011)Halko, Martinsson und Tropp]{halko2011finding}
-\dinatlabel{Halko u.\,a. 2011} \textsc{Halko}, Nathan~; \textsc{Martinsson},
-  Per-Gunnar~; \textsc{Tropp}, Joel~A.:
+\bibitem{anandkumar2014tensor}
+Animashree Anandkumar, Rong Ge, Daniel Hsu, Sham~M Kakade, and Matus Telgarsky.
+\newblock Tensor decompositions for learning latent variable models.
+\newblock {\em The Journal of Machine Learning Research}, 15(1):2773--2832,
+  2014.
+
+\bibitem{austin2016parallel}
+Woody Austin, Grey Ballard, and Tamara~G Kolda.
+\newblock Parallel tensor compression for large-scale scientific data.
+\newblock In {\em Parallel and Distributed Processing Symposium, 2016 IEEE
+  International}, pages 912--922. IEEE, 2016.
+
+\bibitem{chakaravarthy2017optimizing}
+Venkatesan~T Chakaravarthy, Jee~W Choi, Douglas~J Joseph, Xing Liu, Prakash
+  Murali, Yogish Sabharwal, and Dheeraj Sreedhar.
+\newblock On optimizing distributed tucker decomposition for dense tensors.
+\newblock In {\em Parallel and Distributed Processing Symposium (IPDPS), 2017
+  IEEE International}, pages 1038--1047. IEEE, 2017.
+
+\bibitem{choi2014dfacto}
+Joon~Hee Choi and S~Vishwanathan.
+\newblock Dfacto: Distributed factorization of tensors.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  1296--1304, 2014.
+
+\bibitem{cichocki2013tensor}
+Andrzej Cichocki.
+\newblock Tensor decompositions: a new concept in brain data analysis?
+\newblock {\em arXiv preprint arXiv:1305.0395}, 2013.
+
+\bibitem{clarkson2009numerical}
+Kenneth~L Clarkson and David~P Woodruff.
+\newblock Numerical linear algebra in the streaming model.
+\newblock In {\em Proceedings of the forty-first annual ACM symposium on Theory
+  of computing}, pages 205--214. ACM, 2009.
+
+\bibitem{de2000multilinear}
+Lieven De~Lathauwer, Bart De~Moor, and Joos Vandewalle.
+\newblock A multilinear singular value decomposition.
+\newblock {\em SIAM journal on Matrix Analysis and Applications},
+  21(4):1253--1278, 2000.
+
+\bibitem{erichson2017randomized}
+N~Benjamin Erichson, Krithika Manohar, Steven~L Brunton, and J~Nathan Kutz.
+\newblock Randomized cp tensor decomposition.
+\newblock {\em arXiv preprint arXiv:1703.09074}, 2017.
+
+\bibitem{frieze2004fast}
+Alan Frieze, Ravi Kannan, and Santosh Vempala.
+\newblock Fast monte-carlo algorithms for finding low-rank approximations.
+\newblock {\em Journal of the ACM (JACM)}, 51(6):1025--1041, 2004.
+
+\bibitem{halko2011finding}
+Nathan Halko, Per-Gunnar Martinsson, and Joel~A Tropp.
 \newblock Finding structure with randomness: Probabilistic algorithms for
   constructing approximate matrix decompositions.
-\newblock In: \emph{SIAM review}
-\newblock 53 (2011), Nr.~2, S.~217--288
+\newblock {\em SIAM review}, 53(2):217--288, 2011.
 
-\bibitem[Kolda und Bader(2009)]{kolda2009tensor}
-\dinatlabel{Kolda und Bader 2009} \textsc{Kolda}, Tamara~G.~; \textsc{Bader},
-  Brett~W.:
+\bibitem{hurrell2013community}
+James~W Hurrell, Marika~M Holland, Peter~R Gent, Steven Ghan, Jennifer~E Kay,
+  Paul~J Kushner, J-F Lamarque, William~G Large, D~Lawrence, Keith Lindsay,
+  et~al.
+\newblock The community earth system model: a framework for collaborative
+  research.
+\newblock {\em Bulletin of the American Meteorological Society},
+  94(9):1339--1360, 2013.
+
+\bibitem{kay2015community}
+JE~Kay, C~Deser, A~Phillips, A~Mai, C~Hannay, G~Strand, JM~Arblaster, SC~Bates,
+  G~Danabasoglu, J~Edwards, et~al.
+\newblock The community earth system model (cesm) large ensemble project: A
+  community resource for studying climate change in the presence of internal
+  climate variability.
+\newblock {\em Bulletin of the American Meteorological Society},
+  96(8):1333--1349, 2015.
+
+\bibitem{kolda2009tensor}
+Tamara~G Kolda and Brett~W Bader.
 \newblock Tensor decompositions and applications.
-\newblock In: \emph{SIAM review}
-\newblock 51 (2009), Nr.~3, S.~455--500
+\newblock {\em SIAM review}, 51(3):455--500, 2009.
 
-\bibitem[Tropp u.\,a.(2016)Tropp, Yurtsever, Udell und
-  Cevher]{tropp2016randomized}
-\dinatlabel{Tropp u.\,a. 2016} \textsc{Tropp}, Joel~A.~; \textsc{Yurtsever},
-  Alp~; \textsc{Udell}, Madeleine~; \textsc{Cevher}, Volkan:
+\bibitem{kolda2008scalable}
+Tamara~G Kolda and Jimeng Sun.
+\newblock Scalable tensor decompositions for multi-aspect data mining.
+\newblock In {\em Data Mining, 2008. ICDM'08. Eighth IEEE International
+  Conference on}, pages 363--372. IEEE, 2008.
+
+\bibitem{kroonenberg1980principal}
+Pieter~M Kroonenberg and Jan De~Leeuw.
+\newblock Principal component analysis of three-mode data by means of
+  alternating least squares algorithms.
+\newblock {\em Psychometrika}, 45(1):69--97, 1980.
+
+\bibitem{matsumoto1998mersenne}
+Makoto Matsumoto and Takuji Nishimura.
+\newblock Mersenne twister: a 623-dimensionally equidistributed uniform
+  pseudo-random number generator.
+\newblock {\em ACM Transactions on Modeling and Computer Simulation (TOMACS)},
+  8(1):3--30, 1998.
+
+\bibitem{papadimitriou2000latent}
+Christos~H Papadimitriou, Prabhakar Raghavan, Hisao Tamaki, and Santosh
+  Vempala.
+\newblock Latent semantic indexing: A probabilistic analysis.
+\newblock {\em Journal of Computer and System Sciences}, 61(2):217--235, 2000.
+
+\bibitem{phan2013fast}
+Anh-Huy Phan, Petr Tichavsk{\`y}, and Andrzej Cichocki.
+\newblock Fast alternating ls algorithms for high order candecomp/parafac
+  tensor factorizations.
+\newblock {\em IEEE Transactions on Signal Processing}, 61(19):4834--4846,
+  2013.
+
+\bibitem{tropp2016randomized}
+Joel~A Tropp, Alp Yurtsever, Madeleine Udell, and Volkan Cevher.
 \newblock Randomized single-view algorithms for low-rank matrix approximation.
-\newblock In: \emph{arXiv preprint arXiv:1609.00048}
-\newblock (2016)
+\newblock {\em arXiv preprint arXiv:1609.00048}, 2016.
 
-\bibitem[Tropp u.\,a.(2017)Tropp, Yurtsever, Udell und
-  Cevher]{tropp2017practical}
-\dinatlabel{Tropp u.\,a. 2017} \textsc{Tropp}, Joel~A.~; \textsc{Yurtsever},
-  Alp~; \textsc{Udell}, Madeleine~; \textsc{Cevher}, Volkan:
-\newblock Practical Sketching Algorithms for Low-Rank Matrix Approximation.
-\newblock In: \emph{SIAM Journal on Matrix Analysis and Applications}
-\newblock 38 (2017), Nr.~4, S.~1454--1485
+\bibitem{tropp2017practical}
+Joel~A Tropp, Alp Yurtsever, Madeleine Udell, and Volkan Cevher.
+\newblock Practical sketching algorithms for low-rank matrix approximation.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications},
+  38(4):1454--1485, 2017.
+
+\bibitem{tsourakakis2010mach}
+Charalampos~E Tsourakakis.
+\newblock Mach: Fast randomized tensor decompositions.
+\newblock In {\em Proceedings of the 2010 SIAM International Conference on Data
+  Mining}, pages 689--700. SIAM, 2010.
+
+\bibitem{vasilescu2002multilinear}
+M~Alex~O Vasilescu and Demetri Terzopoulos.
+\newblock Multilinear analysis of image ensembles: Tensorfaces.
+\newblock In {\em European Conference on Computer Vision}, pages 447--460.
+  Springer, 2002.
+
+\bibitem{wang2016online}
+Yining Wang and Anima Anandkumar.
+\newblock Online and differentially-private tensor decomposition.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  3531--3539, 2016.
+
+\bibitem{woolfe2008fast}
+Franco Woolfe, Edo Liberty, Vladimir Rokhlin, and Mark Tygert.
+\newblock A fast randomized algorithm for the approximation of matrices.
+\newblock {\em Applied and Computational Harmonic Analysis}, 25(3):335--366,
+  2008.
 
 \end{thebibliography}
